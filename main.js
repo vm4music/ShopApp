@@ -7,6 +7,7 @@ app.use('/assets', express.static(__dirname + '/assets'));
 // app.use('/views', express.static(__dirname + '/views'));
 // app.set('views', __dirname + '/views'); // set express to look in this folder to render our view
 
+
 var products = 
 [
     {
