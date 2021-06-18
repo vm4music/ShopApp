@@ -8,7 +8,11 @@ app.use('/assets', express.static(__dirname + '/assets'));
 
 // app.use('/views', express.static(__dirname + '/views'));
 // app.set('views', __dirname + '/views'); // set express to look in this folder to render our view
-
+var about_us = {
+    "title":"Our children deserve the best",
+    "descripton_line_1": "Play is a Child’s Work and Our Store is a child’s workshop of award-winning toys carefully selected for excellence in play value, design, quality and impact on environment. Every toy we choose is evaluated for these qualities and we do not compromise because we believe our children deserve the best.",
+    "descripton_line_2": "Anything else is just not good enough."
+}
 var products = 
 [
     {
@@ -80,8 +84,11 @@ var products =
 
 
 app.get('/', (req, res) => {
-res.render('index');
-//res.json(products);
+// res.render('index');
+res.render('index', {
+    title: 'Little Bugs',
+    about: about_us
+});
 
 });
 
