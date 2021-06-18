@@ -14,6 +14,7 @@
     </head>
     <body>
 
+
         <!--========== SCROLL TOP ==========-->
         <a href="#" class="scrolltop" id="scroll-top">
             <i class='bx bx-chevron-up scrolltop__icon'></i>
@@ -22,14 +23,14 @@
         <!--========== HEADER ==========-->
         <header class="l-header" id="header">
             <nav class="nav bd-container">
-                <a href="/" class="nav__logo">Tasty</a>
+                <a href="/" class="nav__logo">Little Bugs</a>
 
                 <div class="nav__menu" id="nav-menu">
                     <ul class="nav__list">
                         <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
                         <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
                         <li class="nav__item"><a href="#services" class="nav__link">Services</a></li>
-                        <li class="nav__item"><a href="#menu" class="nav__link">Menu</a></li>
+                        <li class="nav__item"><a href="#menu" class="nav__link">Trending</a></li>
                         <li class="nav__item"><a href="/listview" class="nav__link">Shop</a></li>
                         <li class="nav__item"><a href="#contact" class="nav__link">Contact us</a></li>
 
@@ -48,36 +49,53 @@
             <section class="home" id="home">
                 <div class="home__container bd-container bd-grid">
                     <div class="home__data">
-                        <h1 class="home__title">Tasty food</h1>
-                        <h2 class="home__subtitle">Try the best food of <br> the week.</h2>
-                        <a href="#menu" class="button">View Menu</a>
+                        <h1 class="home__title">Little bugs</h1>
+                        <h2 class="home__subtitle">Our Children <br> deserve the best.</h2>
+                        <a href="/listview" class="button">New Collection</a>
                     </div>
     
-                    <img src="/assets/img/home.png" alt="" class="home__img">
+                    <img src="/assets/img/toyImages/teddy.jpg" alt="" class="home__img">
                 </div>
             </section>
             
-            <!--========== ABOUT ==========-->
-            <section class="about section bd-container" id="about">
-                <div class="about__container  bd-grid">
-                    <div class="about__data">
-                        <span class="section-subtitle about__initial">About us</span>
-                        <h2 class="section-title about__initial">We cook the best <br> tasty food</h2>
-                        <p class="about__description">We cook the best food in the entire city, with excellent customer service, the best meals and at the best price, visit us.</p>
-                        <a href="#" class="button">Explore history</a>
+            <!--========== MENU ==========-->
+            <section class="menu section bd-container" id="menu">
+                <span class="section-subtitle">Special</span>
+                <h2 class="section-title">Trending</h2>
+
+                <div class="menu__container bd-grid">
+                    <div class="menu__content">
+                        <img src="assets/img/plate1.png" alt="" class="menu__img">
+                        <h3 class="menu__name">Barbecue salad</h3>
+                        <span class="menu__detail">Delicious dish</span>
+                        <span class="menu__preci">$22.00</span>
+                        <a href="#" class="button menu__button"><i class='bx bx-cart-alt'></i></a>
                     </div>
 
-                    <img src="assets/img/about.jpg" alt="" class="about__img">
+                    <div class="menu__content">
+                        <img src="assets/img/plate2.png" alt="" class="menu__img">
+                        <h3 class="menu__name">Salad with fish</h3>
+                        <span class="menu__detail">Delicious dish</span>
+                        <span class="menu__preci">$12.00</span>
+                        <a href="#" class="button menu__button"><i class='bx bx-cart-alt'></i></a>
+                    </div>
+                    
+                    <div class="menu__content">
+                        <img src="assets/img/plate3.png" alt="" class="menu__img">
+                        <h3 class="menu__name">Spinach salad</h3>
+                        <span class="menu__detail">Delicious dish</span>
+                        <span class="menu__preci">$9.50</span>
+                        <a href="#" class="button menu__button"><i class='bx bx-cart-alt'></i></a>
+                    </div>
                 </div>
             </section>
-
+            
             <!--========== SERVICES ==========-->
             <section class="services section bd-container" id="services">
                 <span class="section-subtitle">Offering</span>
                 <h2 class="section-title">Our amazing services</h2>
-
                 <div class="services__container  bd-grid">
-                    <div class="services__content">
+                    <div class="services__content">  
                         <svg class="services__img" xmlns="http://www.w3.org/2000/svg">
                             <path d="M45.3205 21.5702L44.6357 19.3163C43.7659 16.756 40.9852 15.3857 38.4249 
                             16.2556C36.9847 16.7449 35.8536 17.876 35.3643 19.3163L34.6795 21.5702C34.1032 
@@ -358,35 +376,19 @@
                 </div>
             </section>
 
-            <!--========== MENU ==========-->
-            <section class="menu section bd-container" id="menu">
-                <span class="section-subtitle">Special</span>
-                <h2 class="section-title">Menu of the week</h2>
+            
 
-                <div class="menu__container bd-grid">
-                    <div class="menu__content">
-                        <img src="assets/img/plate1.png" alt="" class="menu__img">
-                        <h3 class="menu__name">Barbecue salad</h3>
-                        <span class="menu__detail">Delicious dish</span>
-                        <span class="menu__preci">$22.00</span>
-                        <a href="#" class="button menu__button"><i class='bx bx-cart-alt'></i></a>
+            <!--========== ABOUT ==========-->
+            <section class="about section bd-container" id="about">
+                <div class="about__container  bd-grid">
+                    <div class="about__data">
+                        <span class="section-subtitle about__initial">About us</span>
+                        <h2 class="section-title about__initial"><%= about.title %></h2>
+                        <p class="about__description"><%= about.descripton_line_1 %><br><%= about.descripton_line_2 %></p>
+                        <a href="#" class="button">Explore history</a>
                     </div>
 
-                    <div class="menu__content">
-                        <img src="assets/img/plate2.png" alt="" class="menu__img">
-                        <h3 class="menu__name">Salad with fish</h3>
-                        <span class="menu__detail">Delicious dish</span>
-                        <span class="menu__preci">$12.00</span>
-                        <a href="#" class="button menu__button"><i class='bx bx-cart-alt'></i></a>
-                    </div>
-                    
-                    <div class="menu__content">
-                        <img src="assets/img/plate3.png" alt="" class="menu__img">
-                        <h3 class="menu__name">Spinach salad</h3>
-                        <span class="menu__detail">Delicious dish</span>
-                        <span class="menu__preci">$9.50</span>
-                        <a href="#" class="button menu__button"><i class='bx bx-cart-alt'></i></a>
-                    </div>
+                    <img src="/assets/img/toyImages/About_Us_1.png" alt="" class="about__img">
                 </div>
             </section>
 
