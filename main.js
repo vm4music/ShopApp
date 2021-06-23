@@ -92,7 +92,7 @@ res.render('index', {
 
 });
 
-app.get('/listview', (req, res) => {
+app.get('/shop', (req, res) => {
 // res.render('listview');
 res.render('listview', {
     title: 'List View',
