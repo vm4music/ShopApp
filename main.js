@@ -31,52 +31,52 @@ var products =
 },
 {
     "p_id": "13",
-    "img" : "plate3.png",
-    "name" : "Spinach salad",
-    "detail": "Delicious dish",
-    "price" : "23.00" 
+    "img" : "Rickshaw.jpg",
+    "name" : "Plastic Pull Back Auto Rickshaw",
+    "detail": "Plastic Pull Back Auto Rickshaw",
+    "price" : "129.00" 
 },
 {
     "p_id": "14",
-    "img" : "plate1.png",
-    "name" : "Barbecue salad",
-    "detail": "Delicious dish",
+    "img" : "eboard.jpg",
+    "name" : "LCD Writing Tablet 8.5Inch E-Note Pad",
+    "detail": "LCD Writing Tablet 8.5Inch E-Note Pad",
     "price" : "21.00" 
 },
 {
     "p_id": "15",
-    "img" : "plate2.png",
-    "name" : "Salad with fish",
-    "detail": "Delicious dish",
+    "img" : "train.jpg",
+    "name" : "Electric Train Toy",
+    "detail": "REALISTIC HEADLIGHT, SOUNDS & SMOKE",
     "price" : "22.00" 
 },
 {
     "p_id": "16",
-    "img" : "plate1.png",
-    "name" : "Barbecue salad",
-    "detail": "Delicious dish",
+    "img" : "bullet_train.jpg",
+    "name" : "3D Lightning Electric Train",
+    "detail": "Children can watch the train move forward, backward and spin 360 degrees on any flat surface. If it crashes into the wall or an object, it automatically changes its direction on contact.",
     "price" : "21.00" 
 },
 {
     "p_id": "17",
-    "img" : "plate2.png",
-    "name" : "Salad with fish",
-    "detail": "Delicious dish",
+    "img" : "laptop.jpg",
+    "name" : "Kids Laptop",
+    "detail": "Great educational toy for kids",
     "price" : "22.00" 
 },
 {
     "p_id": "18",
-    "img" : "plate1.png",
-    "name" : "Barbecue salad",
-    "detail": "Delicious dish",
+    "img" : "laptop_2.jpg",
+    "name" : "Learning Educational Laptop",
+    "detail": "Smart English learning Laptop is fashionable multi-function touch screen.",
     "price" : "21.00" 
 },
 {
     "p_id": "19",
-    "img" : "plate2.png",
-    "name" : "Salad with fish",
-    "detail": "Delicious dish",
-    "price" : "22.00" 
+    "img" : "Ring_toy.jpg",
+    "name" : "Rings for Toddlers",
+    "detail": "Stacking Ring is an attractive educational toy which helps your baby recognize different colours and sizes while having fun stacking them in order. Stacking Ring helps your baby naturally develop concepts of colour, shape and size through fun filled play activity.",
+    "price" : "138.00" 
 }
 
 ];
@@ -87,7 +87,8 @@ app.get('/', (req, res) => {
 // res.render('index');
 res.render('index', {
     title: 'Little Bugs',
-    about: about_us
+    about: about_us,
+    data: products
 });
 
 });
@@ -116,3 +117,4 @@ const port =process.env.PORT||8081;
 app.listen(port,()=>{
 console.log(`App running on ${port}`);
 })
+
