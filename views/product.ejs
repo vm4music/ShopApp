@@ -32,7 +32,11 @@
                     <div class="about__data">
                         <span class="section-subtitle about__initial">Sale</span>
                         <h2 class="section-title about__initial"><%= data[0].name %> <br> $<%= data[0].price %></h2>
-                        <p class="about__description"><%= data[0].detail %></p>
+                        <ul class="about__description">
+                        <% for(var i=0;i<data[0].detail.length;i++) { %>
+                        <li><p class="about__description"></p><%= data[0].detail[i] %></p></li>
+                        <% }; %>
+                        </ul>
                         <a href="#" class="button">Add To Cart</a>
                     </div>
                 </div>

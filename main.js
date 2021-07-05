@@ -17,65 +17,72 @@ var products =
 [
     {
     "p_id": "11",
-    "img" : "plate1.png",
-    "name" : "Barbecue salad",
-    "detail": "[Relieve Stress and Anxiety] : Toys can effectively relieve anxiety and pressure, or kill time at home. This is very useful for people with autism or stress. Bubble sounds can help relieve anxiety and stress and restore mood.",
+    "img" : "rc_car.jpg",
+    "name" : "Racing truck",
+    "detail": [  "Big and mean rock crawling scale monster truck.",
+                 "With shock suspension system and rubber tires, drive this masterpiece on the earth, grass or sands."
+                ],
     "price" : "21.00" 
 },
 {
     "p_id": "12",
     "img" : "popup.jpg",
     "name" : "Push Pop Bubble Toy",
-    "detail": "[Relieve Stress and Anxiety] : Toys can effectively relieve anxiety and pressure, or kill time at home. This is very useful for people with autism or stress. Bubble sounds can help relieve anxiety and stress and restore mood.",
+    "detail": [
+        "[Relieve Stress and Anxiety] : Toys can effectively relieve anxiety and pressure, or kill time at home.",
+        "This is very useful for people with autism or stress. Bubble sounds can help relieve anxiety and stress and restore mood."
+    ],
     "price" : "22.00" 
 },
 {
     "p_id": "13",
     "img" : "Rickshaw.jpg",
     "name" : "Plastic Pull Back Auto Rickshaw",
-    "detail": "Plastic Pull Back Auto Rickshaw",
+    "detail": ["Plastic Pull Back Auto Rickshaw"],
     "price" : "129.00" 
 },
 {
     "p_id": "14",
     "img" : "eboard.jpg",
     "name" : "LCD Writing Tablet 8.5Inch E-Note Pad",
-    "detail": "LCD Writing Tablet 8.5Inch E-Note Pad",
+    "detail": ["LCD Writing Tablet 8.5Inch E-Note Pad"],
     "price" : "21.00" 
 },
 {
     "p_id": "15",
     "img" : "train.jpg",
     "name" : "Electric Train Toy",
-    "detail": "REALISTIC HEADLIGHT, SOUNDS & SMOKE",
+    "detail": ["REALISTIC HEADLIGHT, SOUNDS & SMOKE"],
     "price" : "22.00" 
 },
 {
     "p_id": "16",
     "img" : "bullet_train.jpg",
     "name" : "3D Lightning Electric Train",
-    "detail": "Children can watch the train move forward, backward and spin 360 degrees on any flat surface. If it crashes into the wall or an object, it automatically changes its direction on contact.",
+    "detail": ["Children can watch the train move forward, backward and spin 360 degrees on any flat surface.",
+                "If it crashes into the wall or an object, it automatically changes its direction on contact."],
     "price" : "21.00" 
 },
 {
     "p_id": "17",
     "img" : "laptop.jpg",
     "name" : "Kids Laptop",
-    "detail": "Great educational toy for kids",
+    "detail": ["Great educational toy for kids"],
     "price" : "22.00" 
 },
 {
     "p_id": "18",
     "img" : "laptop_2.jpg",
-    "name" : "Learning Educational Laptop",
-    "detail": "Smart English learning Laptop is fashionable multi-function touch screen.",
+    "name" : "Educational Laptop",
+    "detail": ["Smart English learning Laptop is fashionable multi-function touch screen."],
     "price" : "21.00" 
 },
 {
     "p_id": "19",
     "img" : "Ring_toy.jpg",
     "name" : "Rings for Toddlers",
-    "detail": "Stacking Ring is an attractive educational toy which helps your baby recognize different colours and sizes while having fun stacking them in order. Stacking Ring helps your baby naturally develop concepts of colour, shape and size through fun filled play activity.",
+    "detail": ["Stacking Ring is an attractive educational toy which helps your baby recognize different colours and sizes while having fun stacking them in order.",
+                "Stacking Ring helps your baby naturally develop concepts of colour, shape and size through fun filled play activity."],
     "price" : "138.00" 
 }
 
