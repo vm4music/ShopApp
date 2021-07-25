@@ -28,18 +28,35 @@
              <section class="about section bd-container" id="about">
                 <div class="about__container  bd-grid">
                     <img src="/assets/img/<%= data[0].img %>" alt="" class="about__img">    
-
                     <div class="about__data">
                         <span class="section-subtitle about__initial">Sale</span>
-                        <h2 class="section-title about__initial"><%= data[0].name %> <br> $<%= data[0].price %></h2>
-                        <ul class="about__description">
+                        <h2 class="section-title about__initial"><%= data[0].name %></h2>
+                        <h2 class="section-subtitle-rate">INR <%= data[0].price %></h2>
+                        <!-- <ul class="about__description">
                         <% for(var i=0;i<data[0].detail.length;i++) { %>
                         <li><p class="about__description"></p><%= data[0].detail[i] %></p></li>
                         <% }; %>
-                        </ul>
+                        </ul> -->
                         <a href="#" class="button">Add To Cart</a>
+                        <a href="/product/<%= data[0].p_id %>" class="button"><i class='bx bx-heart'></i></a>
+                        <!-- <a href="/product/<%= data[0].p_id %>" class="button"><i class='bx bxs-heart'></i></a> -->
                     </div>
                 </div>
+
+<div class="detail_section">
+    <div class="about__data">
+        <!-- <span class="section-subtitle about__initial">Sale</span> -->
+        <h2 class="about__description">Details:</h2>
+        <ol class="about__description">
+        <% for(var i=0;i<data[0].detail.length;i++) { %>
+        <li><p class="about__description"></p><%= data[0].detail[i] %></p></li>
+        <% }; %>
+        </ol>
+        
+    </div>
+
+</div>
+
             </section>
 
 <!---->
