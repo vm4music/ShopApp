@@ -42,9 +42,10 @@
             <section class="menu section bd-container" id="menu">
                 <span class="section-subtitle">Special</span>
                 <h2 class="section-title">New Collection </h2>
+                <h2 class="section-title"><%= data.qry %> </h2>
 
                 <div class="menu__container bd-grid">
-                      <% data.forEach(function(product) { %>
+                      <% data.result.forEach(function(product) { %>
                     <div class="menu__content">
                         <img src="assets/img/<%= product.img %>" alt="" class="menu__img">
                         <h3 class="menu__name"><%= product.name %></h3>

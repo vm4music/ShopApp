@@ -173,6 +173,10 @@ var products =
 
 app.get('/', (req, res) => {
 // res.render('index');
+let list = {};
+    list.result = products;
+    list.qry = "New Arrivals";
+
 res.render('index', {
     title: 'Little Bugs',
     about: about_us,
@@ -191,17 +195,23 @@ res.render('listview', {
 
 app.get('/search', (req, res) => {
     console.log(products.filter(item => item.name.toLowerCase().includes(req.query.searchbar) ));
+    let search = {};
+    search.result = products.filter(item => item.name.toLowerCase().includes(req.query.searchbar) );
+    search.qry = req.query.searchbar;
     res.render('listview', {
         title: 'List View',
-        data: products.filter(item => item.name.toLowerCase().includes(req.query.searchbar) )
+        data: search
     });
     });
 
 app.get('/product/:p_id', (req, res) => {
     console.log(products.filter(item => item.p_id === req.params.p_id ));
+    let list = {};
+    list.result = products.filter(item => item.p_id === req.params.p_id );
+    list.qry = "New Arrivals";
 res.render('product', {
     title: 'Product View',
-    data: products.filter(item => item.p_id === req.params.p_id )
+    data: list
 });
 })
 
