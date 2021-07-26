@@ -173,9 +173,7 @@ var products =
 
 app.get('/', (req, res) => {
 // res.render('index');
-let list = {};
-    list.result = products;
-    list.qry = "New Arrivals";
+
 
 res.render('index', {
     title: 'Little Bugs',
@@ -186,10 +184,15 @@ res.render('index', {
 });
 
 app.get('/shop', (req, res) => {
+
+    let list = {};
+    list.result = products;
+    list.qry = "Welcome to shop";
+
 // res.render('listview');
 res.render('listview', {
     title: 'List View',
-    data: products
+    data: list
 });
 });
 
