@@ -1,5 +1,4 @@
 const express = require('express');
-const formidable = require('formidable');
 const app=express();
 
 app.set('view engine', 'ejs'); // configure template engine
