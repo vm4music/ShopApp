@@ -159,7 +159,7 @@ var products =
 {
     "p_id": "27",
     "img" : "ben10_laptop.jpg",
-    "name" : "Rings for Toddlers",
+    "name" : "Ben10 Educational Laptop",
     "detail": ["Laptop NoteBook Computer with Mouse learning Pad with 20 Activities & Games.",
                 "Educational Toy to Teaches Spelling, Vocabulary, Mathematics and much more .Helps in alphabets recognition & pronunciation, spelling test, identification of pictures etc.",
             "Improves the Child's Ability to Handle practical with lot of fun, Inspires the Child's Imagination & Promotes Their Intellectual development",
