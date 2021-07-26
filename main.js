@@ -197,10 +197,11 @@ res.render('listview', {
 });
 
 app.get('/search', (req, res) => {
-    console.log(products.filter(item => item.name.toLowerCase().includes(req.query.searchbar) ));
+    let qry = req.query.searchbar.toLowerCase();
+    console.log(products.filter(item => item.name.toLowerCase().includes(qry) ));
     let search = {};
-    search.result = products.filter(item => item.name.toLowerCase().includes(req.query.searchbar) );
-    search.qry = req.query.searchbar;
+    search.result = products.filter(item => item.name.toLowerCase().includes(qry) );
+    search.qry = qry;
     res.render('listview', {
         title: 'List View',
         data: search
