@@ -6,31 +6,39 @@
         <div class="nav__menu" id="nav-menu">
             <ul class="nav__list">
             
-                <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li>
-                <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
-                <li class="nav__item"><a href="#services" class="nav__link">Services</a></li>
+                <!-- <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li> -->
+                <!-- <li class="nav__item"><a href="#about" class="nav__link">About</a></li> -->
+                <!-- <li class="nav__item"><a href="#services" class="nav__link">Services</a></li> -->
                 <li class="nav__item"><a href="/shop" class="nav__link">Shop</a></li>
-                <li class="nav__item"><a href="#contact" class="nav__link">Contact us</a></li>
+                <!-- <li class="nav__item"><a href="#contact" class="nav__link">Contact us</a></li> -->
 
-                <li><i class="nav__cart bx bx-cart-alt"></i></li>
+                
                 <li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
                 
             </ul>
             
         </div>
-
+<div class="nav__cart">
+    <ul>
+        <li><i class="nav__cart bx bx-cart-alt"></i></li>
+    </ul>
+</div>
         <div class="nav__toggle" >
             <i class='bx bx-cart-alt'></i>
             <i class='bx bx-menu' id="nav-toggle"></i>
         </div>
         
     </nav>
-    <!-- <div class="bd-grid">
+    <div class="bd-grid">
+        <form action="/search" method="get">
         <div class="search">
-           <input type="text" class="searchTerm" placeholder="What are you looking for?">
+            
+           <input type="text" class="searchTerm" id="searchbar" name="searchbar" placeholder="What are you looking for?"/>
            <button type="submit" class="searchButton">
-             <i class="fa fa-search"></i>
+             <i class="bx bx-search"></i>
           </button>
+        
         </div>
-     </div> -->
+    </form>
+     </div>
 </header>

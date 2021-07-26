@@ -1,4 +1,5 @@
 const express = require('express');
+const formidable = require('formidable');
 const app=express();
 
 app.set('view engine', 'ejs'); // configure template engine
@@ -19,7 +20,7 @@ var products =
 [
     {
     "p_id": "11",
-    "img" : "rc_car.jpg",
+    "img" : "rc_car-removebg-preview.png",
     "name" : "Racing truck",
     "detail": [  "Big and mean rock crawling scale monster truck.",
                  "With shock suspension system and rubber tires, drive this masterpiece on the earth, grass or sands."
@@ -28,7 +29,7 @@ var products =
 },
 {
     "p_id": "12",
-    "img" : "popup.jpg",
+    "img" : "popup-removebg-preview.png",
     "name" : "Push Pop Bubble Toy",
     "detail": [
         "[Relieve Stress and Anxiety] : Toys can effectively relieve anxiety and pressure, or kill time at home.",
@@ -38,7 +39,7 @@ var products =
 },
 {
     "p_id": "13",
-    "img" : "Rickshaw.jpg",
+    "img" : "Rickshaw-removebg-preview.png",
     "name" : "Plastic Pull Back Auto Rickshaw",
     "detail": ["Plastic Pull Back Auto Rickshaw"],
     "price" : "129.00" 
@@ -149,7 +150,7 @@ var products =
 },
 {
     "p_id": "26",
-    "img" : "jumping_puppy.jpg",
+    "img" : "jumping_puppy-removebg-preview.png",
     "name" : "Fantastic puppy Dog",
     "detail": ["This Fantastic Puppy is a real looking electronic puppy that acts like a real alive puppy by naturally walking, barking, jumping & taking a complete Somersault.",
                 "This is the wonderful funny and awesome entertainment for your little one."],
@@ -189,9 +190,16 @@ res.render('listview', {
 });
 });
 
+app.get('/search', (req, res) => {
+    console.log(products.filter(item => item.name.toLowerCase().includes(req.query.searchbar) ));
+    res.render('listview', {
+        title: 'List View',
+        data: products.filter(item => item.name.toLowerCase().includes(req.query.searchbar) )
+    });
+    });
+
 app.get('/product/:p_id', (req, res) => {
     console.log(products.filter(item => item.p_id === req.params.p_id ));
-// res.render('product');
 res.render('product', {
     title: 'Product View',
     data: products.filter(item => item.p_id === req.params.p_id )
