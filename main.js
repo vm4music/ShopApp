@@ -215,7 +215,7 @@ app.get('/product/:p_id', (req, res) => {
     list.qry = "New Arrivals";
 res.render('product', {
     title: 'Product View',
-    data: list
+    data: products.filter(item => item.p_id === req.params.p_id )
 });
 })
 
