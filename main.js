@@ -208,18 +208,44 @@ res.render('listview', {
 });
 });
 
+
+//========== full word based search ================//
 app.get('/search', (req, res) => {
     let qry = req.query.searchbar.toLowerCase();
-    console.log(products.filter(item => item.name.toLowerCase().includes(qry) ));
+    //console.log(products.filter(item => item.name.toLowerCase().includes(qry) ));
     let search = {};
     search.result = products.filter(item => item.name.toLowerCase().includes(qry) );
-    search.qry = qry;
+    
+    search.qry = search.result.length!=0?qry:"No Results found for this keyword(s)...";
     res.render('listview', {
         title: 'List View',
         data: search
     });
     });
 
+
+//=========== KEYWORD BASED SEARCH =============//
+    app.get('/searchkey', (req, res) => {
+        let finalResult = [];
+        let keywords = req.query.searchbar.toLowerCase().split(' ');
+        let search = {};
+      
+        keywords.forEach(element => {
+            let arr = products.filter(item => item.name.toLowerCase().includes(element) );
+            finalResult = (finalResult.length==0)?arr:finalResult.concat(arr);
+            
+        });
+        
+        search.result = finalResult;
+        search.qry = finalResult.length!=0?"Results for: \""+ req.query.searchbar + "\"" :"No Results found for the keyword(s)...\" "+ req.query.searchbar + "\"";
+        
+        res.render('listview', {
+            title: 'List View',
+            data: search
+        });
+        });
+    
+    
 app.get('/product/:p_id', (req, res) => {
     console.log(products.filter(item => item.p_id === req.params.p_id ));
     let list = {};
