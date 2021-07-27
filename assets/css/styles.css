@@ -679,7 +679,8 @@ This is added to show the details section for the product page.*/
   color: #fff;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 15px;
+  padding: .5rem 1rem;
 }
 
 /*Resize the wrap to see the search bar change!*/

@@ -170,11 +170,23 @@ var products =
 
 ];
 
+//========== API Response ============//
+app.get('/api/shop', (req, res) => {
 
+    let list = {};
+    list.result = products;
+    list.qry = "Welcome to shop";
+
+    res.json(list);
+});
+
+
+
+//\\======= API Response ENDS ========//\\
+
+//========== ROUTERS START =============//
 app.get('/', (req, res) => {
 // res.render('index');
-
-
 res.render('index', {
     title: 'Little Bugs',
     about: about_us,
