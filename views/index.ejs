@@ -6,6 +6,7 @@
 
         <!--========== BOX ICONS ==========-->
         <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+        <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
 
         <!--========== CSS ==========-->
         <link rel="stylesheet" href="/assets/css/styles.css">
@@ -55,7 +56,16 @@
                     <img src="/assets/img/toyImages/teddy.jpg" alt="" class="home__img">
                 </div>
             </section>
-            
+            <!--=============VIEW PORT==============-->
+            <section class="bd-container">
+            <div class="carousel"  data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": false, "pageDots": false }'>
+                <div class="carousel-cell"></div>
+                <div class="carousel-cell"></div>
+                <div class="carousel-cell"></div>
+                <div class="carousel-cell"></div>
+                <div class="carousel-cell"></div>
+             </div>
+            </section>
             <!--========== MENU ==========-->
             <section class="menu section bd-container" id="menu">
                 <span class="section-subtitle">Special</span>
@@ -112,5 +122,6 @@
 
         <!--========== MAIN JS ==========-->
         <script src="/assets/js/main.js"></script>
+        <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
     </body>
 </html>

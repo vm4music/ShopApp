@@ -636,6 +636,40 @@ This is added to show the details section for the product page.*/
     .home__container {
         height: 640px;
     }
+
+    /* VIEW PORT CODE*/
+.carousel {
+  background: #EEE;
+  box-sizing: border-box;
+}
+
+.carousel-cell {
+  position: relative;
+  width: 66%;
+  /* height: 200px; */
+  margin-right: 10px;
+  background: var(--first-color);
+  border-radius: .3rem;
+  counter-increment: gallery-cell;
+  box-sizing: border-box;
+}
+
+/* cell number */
+.carousel-cell:before {
+  display: block;
+  text-align: center;
+  content: counter(gallery-cell);
+  line-height: 200px;
+  font-size: var(--h2-font-size);
+  color: white;
+  box-sizing: border-box;
+}
+
+.flickity-slider{
+  position: relative;
+  box-sizing: border-box;
+}
+
 }
 
 
@@ -690,4 +724,6 @@ This is added to show the details section for the product page.*/
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  box-sizing: border-box;
 }
+
