@@ -191,6 +191,13 @@ This is added to show the details section for the product page.*/
     border-radius: 0 0 1rem 1rem;
     z-index: var(--z-fixed);
   }
+
+  /* Added by vikas */
+  .nav__cart{
+    margin-left: var(--mb-6);
+    font-size: var(--h2-font-size);
+    display: none;
+  }
 }
 
 .nav__item{
@@ -217,6 +224,12 @@ This is added to show the details section for the product page.*/
 .nav__toggle{
   font-size: 1.3rem;
   cursor: pointer;
+}
+
+ /* Added by vikas */
+ .nav__cart{
+  font-size: var(--h2-font-size);
+  
 }
 
 /* Show menu */
@@ -556,15 +569,10 @@ This is added to show the details section for the product page.*/
     margin-left: var(--mb-5);
     margin-bottom: 0;
   }
-/* Added by vikas */
-  .nav__cart{
-    /* display: block; */
-    margin-left: var(--mb-6);
-    font-size: var(--h2-font-size);
-    
-  }
 
-  .nav__toggle{
+  
+
+  .nav__toggle, .carousel{
     display: none;
   }
 
@@ -637,38 +645,7 @@ This is added to show the details section for the product page.*/
         height: 640px;
     }
 
-    /* VIEW PORT CODE*/
-.carousel {
-  background: #EEE;
-  box-sizing: border-box;
-}
-
-.carousel-cell {
-  position: relative;
-  width: 66%;
-  /* height: 200px; */
-  margin-right: 10px;
-  background: var(--first-color);
-  border-radius: .3rem;
-  counter-increment: gallery-cell;
-  box-sizing: border-box;
-}
-
-/* cell number */
-.carousel-cell:before {
-  display: block;
-  text-align: center;
-  content: counter(gallery-cell);
-  line-height: 200px;
-  font-size: var(--h2-font-size);
-  color: white;
-  box-sizing: border-box;
-}
-
-.flickity-slider{
-  position: relative;
-  box-sizing: border-box;
-}
+  
 
 }
 
@@ -727,3 +704,38 @@ This is added to show the details section for the product page.*/
   box-sizing: border-box;
 }
 
+  /* VIEW PORT CODE*/
+  .carousel {
+    /* background: #EEE; */
+    box-sizing: border-box;
+  }
+  
+  .carousel-cell {
+    position: relative;
+    width: 66%;
+    /* height: 200px; */
+    margin-right: 10px;
+    /* background: var(--first-color); */
+    border-radius: .5rem;
+    /* counter-increment: gallery-cell; */
+    box-sizing: border-box;
+  }
+  
+  /* cell number */
+  .carousel-cell:before {
+    display: block;
+    text-align: center;
+    /* content: counter(gallery-cell); */
+    line-height: 200px;
+    font-size: var(--h2-font-size);
+    /* color: white; */
+    box-sizing: border-box;
+  }
+  
+  .flickity-slider{
+    position: relative;
+    box-sizing: border-box;
+  
+  }
+
+ 

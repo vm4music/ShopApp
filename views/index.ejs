@@ -57,15 +57,45 @@
                 </div>
             </section>
             <!--=============VIEW PORT==============-->
-            <section class="bd-container">
-            <div class="carousel"  data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": false, "pageDots": false }'>
+            <!-- <section class="menu "> -->
+            <div class="carousel section bd-container"  data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": false, "pageDots": false }'>
+                <div class="bd-grid carousel-cell">
+                    <div class="menu__content">
+                        <img src="/assets/img/toyImages/teddy.jpg" alt="" class="menu__img">
+                        <h3 class="menu__name">FAMILY ACTIVITY GAMES</h3>
+                        <span class="menu__preci">INR 123</span>
+                        <!-- <a href="/product/" class="button menu__button"><i class='bx bx-cart-alt'></i></a> -->
+                    </div>
+                </div>
+                <div class="bd-grid carousel-cell">
+                    <div class="menu__content">
+                        <img src="/assets/img/toyImages/teddy.jpg" alt="" class="menu__img">
+                        <h3 class="menu__name">test</h3>
+                        <span class="menu__preci">INR 123</span>
+                        <!-- <a href="/product/" class="button menu__button"><i class='bx bx-cart-alt'></i></a> -->
+                    </div>
+                </div>
+                <div class="bd-grid carousel-cell">
+                    <div class="menu__content">
+                        <img src="/assets/img/toyImages/teddy.jpg" alt="" class="menu__img">
+                        <h3 class="menu__name">test</h3>
+                        <span class="menu__preci">INR 123</span>
+                        <!-- <a href="/product/" class="button menu__button"><i class='bx bx-cart-alt'></i></a> -->
+                    </div>
+                </div>
+                <div class="bd-grid carousel-cell">
+                    <div class="menu__content">
+                        <img src="/assets/img/toyImages/teddy.jpg" alt="" class="menu__img">
+                        <h3 class="menu__name">test</h3>
+                        <span class="menu__preci">INR 123</span>
+                        <!-- <a href="/product/" class="button menu__button"><i class='bx bx-cart-alt'></i></a> -->
+                    </div>
+                </div>
+                <!-- <div class="carousel-cell"></div>
                 <div class="carousel-cell"></div>
-                <div class="carousel-cell"></div>
-                <div class="carousel-cell"></div>
-                <div class="carousel-cell"></div>
-                <div class="carousel-cell"></div>
+                <div class="carousel-cell"></div> -->
              </div>
-            </section>
+            <!-- </section> -->
             <!--========== MENU ==========-->
             <section class="menu section bd-container" id="menu">
                 <span class="section-subtitle">Special</span>
@@ -78,7 +108,7 @@
                         <h3 class="menu__name"><%= product.name %></h3>
                         <!-- <span class="menu__detail"><%= product.detail %></span> -->
                         
-                        <span class="menu__preci">$<%= product.price %></span>
+                        <span class="menu__preci">INR <%= product.price %></span>
                         <a href="/product/<%= product.p_id %>" class="button menu__button"><i class='bx bx-cart-alt'></i></a>
                     </div>
                     <!-- <%= product.p_id %>
