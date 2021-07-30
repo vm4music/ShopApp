@@ -670,6 +670,7 @@ This is added to show the details section for the product page.*/
   border-radius: 5px 0 0 5px;
   outline: none;
   color: #9DBFAF;
+  background-color: var(--body-color);
   justify-content: center;
   
 }
