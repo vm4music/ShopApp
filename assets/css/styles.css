@@ -198,6 +198,11 @@ This is added to show the details section for the product page.*/
     font-size: var(--h2-font-size);
     display: none;
   }
+  #menu{
+    display: none;
+  }
+ 
+
 }
 
 .nav__item{
@@ -548,6 +553,8 @@ This is added to show the details section for the product page.*/
   .contact__button{
     justify-self: center;
   }
+
+
 }
 
 @media screen and (min-width: 768px){
@@ -570,9 +577,12 @@ This is added to show the details section for the product page.*/
     margin-bottom: 0;
   }
 
-  
+/* Added by vikas */
+.row{
+  display: block;
+}
 
-  .nav__toggle, .carousel{
+  .nav__toggle, #carousel__container{
     display: none;
   }
 
@@ -614,6 +624,11 @@ This is added to show the details section for the product page.*/
 
   .app__store{
     margin: 0 var(--mb-1) 0 0;
+  }
+
+  /* Added by vikas */
+  #menu{
+    display: block;
   }
 }
 
@@ -717,11 +732,16 @@ This is added to show the details section for the product page.*/
     /* height: 200px; */
     margin-right: 10px;
     /* background: var(--first-color); */
+    border: .1px solid var(--first-color-alt);
     border-radius: .5rem;
     /* counter-increment: gallery-cell; */
     box-sizing: border-box;
   }
-  
+  .carousel-cell img{
+    width: 100%;
+    /* counter-increment: gallery-cell; */
+    box-sizing: border-box;
+  }
   /* cell number */
   .carousel-cell:before {
     display: block;
@@ -730,6 +750,7 @@ This is added to show the details section for the product page.*/
     line-height: 200px;
     font-size: var(--h2-font-size);
     /* color: white; */
+    border: var(--first-color-alt);
     box-sizing: border-box;
   }
   
@@ -747,18 +768,18 @@ This is added to show the details section for the product page.*/
     max-width: 50%;
     padding: 0 4px;
   }
-
+/*
   .column__big:hover{
     flex: 50%;
     max-width: 50%;
     padding: 0 10px;
   }
 
-  .column:hover{
+   .column:hover{
     flex: 25%;
     max-width: 25%;
     padding: 0 10px;
-  }
+  } */
 
   /* Create four equal columns that sits next to each other */
   .column {
@@ -779,6 +800,8 @@ This is added to show the details section for the product page.*/
   margin-top: 8px;
   vertical-align: middle;
 }
+
+
 
 /* Responsive layout - makes a two column-layout instead of four columns */
 /* @media (max-width: 800px) {
@@ -801,4 +824,7 @@ This is added to show the details section for the product page.*/
     padding: 0 4px;
     padding-bottom: 5rem ;
   }
+
+ 
+
 }
