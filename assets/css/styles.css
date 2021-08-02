@@ -198,7 +198,7 @@ This is added to show the details section for the product page.*/
     font-size: var(--h2-font-size);
     display: none;
   }
-  #menu{
+  #trend__menu{
     display: none;
   }
  
@@ -627,7 +627,7 @@ This is added to show the details section for the product page.*/
   }
 
   /* Added by vikas */
-  #menu{
+  #trend__menu{
     display: block;
   }
 }
