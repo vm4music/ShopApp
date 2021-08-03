@@ -48,7 +48,7 @@ var products =
         },
         {
             "p_id": "14",
-            "img": "eboard.jpg",
+            "img": "eboard-removebg.png",
             "name": "LCD Writing Tablet 8.5Inch E-Note Pad",
             "detail": ["LCD Writing Tablet 8.5Inch E-Note Pad"],
             "price": "21.00",
@@ -56,7 +56,7 @@ var products =
         },
         {
             "p_id": "15",
-            "img": "train.jpg",
+            "img": "train-removebg.png",
             "name": "Electric Train Toy",
             "detail": ["REALISTIC HEADLIGHT, SOUNDS & SMOKE"],
             "price": "22.00",
@@ -64,7 +64,7 @@ var products =
         },
         {
             "p_id": "16",
-            "img": "bullet_train.jpg",
+            "img": "bullet_train-removebg.png",
             "name": "3D Lightning Electric Train",
             "detail": ["Children can watch the train move forward, backward and spin 360 degrees on any flat surface.",
                 "If it crashes into the wall or an object, it automatically changes its direction on contact."],
@@ -73,7 +73,7 @@ var products =
         },
         {
             "p_id": "17",
-            "img": "laptop.jpg",
+            "img": "laptop-removebg.png",
             "name": "Kids Laptop",
             "detail": ["Great educational toy for kids"],
             "price": "22.00",
@@ -81,7 +81,7 @@ var products =
         },
         {
             "p_id": "18",
-            "img": "laptop_2.jpg",
+            "img": "laptop_2-removebg.png",
             "name": "Educational Laptop",
             "detail": ["Smart English learning Laptop is fashionable multi-function touch screen."],
             "price": "21.00",
@@ -89,7 +89,7 @@ var products =
         },
         {
             "p_id": "19",
-            "img": "Ring_toy.jpg",
+            "img": "Ring_toy-removebg.png",
             "name": "Rings for Toddlers",
             "detail": ["Stacking Ring is an attractive educational toy which helps your baby recognize different colours and sizes while having fun stacking them in order.",
                 "Stacking Ring helps your baby naturally develop concepts of colour, shape and size through fun filled play activity."],
@@ -98,7 +98,7 @@ var products =
         },
         {
             "p_id": "20",
-            "img": "fire_truck.jpg",
+            "img": "fire_truck-removebg.png",
             "name": "Fire Truck",
             "detail": ["Develops these skills sensory, fine motor, gross motor, logical, creative, linguistic, emotional, communication and self esteem",
                 "Made with non toxic material safe for children"],
@@ -108,7 +108,7 @@ var products =
         },
         {
             "p_id": "21",
-            "img": "doll_house.jpg",
+            "img": "doll_house-removebg.png",
             "name": "Girls Mini Dolls House",
             "detail": ["Non-Toxic Plastic",
                 "Premium Quality."],
@@ -118,18 +118,18 @@ var products =
         },
         {
             "p_id": "22",
-            "img": "mechanix_educational.jpg",
+            "img": "mechanix_educational-removebg.png",
             "name": "Mechanix Educational kit",
             "detail": ["The Educational Mechanix Metal- 4 game for kids with different 20 models of building & construction toys and 263 color coated parts.",
                 "A step by step manual guide to enable your child to learn the basics of fitting and guide him through the process.",
                 "This mechanix metal- 4 game comes with all the tools and parts to build 20 different models. After completing these 20 models, the builder can use the nuts bolts and other versatile parts to create many more models and projects.",
                 "Mechanix metal- 4 game is made from high quality of steel and it is perfectly finished for the ideal and no sharp edges, smooth finish."],
             "price": "138.00",
-            "categories": [categories[1], categories[2]]
+            "categories": [categories[1], categories[2], categories[4]]
         },
         {
             "p_id": "23",
-            "img": "rc_helicopter.jpg",
+            "img": "rc_helicopter-removebg.png",
             "name": "Remote Controlled Helicopter",
             "detail": ["One recharageble helicopter , one fully functional remote, one charging cable for the helicopter.",
                 "Flying height : 10m , weight : 132g, Remote is included, it has a built in sensor which allows the helicopter to sense anything below it to move upwards Guide the movement of the helicopter by placing your hands underneath it please use new batteries in the remote and charge the helicopter for 1 hr before first use.",
@@ -141,7 +141,7 @@ var products =
         },
         {
             "p_id": "24",
-            "img": "golf.jpg",
+            "img": "golf-removebg.png",
             "name": "Golf kit with Accessories",
             "detail": ["Licensed and Authentic Marvel avanger Golf kit for kids.",
                 "[ Package Includes ] - 1 Club holder with wheels, 3 clubs , 2 balls , 1 practice hole with a flag.",
@@ -153,7 +153,7 @@ var products =
         },
         {
             "p_id": "25",
-            "img": "kids_drum.jpg",
+            "img": "kids_drum-removebg.png",
             "name": "Flash Drums",
             "detail": ["Material: made from abs plastic to kids. Round design protects your kids little hands. Intended for babies and toddlers 6+ months.",
                 "Multifunction: multiple early education content, 3 gameplay modes, 9 different drum sound 5 colour of light, 9 dulcet songs.",
@@ -174,7 +174,7 @@ var products =
         },
         {
             "p_id": "27",
-            "img": "ben10_laptop.jpg",
+            "img": "ben10_laptop-removebg.png",
             "name": "Ben10 Educational Laptop",
             "detail": ["Laptop NoteBook Computer with Mouse learning Pad with 20 Activities & Games.",
                 "Educational Toy to Teaches Spelling, Vocabulary, Mathematics and much more .Helps in alphabets recognition & pronunciation, spelling test, identification of pictures etc.",
