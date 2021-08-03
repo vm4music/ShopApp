@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!--========== BOX ICONS ==========-->
-        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!--========== CSS ==========-->
-        <link rel="stylesheet" href="/assets/css/styles.css">
+    <!--========== BOX ICONS ==========-->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
 
-        <title>Responsive website food</title>
-    </head>
-    <body>
+    <!--========== CSS ==========-->
+    <link rel="stylesheet" href="/assets/css/styles.css">
 
-        <!--========== SCROLL TOP ==========-->
-        <a href="#" class="scrolltop" id="scroll-top">
-            <i class='bx bx-chevron-up scrolltop__icon'></i>
-        </a>
+    <title>Responsive website food</title>
+</head>
 
-        <!--========== HEADER ==========-->
-         <%- include('header') -%>
+<body>
+
+    <!--========== SCROLL TOP ==========-->
+    <a href="#" class="scrolltop" id="scroll-top">
+        <i class='bx bx-chevron-up scrolltop__icon'></i>
+    </a>
+
+    <!--========== HEADER ==========-->
+    <%- include('header') -%>
 
         <main class="l-main">
             <!--========== HOME ==========-->
@@ -35,58 +37,98 @@
                     <img src="/assets/img/home.png" alt="" class="home__img">
                 </div>
             </section> -->
-            
-        <!--====================FILTERS======================-->
+
+            <!--====================FILTERS======================-->
 
             <!--========== PRODUCT LIST ==========-->
             <section class="menu section bd-container" id="menu">
                 <span class="section-subtitle">Special Sale</span>
                 <!-- <h2 class="section-title">New Collection </h2> -->
-                <h2 class="section-title"><%= data.qry %> </h2>
+                <!-- <h2 class="section-title">
+                    <%= data.qry %>
+                </h2> -->
+                <% if(data.categories){%>
+                    <div class="filter">
 
-                <div class="menu__container bd-grid">
-                      <% data.result.forEach(function(product) { %>
-                    <div class="menu__content">
-                        <img src="assets/img/<%= product.img %>" alt="" class="menu__img">
-                        <h3 class="menu__name"><%= product.name %></h3>
-                        <!-- <span class="menu__detail"><%= product.detail %></span> -->
-                        
-                        <span class="menu__preci">INR <%= product.price %></span>
-                        <a href="/product/<%= product.p_id %>" class="button menu__button"><i class='bx bx-cart-alt'></i></a>
+                        <div class="search__filter">
+                            
+                            <div class="container_results">
+                                <% if(data.qry != "") {%>
+                                <h3 class="section-subtitle">Search results for: "<%= data.qry %>"</h3>
+                                <%} if(data.result.length ==0){%>
+                                    <h2 class="section-subtitle">No Results found for your query</h2>
+                                    <%}%>
+                            </div>
+                            
+                            <form action="/searchcategory" method="get">
+                                <select class="filter__box" id="categorysearch" name="categorysearch"
+                                    onchange="this.form.submit()">
+                                    <option value=""><--none--></option>
+                                    <% data.categories.forEach(category=> { %>
+                                        <% if(data.category_selected==category){%>
+                                            <option value="<%= category %>" selected>
+                                                <%= category %>
+                                            </option>
+                                            <%}else{%>
+                                                <option value="<%= category %>">
+                                                    <%= category %>
+                                                </option>
+                                                <%}%>
+                                                    <%});%>
+                                </select>
+                            </form>
+                        </div>
+
                     </div>
-                    <!-- <%= product.p_id %>
+                    <%}%>
+                        <div class="menu__container bd-grid">
+                            <% data.result.forEach(function(product) { %>
+                                <div class="menu__content"> <img src="/assets/img/<%= product.img %>" alt=""
+                                        class="menu__img">
+                                    <h3 class="menu__name">
+                                        <%= product.name %>
+                                    </h3>
+                                    <!-- <span class="menu__detail"><%= product.detail %></span> -->
+
+                                    <span class="menu__preci">INR <%= product.price %></span>
+                                    <a href="/product/<%= product.p_id %>" class="button menu__button"><i
+                                            class='bx bx-cart-alt'></i></a>
+                                </div>
+                                <!-- <%= product.p_id %>
                     <%= product.name %> -->
-                    <% }); %>
-                    
-                </div>
+                                <% }); %>
+
+                        </div>
             </section>
 
-             <!--===============SERVICES SECTION================-->
-             <%- include('services') -%>  
+            <!--===============SERVICES SECTION================-->
+            <%- include('services') -%>
 
-            <!--========== CONTACT US ==========-->
-            <section class="contact section bd-container" id="contact">
-                <div class="contact__container bd-grid">
-                    <div class="contact__data">
-                        <span class="section-subtitle contact__initial">Let's talk</span>
-                        <h2 class="section-title contact__initial">Contact us</h2>
-                        <p class="contact__description">If you want to reserve a table in our restaurant, contact us and we will attend you quickly, with our 24/7 chat service.</p>
-                    </div>
+                <!--========== CONTACT US ==========-->
+                <section class="contact section bd-container" id="contact">
+                    <div class="contact__container bd-grid">
+                        <div class="contact__data">
+                            <span class="section-subtitle contact__initial">Let's talk</span>
+                            <h2 class="section-title contact__initial">Contact us</h2>
+                            <p class="contact__description">If you want to reserve a table in our restaurant, contact us
+                                and we will attend you quickly, with our 24/7 chat service.</p>
+                        </div>
 
-                    <div class="contact__button">
-                        <a href="#" class="button">Contact us now</a>
+                        <div class="contact__button">
+                            <a href="#" class="button">Contact us now</a>
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
         </main>
 
-         <!--========== FOOTER ==========-->
-         <%- include('footer') -%> 
+        <!--========== FOOTER ==========-->
+        <%- include('footer') -%>
 
-        <!--========== SCROLL REVEAL ==========-->
-        <script src="https://unpkg.com/scrollreveal"></script>
+            <!--========== SCROLL REVEAL ==========-->
+            <script src="https://unpkg.com/scrollreveal"></script>
 
-        <!--========== MAIN JS ==========-->
-        <script src="/assets/js/main.js"></script>
-    </body>
+            <!--========== MAIN JS ==========-->
+            <script src="/assets/js/main.js"></script>
+</body>
+
 </html>
