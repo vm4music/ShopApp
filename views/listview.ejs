@@ -63,7 +63,7 @@
                             <form action="/searchcategory" method="get">
                                 <select class="filter__box" id="categorysearch" name="categorysearch"
                                     onchange="this.form.submit()">
-                                    <option value=""><--none--></option>
+                                    <!-- <option value="">--none--</option> -->
                                     <% data.categories.forEach(category=> { %>
                                         <% if(data.category_selected==category){%>
                                             <option value="<%= category %>" selected>

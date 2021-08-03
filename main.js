@@ -8,7 +8,7 @@ app.use('/assets', express.static(__dirname + '/assets'));
 // app.use('/views', express.static(__dirname + '/views'));
 // app.set('views', __dirname + '/views'); // set express to look in this folder to render our view
 //use node main.js for production 
-var categories = ["Age 1-3", "Age 4-6", "Age 7-13", "Age 14+", "Educational Toys"];
+var categories = ["Age 1-3", "Age 4-6", "Age 7-13", "Age 14+", "Educational Toys","Price Low-to-High", "Price High-to-Low"];
 
 var about_us = {
     "title": "Our children deserve the best",
@@ -135,7 +135,7 @@ var products =
                 "Flying height : 10m , weight : 132g, Remote is included, it has a built in sensor which allows the helicopter to sense anything below it to move upwards Guide the movement of the helicopter by placing your hands underneath it please use new batteries in the remote and charge the helicopter for 1 hr before first use.",
                 "3.7V 160mAH Lithium Polymer also known as Lipo Rechargeable Battery is used in the product they are thin, light and powerful. Which makes this product unique in its segment, Batteries for the remote not included.",
                 "Dimension :- 17.5X3.5X10.7 ; Weight :- 132 GM"],
-            "price": "138.00",
+            "price": "738.00",
             "link": "https://www.amazon.in/Alakh-Enterprise-Plastic-Control-Helicopter/dp/B098Z1M5YJ/ref=sr_1_6?dchild=1&keywords=toys&nav_sdd=aps&pd_rd_r=a43e72db-06b9-40b4-8cf3-62da00eae66f&pd_rd_w=fF8hw&pd_rd_wg=YtWLy&pf_rd_p=bea0f565-2d03-4602-9e75-f5756c884efc&pf_rd_r=FC2ADZXDAPK2FX6XADZ8&qid=1627205876&refinements=p_n_age_range%3A1480708031&s=toys&sr=1-6",
             "categories": [categories[1], categories[3]]
         },
@@ -252,7 +252,7 @@ app.get('/searchkey', (req, res) => {
         finalResult = (finalResult.length == 0) ? arr : finalResult.concat(arr);
 
     });
-    console.log(keywords + " xxxxxxxxx");
+    console.log(products.sort(function(a, b){return a.price - b.price}));
     search.category_selected = keywords!=""?keywords:"none";
     search.categories = categories;
     search.result = finalResult;
@@ -269,17 +269,26 @@ app.get('/searchkey', (req, res) => {
 app.get('/searchcategory', (req, res) => {
     let keywords = req.query.categorysearch;
     let search = {};
-    console.log(req.query);
-    // keywords.forEach(element => {
-        let arr = keywords!=""?products.filter(item => item.categories.includes(keywords)): products;
-    // finalResult = (finalResult.length == 0) ? "" : arr;
+    
 
-    // });
+    if(keywords == categories[5]){
+        console.log(req.query);
+        search.result = products.sort(function(a, b){return a.price - b.price});
+    }else if(keywords == categories[6]){
+        search.result = products.sort(function(a, b){return b.price - a.price});
+    }
+    else{
+        let arr = keywords!=""?products.filter(item => item.categories.includes(keywords)): products;
+        search.result = arr;
+    }
+    
+        
     search.category_selected = keywords!=""?keywords:"none";
     search.categories = categories;
-    search.result = arr;
+   
     // search.qry = arr.length != 0 ? "Results for: \"" + req.query.categorysearch + "\"" : "No Results found for the keyword(s)...\" " + req.query.categorysearch + "\"";
-    search.qry = keywords.length != 0 ? req.query.categorysearch : "";
+    // search.qry = keywords.length != 0 ? req.query.categorysearch : "";
+    search.qry = "";
     res.render('listview', {
         title: 'List View',
         data: search
@@ -291,6 +300,7 @@ app.get('/searchcategory/:sc', (req, res) => {
     // console.log(req.params.sc);
     let keywords = req.params.sc;
     let search = {};
+
 
     let arr = keywords!=""?products.filter(item => item.categories.includes(keywords)): products;
     search.category_selected = keywords!=""?keywords:"none";;
@@ -305,6 +315,9 @@ app.get('/searchcategory/:sc', (req, res) => {
         data: search
     });
 });
+
+//==================== SORT RESULTS =============================//
+
 
 
 app.get('/product/:p_id', (req, res) => {
