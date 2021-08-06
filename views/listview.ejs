@@ -11,7 +11,7 @@
     <!--========== CSS ==========-->
     <link rel="stylesheet" href="/assets/css/styles.css">
 
-    <title>Responsive website food</title>
+    <title>Little Bugs</title>
 </head>
 
 <body>
@@ -47,25 +47,42 @@
                 <!-- <h2 class="section-title">
                     <%= data.qry %>
                 </h2> -->
-                <% if(data.categories){%>
+                <% if(data.product_categories){%>
                     <div class="filter">
 
-                        <div class="search__filter">
-                            
-                            <div class="container_results">
-                                <% if(data.qry != "") {%>
+                        <div class="container_results">
+                            <% if(data.qry !="" ) {%>
                                 <h3 class="section-subtitle">Search results for: "<%= data.qry %>"</h3>
-                                <%} if(data.result.length ==0){%>
+                                <%} if(data.result.length==0){%>
                                     <h2 class="section-subtitle">No Results found for your query</h2>
                                     <%}%>
-                            </div>
-                            
-                            <form action="/searchcategory" method="get">
+                        </div>
+
+                        <div class="sort__filter__box">
+
+                            <form action="/searchcategory" method="get" class="search__filter">
                                 <select class="filter__box" id="categorysearch" name="categorysearch"
                                     onchange="this.form.submit()">
                                     <!-- <option value="">--none--</option> -->
-                                    <% data.categories.forEach(category=> { %>
+                                    <% data.product_categories.forEach(category=> { %>
                                         <% if(data.category_selected==category){%>
+                                            <option value="<%= category %>" selected>
+                                                <%= category %>
+                                            </option>
+                                            <%}else{%>
+                                                <option value="<%= category %>">
+                                                    <%= category %>
+                                                </option>
+                                                <%}%>
+                                                    <%});%>
+                                </select>
+                            <!-- </form> -->
+                            <!-- <form action="/searchcategory" method="get"> -->
+                                <select class="filter__box" id="categorysearch" name="sortsearch"
+                                    onchange="this.form.submit()">
+                                    <!-- <option value="">--none--</option> -->
+                                    <% data.sort_categories.forEach(category=> { %>
+                                        <% if(data.sort_selected==category){%>
                                             <option value="<%= category %>" selected>
                                                 <%= category %>
                                             </option>
@@ -99,8 +116,23 @@
                                 <% }); %>
 
                         </div>
+                        <div class="pagination">
+                            <a href="/searchpage?page=1&limit=6">&laquo;</a>
+                            <% if(data.pages) {  %>
+                                
+                                <% data.pages.forEach(page =>{ %>
+                                    <% if(data.page_selected == page){%>
+                                        <a href="/searchpage?page=<%= page %>&limit=6" class="active"><%= page %></a>
+                                    <%} else{%>
+                                        <a href="/searchpage?page=<%= page %>&limit=6"><%= page %></a>
+                                        <%}%>
+                                    
+                                    <%})%>
+                            <%}%>
+                            <a href="#">&raquo;</a>
+                          </div>
             </section>
-
+           
             <!--===============SERVICES SECTION================-->
             <%- include('services') -%>
 

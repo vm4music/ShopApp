@@ -1,4 +1,5 @@
 const express = require('express');
+const { paginatedSearch, searchProducts } = require('./assets/js/search');
 const app = express();
 
 app.set('view engine', 'ejs'); // configure template engine
@@ -8,8 +9,9 @@ app.use('/assets', express.static(__dirname + '/assets'));
 // app.use('/views', express.static(__dirname + '/views'));
 // app.set('views', __dirname + '/views'); // set express to look in this folder to render our view
 //use node main.js for production 
-var categories = ["Age 1-3", "Age 4-6", "Age 7-13", "Age 14+", "Educational Toys","Price Low-to-High", "Price High-to-Low"];
-
+var product_categories = ["Age 1-3", "Age 4-6", "Age 7-13", "Age 14+", "Educational Toys"];
+var sort_categories = ["Price Low-to-High", "Price High-to-Low"];
+const pages = ["1", "2", "3", "4"]
 var about_us = {
     "title": "Our children deserve the best",
     "descripton_line_1": "Play is a Child’s Work and Our Store is a child’s workshop of award-winning toys carefully selected for excellence in play value, design, quality and impact on environment. Every toy we choose is evaluated for these qualities and we do not compromise because we believe our children deserve the best.",
@@ -25,7 +27,7 @@ var products =
                 "With shock suspension system and rubber tires, drive this masterpiece on the earth, grass or sands."
             ],
             "price": "21.00",
-            "categories": [categories[3], categories[2]]
+            "categories": [product_categories[3], product_categories[2]]
         },
         {
             "p_id": "12",
@@ -36,7 +38,7 @@ var products =
                 "This is very useful for people with autism or stress. Bubble sounds can help relieve anxiety and stress and restore mood."
             ],
             "price": "22.00",
-            "categories": [categories[0]]
+            "categories": [product_categories[0]]
         },
         {
             "p_id": "13",
@@ -44,7 +46,7 @@ var products =
             "name": "Plastic Pull Back Auto Rickshaw",
             "detail": ["Plastic Pull Back Auto Rickshaw"],
             "price": "129.00",
-            "categories": [categories[1]]
+            "categories": [product_categories[1]]
         },
         {
             "p_id": "14",
@@ -52,7 +54,7 @@ var products =
             "name": "LCD Writing Tablet 8.5Inch E-Note Pad",
             "detail": ["LCD Writing Tablet 8.5Inch E-Note Pad"],
             "price": "21.00",
-            "categories": [categories[1], categories[4], categories[2]]
+            "categories": [product_categories[1], product_categories[4], product_categories[2]]
         },
         {
             "p_id": "15",
@@ -60,7 +62,7 @@ var products =
             "name": "Electric Train Toy",
             "detail": ["REALISTIC HEADLIGHT, SOUNDS & SMOKE"],
             "price": "22.00",
-            "categories": [categories[1], categories[2]]
+            "categories": [product_categories[1], product_categories[2]]
         },
         {
             "p_id": "16",
@@ -69,7 +71,7 @@ var products =
             "detail": ["Children can watch the train move forward, backward and spin 360 degrees on any flat surface.",
                 "If it crashes into the wall or an object, it automatically changes its direction on contact."],
             "price": "21.00",
-            "categories": [categories[1], categories[2]]
+            "categories": [product_categories[1], product_categories[2]]
         },
         {
             "p_id": "17",
@@ -77,7 +79,7 @@ var products =
             "name": "Kids Laptop",
             "detail": ["Great educational toy for kids"],
             "price": "22.00",
-            "categories": [categories[2], categories[4]]
+            "categories": [product_categories[2], product_categories[4]]
         },
         {
             "p_id": "18",
@@ -85,7 +87,7 @@ var products =
             "name": "Educational Laptop",
             "detail": ["Smart English learning Laptop is fashionable multi-function touch screen."],
             "price": "21.00",
-            "categories": [categories[2], categories[4]]
+            "categories": [product_categories[2], product_categories[4]]
         },
         {
             "p_id": "19",
@@ -94,7 +96,7 @@ var products =
             "detail": ["Stacking Ring is an attractive educational toy which helps your baby recognize different colours and sizes while having fun stacking them in order.",
                 "Stacking Ring helps your baby naturally develop concepts of colour, shape and size through fun filled play activity."],
             "price": "138.00",
-            "categories": [categories[0]]
+            "categories": [product_categories[0]]
         },
         {
             "p_id": "20",
@@ -104,7 +106,7 @@ var products =
                 "Made with non toxic material safe for children"],
             "price": "138.00",
             "link": "https://www.amazon.in/Parteet-Small-Cement-Mixture-Trucks/dp/B07SZTF8CD/ref=sr_1_30?dchild=1&keywords=malhotra+toys&qid=1627205713&sr=8-30",
-            "categories": [categories[1], categories[2]]
+            "categories": [product_categories[1], product_categories[2]]
         },
         {
             "p_id": "21",
@@ -114,7 +116,7 @@ var products =
                 "Premium Quality."],
             "price": "138.00",
             "link": "amazon.in/FUNTOOL-Girls-Dolls-Non-Toxic-Plastic/dp/B08QFXHHY3/ref=sr_1_51?dchild=1&keywords=malhotra+toys&qid=1627205713&sr=8-51",
-            "categories": [categories[1], categories[2]]
+            "categories": [product_categories[1], product_categories[2]]
         },
         {
             "p_id": "22",
@@ -125,7 +127,7 @@ var products =
                 "This mechanix metal- 4 game comes with all the tools and parts to build 20 different models. After completing these 20 models, the builder can use the nuts bolts and other versatile parts to create many more models and projects.",
                 "Mechanix metal- 4 game is made from high quality of steel and it is perfectly finished for the ideal and no sharp edges, smooth finish."],
             "price": "138.00",
-            "categories": [categories[1], categories[2], categories[4]]
+            "categories": [product_categories[1], product_categories[2], product_categories[4]]
         },
         {
             "p_id": "23",
@@ -137,7 +139,7 @@ var products =
                 "Dimension :- 17.5X3.5X10.7 ; Weight :- 132 GM"],
             "price": "738.00",
             "link": "https://www.amazon.in/Alakh-Enterprise-Plastic-Control-Helicopter/dp/B098Z1M5YJ/ref=sr_1_6?dchild=1&keywords=toys&nav_sdd=aps&pd_rd_r=a43e72db-06b9-40b4-8cf3-62da00eae66f&pd_rd_w=fF8hw&pd_rd_wg=YtWLy&pf_rd_p=bea0f565-2d03-4602-9e75-f5756c884efc&pf_rd_r=FC2ADZXDAPK2FX6XADZ8&qid=1627205876&refinements=p_n_age_range%3A1480708031&s=toys&sr=1-6",
-            "categories": [categories[1], categories[3]]
+            "categories": [product_categories[1], product_categories[3]]
         },
         {
             "p_id": "24",
@@ -149,7 +151,7 @@ var products =
                 "[ Gift ] - Best gift for kids. its very entertaining game for kids"],
             "price": "138.00",
             "link": "https://www.amazon.in/Fletix-Big-Size-Golf-Accessories/dp/B098JCDJDW/ref=sr_1_31_sspa?dchild=1&keywords=toys&nav_sdd=aps&pd_rd_r=a43e72db-06b9-40b4-8cf3-62da00eae66f&pd_rd_w=fF8hw&pd_rd_wg=YtWLy&pf_rd_p=bea0f565-2d03-4602-9e75-f5756c884efc&pf_rd_r=FC2ADZXDAPK2FX6XADZ8&qid=1627205876&refinements=p_n_age_range%3A1480708031&s=toys&sr=1-31-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExMVFFSlc3VkVHOVIxJmVuY3J5cHRlZElkPUEwMDc0NDM5MVdLR1o1MjUzVkQ0VyZlbmNyeXB0ZWRBZElkPUEwMTU4NDE0MzU4Q0VJTlNNTzJQViZ3aWRnZXROYW1lPXNwX2J0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=",
-            "categories": [categories[1], categories[2]]
+            "categories": [product_categories[1], product_categories[2]]
         },
         {
             "p_id": "25",
@@ -160,7 +162,7 @@ var products =
                 "Best gift for baby: multiple functions are attractive to your baby. A good musical toy to improve kids intelligence, imagination and creativity"],
             "price": "138.00",
             "link": "https://www.amazon.in/Zuffon-Kids-Flash-Lights-Musical/dp/B07J5CST1W/ref=sr_1_4?dchild=1&keywords=toys&nav_sdd=aps&pd_rd_r=a43e72db-06b9-40b4-8cf3-62da00eae66f&pd_rd_w=fF8hw&pd_rd_wg=YtWLy&pf_rd_p=bea0f565-2d03-4602-9e75-f5756c884efc&pf_rd_r=FC2ADZXDAPK2FX6XADZ8&qid=1627205913&refinements=p_n_age_range%3A1480705031&s=toys&sr=1-4",
-            "categories": [categories[1]]
+            "categories": [product_categories[1]]
         },
         {
             "p_id": "26",
@@ -170,7 +172,7 @@ var products =
                 "This is the wonderful funny and awesome entertainment for your little one."],
             "price": "138.00",
             "link": "https://www.amazon.in/JANKI-ENTERPRISE-Fantastic-Jumping-Walking/dp/B08CMMK6CD/ref=sr_1_31_sspa?dchild=1&keywords=toys&nav_sdd=aps&pd_rd_r=a43e72db-06b9-40b4-8cf3-62da00eae66f&pd_rd_w=fF8hw&pd_rd_wg=YtWLy&pf_rd_p=bea0f565-2d03-4602-9e75-f5756c884efc&pf_rd_r=FC2ADZXDAPK2FX6XADZ8&qid=1627205913&refinements=p_n_age_range%3A1480705031&s=toys&sr=1-31-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEyTjE0MU5OUTBEVzM3JmVuY3J5cHRlZElkPUEwNjMyOTI4M0pPQjVITjZFTlJYMyZlbmNyeXB0ZWRBZElkPUEwOTUxNTQyMk1DVkxTREFRNEczSyZ3aWRnZXROYW1lPXNwX2J0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU=",
-            "categories": [categories[1]]
+            "categories": [product_categories[1]]
         },
         {
             "p_id": "27",
@@ -182,7 +184,7 @@ var products =
                 "A keypad and a mouse have been provided to make it look just like real laptop. The grey toy laptop is made from durable plastic and is safe for kids to use."],
             "price": "138.00",
             "link": "https://www.amazon.in/TOMZEE-TOYS-Notebook-Activities-Including/dp/B0993F5Z7G/ref=sr_1_29?dchild=1&keywords=toys&qid=1627205873&sr=8-29",
-            "categories": [categories[1], categories[4]]
+            "categories": [product_categories[1], product_categories[4]]
         }
 
     ];
@@ -252,9 +254,10 @@ app.get('/searchkey', (req, res) => {
         finalResult = (finalResult.length == 0) ? arr : finalResult.concat(arr);
 
     });
-    console.log(products.sort(function(a, b){return a.price - b.price}));
+    // console.log(products.sort(function(a, b){return a.price - b.price}));
     search.category_selected = keywords!=""?keywords:"none";
-    search.categories = categories;
+    search.product_categories = product_categories;
+    search.sort_categories = sort_categories;
     search.result = finalResult;
     // search.qry = finalResult.length != 0 ? "Search results for: \"" + req.query.searchbar + "\"" : "No Results found for the keyword(s): \" " + req.query.searchbar + "\"";
     search.qry = keywords.length != 0 ? req.query.searchbar : "";
@@ -265,26 +268,30 @@ app.get('/searchkey', (req, res) => {
     });
 });
 
+
 //=========== Category BASED SEARCH =============//
 app.get('/searchcategory', (req, res) => {
-    let keywords = req.query.categorysearch;
+    let category_keywords = req.query.categorysearch;
+    let sort_keywords = req.query.sortsearch;
     let search = {};
     
+console.log(req.query);
 
-    if(keywords == categories[5]){
-        console.log(req.query);
-        search.result = products.sort(function(a, b){return a.price - b.price});
-    }else if(keywords == categories[6]){
-        search.result = products.sort(function(a, b){return b.price - a.price});
+    let arr = category_keywords!=""?products.filter(item => item.categories.includes(category_keywords)): products;
+    
+    if(sort_keywords == sort_categories[0]){
+        search.result = arr.sort(function(a, b){return a.price - b.price});
+    }else if(sort_keywords == sort_categories[1]){
+        search.result = arr.sort(function(a, b){return b.price - a.price});
     }
     else{
-        let arr = keywords!=""?products.filter(item => item.categories.includes(keywords)): products;
         search.result = arr;
     }
     
-        
-    search.category_selected = keywords!=""?keywords:"none";
-    search.categories = categories;
+    search.sort_selected = sort_keywords!=""?sort_keywords:"none";    
+    search.category_selected = category_keywords!=""?category_keywords:"none";
+    search.product_categories = product_categories;
+    search.sort_categories = sort_categories;
    
     // search.qry = arr.length != 0 ? "Results for: \"" + req.query.categorysearch + "\"" : "No Results found for the keyword(s)...\" " + req.query.categorysearch + "\"";
     // search.qry = keywords.length != 0 ? req.query.categorysearch : "";
@@ -297,29 +304,42 @@ app.get('/searchcategory', (req, res) => {
 
 //=========== Category BASED SEARCH FORM QUICK LINKS =============//
 app.get('/searchcategory/:sc', (req, res) => {
-    // console.log(req.params.sc);
+     console.log(req.params);
     let keywords = req.params.sc;
     let search = {};
 
+    search = JSON.parse(searchProducts(products, 0, 6, keywords, product_categories, sort_categories, 1, "", pages));
 
-    let arr = keywords!=""?products.filter(item => item.categories.includes(keywords)): products;
-    search.category_selected = keywords!=""?keywords:"none";;
-    search.categories = categories;
-    search.result = arr;
-    console.log(arr);
-    // search.qry = arr.length != 0 ? "Results for: \"" + keywords + "\"" : "No Results found for the keyword(s)...\" " + keywords + "\"";
-    search.qry = keywords.length != 0 ?keywords : "";
-    console.log(search.categories+"   xxxxxxxxxxxxxxxx");
     res.render('listview', {
         title: 'List View',
         data: search
     });
 });
 
+//==================== PAGINATED SEARCH AND SORT RESULTS =============================//
+app.get('/searchpage', (req, res) => {
+
+    
+    const page = req.query.page;
+    const limit = req.query.limit;
+
+    const startIndex = (page -1) * limit;
+    const endIndex = page * limit;
+
+    let keywords = req.params.sc;
+    let search = {};
+
+    search = JSON.parse(searchProducts(products,startIndex, endIndex, keywords, product_categories, sort_categories, page, "", pages));
+
+
+    res.render('listview', {
+        title: 'List View',
+        data: search
+    });
+});
+
+
 //==================== SORT RESULTS =============================//
-
-
-
 app.get('/product/:p_id', (req, res) => {
     console.log(products.filter(item => item.p_id === req.params.p_id));
     let list = {};
@@ -332,10 +352,18 @@ app.get('/product/:p_id', (req, res) => {
 })
 
 
+//==================== CART RESULTS =============================//
+app.get('/add-to-cart/:p_id', (req, res) => {
+    
+    res.render('cart', {
+        title: 'Cart View',
+        data: products.filter(item => item.p_id === req.params.p_id)
+    });
+})
+
 
 const port = process.env.PORT || 8081;
 
 app.listen(port, () => {
     console.log(`App running on ${port}`);
 })
-

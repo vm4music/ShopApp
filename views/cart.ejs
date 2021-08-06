@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--========== BOX ICONS ==========-->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+    <!--========== CSS ==========-->
+    <link rel="stylesheet" href="/assets/css/styles.css">
+
+    <title>Responsive website food</title>
+</head>
+
+<body>
+
+    <!--========== SCROLL TOP ==========-->
+    <a href="#" class="scrolltop" id="scroll-top">
+        <i class='bx bx-chevron-up scrolltop__icon'></i>
+    </a>
+
+    <!--========== HEADER ==========-->
+    <%- include('header') -%>
+
+        <main class="l-main">
+
+            <!--========== CART ==========-->
+            <section class="section bd-container cart">
+                
+                <h1 style="font-weight:100">Shopping Cart</h1>
+
+                <div class="shopping-cart">
+
+                    <div class="column-labels">
+                        <label class="cart__product-image"></label>
+                        <label class="cart__product-details">Product</label>
+                        <label class="cart__product-price">Price</label>
+                        <label class="cart__product-quantity">Quantity</label>
+                        <label class="cart__product-removal">Remove</label>
+                        <label class="cart__product-line-price">Total</label>
+                    </div>
+
+                    <div class="cart__product">
+                        <div class="cart__product-image">
+                            <img src="/assets/img/eboard-removebg.png">
+                        </div>
+                        <div class="cart__product-details">
+                            <div class="cart__product-title">LCD Writing Tablet 8.5Inch E-Note Pad</div>
+                            <p class="cart__product-description">LCD Writing Tablet 8.5Inch E-Note Pad.</p>
+                        </div>
+                        <div class="cart__product-price">12.99</div>
+                        <div class="cart__product-quantity">
+                            <input type="number" value="2" min="1">
+                        </div>
+                        <div class="cart__product-removal">
+                            <button class="remove-cart__product">
+                                Remove
+                            </button>
+                        </div>
+                        <div class="cart__product-line-price">25.98</div>
+                    </div>
+
+                    <div class="cart__product">
+                        <div class="cart__product-image">
+                            <img src="/assets/img/kids_drum-removebg.png">
+                        </div>
+                        <div class="cart__product-details">
+                            <div class="cart__product-title">Nutro™ Adult Lamb and Rice Dog Food</div>
+                            <p class="cart__product-description">Who doesn't like lamb and rice? We've all hit the halal
+                                cart
+                                at 3am while quasi-blackout after a night of binge drinking in Manhattan. Now it's your
+                                dog's turn!</p>
+                        </div>
+                        <div class="cart__product-price">45.99</div>
+                        <div class="cart__product-quantity">
+                            <input type="number" value="1" min="1">
+                        </div>
+                        <div class="cart__product-removal">
+                            <button class="remove-cart__product">
+                                Remove
+                            </button>
+                        </div>
+                        <div class="cart__product-line-price">45.99</div>
+                    </div>
+
+                    <div class="totals">
+                        <div class="totals-item">
+                            <label>Subtotal</label>
+                            <div class="totals-value" id="cart-subtotal">71.97</div>
+                        </div>
+                        <div class="totals-item">
+                            <label>Tax (5%)</label>
+                            <div class="totals-value" id="cart-tax">3.60</div>
+                        </div>
+                        <div class="totals-item">
+                            <label>Shipping</label>
+                            <div class="totals-value" id="cart-shipping">15.00</div>
+                        </div>
+                        <div class="totals-item totals-item-total">
+                            <label>Grand Total</label>
+                            <div class="totals-value" id="cart-total">90.57</div>
+                        </div>
+                    </div>
+
+                    <button class="checkout">Checkout</button>
+
+                </div>
+
+            </section>
+            <!--===============SERVICES SECTION================-->
+            <%- include('services') -%>
+
+                <!--========== CONTACT US ==========-->
+                <section class="contact section bd-container" id="contact">
+                    <div class="contact__container bd-grid">
+                        <div class="contact__data">
+                            <span class="section-subtitle contact__initial">Let's talk</span>
+                            <h2 class="section-title contact__initial">Contact us</h2>
+                            <p class="contact__description">If you want to reserve a table in our restaurant, contact us
+                                and we will attend you quickly, with our 24/7 chat service.</p>
+                        </div>
+
+                        <div class="contact__button">
+                            <a href="#" class="button">Contact us now</a>
+                        </div>
+                    </div>
+                </section>
+        </main>
+
+        <!--========== FOOTER ==========-->
+        <%- include('footer') -%>
+
+            <!--========== SCROLL REVEAL ==========-->
+            <script src="https://unpkg.com/scrollreveal"></script>
+
+            <!--========== MAIN JS ==========-->
+            <script src="/assets/js/main.js"></script>
+</body>
+
+</html>

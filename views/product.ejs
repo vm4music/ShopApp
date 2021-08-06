@@ -37,10 +37,17 @@
                         <li><p class="about__description"></p><%= data[0].detail[i] %></p></li>
                         <% }; %>
                         </ul> -->
-                        <a href="#" class="button">Add To Cart</a>
+                        <a href="/add-to-cart/<%= data[0].p_id %>" class="button">Buy Now</a>
+                        <a href="/add-to-cart/<%= data[0].p_id %>" class="button">Add To Cart</a>
                         <a href="/product/<%= data[0].p_id %>" class="button"><i class='bx bx-heart'></i></a>
-                        <!-- <a href="/product/<%= data[0].p_id %>" class="button"><i class='bx bxs-heart'></i></a> -->
+                        <!-- <div>
+                        <a href="/add-to-cart/<%= data[0].p_id %>" class="button">Buy Now</a>
+                        <a href="/add-to-cart/<%= data[0].p_id %>" class="button">Add To Cart</a>
+                        <a href="/product/<%= data[0].p_id %>" class="button"><i class='bx bx-heart'></i></a>
+                        </div> -->
+                        <a href="/product/<%= data[0].p_id %>" class="button"><i class='bx bxs-heart'></i></a>
                     </div>
+                       
                 </div>
 
 <div class="detail_section">
