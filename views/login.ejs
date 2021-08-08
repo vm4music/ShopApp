@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--========== BOX ICONS ==========-->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+    <!--========== CSS ==========-->
+    <link rel="stylesheet" href="/assets/css/styles.css">
+
+    <title>Little Bugs</title>
+</head>
+
+<body>
+
+    <!--========== SCROLL TOP ==========-->
+    <a href="#" class="scrolltop" id="scroll-top">
+        <i class='bx bx-chevron-up scrolltop__icon'></i>
+    </a>
+
+    <!--========== HEADER ==========-->
+    <%- include('header') -%>
+
+        <main class="l-main">
+
+            <!--===================LOGIN========================-->
+            <section class="section bd-container">
+                
+                <div class="login">
+                    <div class="login__content">
+                        <div class="login__img">
+                            <img src="/assets/img/img-login.svg" alt="">
+                        </div>
+        
+                        <div class="login__forms">
+                            <form action="" class="login__registre" id="login-in">
+                                <h1 class="login__title">Sign In</h1>
+            
+                                <div class="login__box">
+                                    <i class='bx bx-user login__icon'></i>
+                                    <input type="text" placeholder="Username" class="login__input">
+                                </div>
+            
+                                <div class="login__box">
+                                    <i class='bx bx-lock-alt login__icon'></i>
+                                    <input type="password" placeholder="Password" class="login__input">
+                                </div>
+        
+                                <a href="#" class="login__forgot">Forgot password?</a>
+        
+                                <a href="#" class="login__button">Sign In</a>
+        
+                                <div>
+                                    <span class="login__account">Don't have an Account ?</span>
+                                    <span class="login__signin" id="sign-up">Sign Up</span>
+                                </div>
+                            </form>
+        
+                            <form action="" class="login__create none" id="login-up">
+                                <h1 class="login__title">Create Account</h1>
+            
+                                <div class="login__box">
+                                    <i class='bx bx-user login__icon'></i>
+                                    <input type="text" placeholder="Username" class="login__input">
+                                </div>
+            
+                                <div class="login__box">
+                                    <i class='bx bx-at login__icon'></i>
+                                    <input type="text" placeholder="Email" class="login__input">
+                                </div>
+        
+                                <div class="login__box">
+                                    <i class='bx bx-lock-alt login__icon'></i>
+                                    <input type="password" placeholder="Password" class="login__input">
+                                </div>
+        
+                                <a href="#" class="login__button">Sign Up</a>
+        
+                                <div>
+                                    <span class="login__account">Already have an Account ?</span>
+                                    <span class="login__signup" id="sign-in">Sign In</span>
+                                </div>
+        
+                                <div class="login__social">
+                                    <a href="#" class="login__social-icon"><i class='bx bxl-facebook' ></i></a>
+                                    <a href="#" class="login__social-icon"><i class='bx bxl-twitter' ></i></a>
+                                    <a href="#" class="login__social-icon"><i class='bx bxl-google' ></i></a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="l-form">
+                    <div class="shape1"></div>
+                    <div class="shape2"></div>
+        
+                    <div class="form">
+                        <img src="/assets/img/authentication.svg" alt="" class="form__img"> 
+        
+                        <form action="" class="form__content">
+                            <h1 class="form__title">Welcome</h1>
+        
+                            <div class="form__div form__div-one">
+                                <div class="form__icon">
+                                    <i class='bx bx-user-circle'></i>
+                                </div>
+        
+                                <div class="form__div-input">
+                                    <label for="" class="form__label">Username</label>
+                                    <input type="text" class="form__input">
+                                </div>
+                            </div>
+        
+                            <div class="form__div">
+                                <div class="form__icon">
+                                    <i class='bx bx-lock' ></i>
+                                </div>
+        
+                                <div class="form__div-input">
+                                    <label for="" class="form__label">Password</label>
+                                    <input type="password" class="form__input">
+                                </div>
+                            </div>
+                            <a href="#" class="form__forgot">Forgot Password?</a>
+        
+                            <input type="submit" class="form__button" value="Login">
+        
+                            <div class="form__social">
+                                <span class="form__social-text">Our login with</span>
+        
+                                <a href="#" class="form__social-icon"><i class='bx bxl-facebook' ></i></a>
+                                <a href="#" class="form__social-icon"><i class='bx bxl-google' ></i></a>
+                                <a href="#" class="form__social-icon"><i class='bx bxl-instagram' ></i></a>
+                            </div>
+                        </form>
+                    </div>
+        
+                </div> -->
+            </section>
+
+        <!--===============SERVICES SECTION================-->
+        <%- include('services') -%>
+
+        <!--========== CONTACT US ==========-->
+        <section class="contact section bd-container" id="contact">
+            <div class="contact__container bd-grid">
+                <div class="contact__data">
+                    <span class="section-subtitle contact__initial">Let's talk</span>
+                    <h2 class="section-title contact__initial">Contact us</h2>
+                    <p class="contact__description">If you want to reserve a table in our restaurant, contact us
+                        and we will attend you quickly, with our 24/7 chat service.</p>
+                </div>
+
+                <div class="contact__button">
+                    <a href="#" class="button">Contact us now</a>
+                </div>
+            </div>
+        </section>
+</main>
+
+<!--========== FOOTER ==========-->
+<%- include('footer') -%>
+
+    <!--========== SCROLL REVEAL ==========-->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!--========== MAIN JS ==========-->
+    <script src="/assets/js/main.js"></script>
+</body>
+
+</html>

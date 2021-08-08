@@ -227,6 +227,20 @@ app.get('/shop', (req, res) => {
     });
 });
 
+//==================LOGIN===========================//
+app.get('/login', (req, res) => {
+
+    // let list = {};
+    // list.result = products;
+    // list.qry = "Welcome to shop";
+
+    // res.render('listview');
+    res.render('login', {
+        title: 'Login Page',
+        data: "list"
+    });
+});
+
 
 //========== full word based search ================//
 app.get('/search', (req, res) => {
@@ -360,6 +374,14 @@ app.get('/add-to-cart/:p_id', (req, res) => {
         data: products.filter(item => item.p_id === req.params.p_id)
     });
 })
+
+app.get('/showcart', (req, res) => {
+    
+    res.render('cart', {
+        title: 'Cart View',
+        data: ""
+    });
+});
 
 
 const port = process.env.PORT || 8081;

@@ -35,11 +35,11 @@ function scrollActive(){
         const sectionTop = current.offsetTop - 50;
         sectionId = current.getAttribute('id')
 
-        if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight){
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
-        }else{
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
-        }
+        // if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight){
+        //     document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
+        // }else{
+        //     document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
+        // }
     })
 }
 window.addEventListener('scroll', scrollActive)
@@ -103,12 +103,62 @@ sr.reveal(`.home__data, .home__img,
             .services__content, .menu__content,
             .app__data, .app__img,
             .contact__data, .contact__button,
-            .footer__content, .shopping-cart`, {
+            .footer__content, .shopping-cart, .l-form`, {
     interval: 200
 })
 
+// Login Form added by Vikas
+/*===== FOCUS =====*/
+const inputs = document.querySelectorAll(".form__input")
+
+/*=== Add focus ===*/
+function addfocus(){
+    let parent = this.parentNode.parentNode
+    parent.classList.add("focus")
+}
+
+/*=== Remove focus ===*/
+function remfocus(){
+    let parent = this.parentNode.parentNode
+    if(this.value == ""){
+        parent.classList.remove("focus")
+    }
+}
+
+/*=== To call function===*/
+inputs.forEach(input=>{
+    input.addEventListener("focus",addfocus)
+    input.addEventListener("blur",remfocus)
+})
 
 /*==================== Added by Vikas ====================*/
+/*===== LOGIN SHOW and HIDDEN =====*/
+const signUp = document.getElementById('sign-up'),
+    signIn = document.getElementById('sign-in'),
+    loginIn = document.getElementById('login-in'),
+    loginUp = document.getElementById('login-up')
+
+
+signUp.addEventListener('click', ()=>{
+    // Remove classes first if they exist
+    loginIn.classList.remove('block')
+    loginUp.classList.remove('none')
+
+    // Add classes
+    loginIn.classList.toggle('none')
+    loginUp.classList.toggle('block')
+})
+
+signIn.addEventListener('click', ()=>{
+    // Remove classes first if they exist
+    loginIn.classList.remove('none')
+    loginUp.classList.remove('block')
+
+    // Add classes
+    loginIn.classList.toggle('block')
+    loginUp.classList.toggle('none')
+})
+
 
 var products = 
 [
