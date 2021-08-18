@@ -3,13 +3,17 @@ let sort_categories = ["Price Low-to-High", "Price High-to-Low"];
 let product_categories = ["Age 1-3", "Age 4-6", "Age 7-13", "Age 14+", "Educational Toys"];
 module.exports = {
 
-    searchProductsByCategories: function (products, startIndex, endIndex, keywords, sort_selected, page, qry, pages) {
+    searchProductsByCategories: function (products, startIndex, endIndex, keywords, sort_selected, page, qry, limit) {
         let search = {};
-
+        
         let arr = (keywords) ? products.filter(item => item.categories.includes(keywords)) : products;
         
+        let pages = arr.length / limit;
 
-        if(sort_selected){
+        if(!Number.isInteger(pages))
+            pages = parseInt(pages) + 1;
+
+            if(sort_selected){
             switch(sort_selected){
                 case sort_categories[0]:
                     search.result = arr.sort(function(a, b){return a.price - b.price});

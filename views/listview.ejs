@@ -58,7 +58,7 @@
                                     <%}%>
                         </div>
                         <div class="sort__filter__box">
-                            <p >Home / <b>Educational Toys</b></p>
+                            <p >Home / <b><%= data.qry %></b></p>
                             <form action="/searchcategory" method="get" class="search__filter">
                                                             
                                 <select class="filter__box" id="categorysearch" name="categorysearch"
@@ -116,19 +116,21 @@
 
                         </div>
                         <div class="pagination">
-                            <a href="/searchpage?page=1&limit=6">&laquo;</a>
+                            <a href="/searchcategory/<%= data.qry %>?page=1">&laquo;</a>
                             <% if(data.pages) {  %>
-                                
-                                <% data.pages.forEach(page =>{ %>
-                                    <% if(data.page_selected == page){%>
-                                        <a href="/searchcategory/<%= data.qry %>?page=<%= page %>" class="active"><%= page %></a>
-                                    <%} else{%>
-                                        <a href="/searchcategory/<%= data.qry %>?page=<%= page %>"><%= page %></a>
-                                        <%}%>
+                               <% for(var i=1;i<= data.pages; i++) {%>
+                                <% if(data.page_selected == i){%>
+                                    <a href="/searchcategory/<%= data.qry %>?page=<%= i %>" class="active"><%= i %></a>
+                                <%} else{%>
+                                    <a href="/searchcategory/<%= data.qry %>?page=<%= i %>"><%= i %></a>
                                     
-                                    <%})%>
+                                <%}}%>
+                                
+                               
+
+                                
                             <%}%>
-                            <a href="#">&raquo;</a>
+                            <a href="/searchcategory/<%= data.qry %>?page=<%= data.pages %>">&raquo;</a>
                           </div>
             </section>
            

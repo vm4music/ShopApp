@@ -13,7 +13,7 @@ app.use('/assets', express.static(__dirname + '/assets'));
 //use node main.js for production 
 var product_categories = ["Age 1-3", "Age 4-6", "Age 7-13", "Age 14+", "Educational Toys"];
 var sort_categories = ["Price Low-to-High", "Price High-to-Low"];
-const pages = ["1", "2", "3", "4"]
+//const pages = ["1", "2", "3", "4"]
 var about_us = {
     "title": "Our children deserve the best",
     "descripton_line_1": "Play is a Child’s Work and Our Store is a child’s workshop of award-winning toys carefully selected for excellence in play value, design, quality and impact on environment. Every toy we choose is evaluated for these qualities and we do not compromise because we believe our children deserve the best.",
@@ -295,7 +295,7 @@ app.get('/searchcategory', (req, res) => {
 
 
     const page = req.query.page || 1;
-    const limit = req.query.limit || 4;
+    const limit = req.query.limit || 3;
 
     const startIndex = (page -1) * limit;
     const endIndex = page * limit;
@@ -305,7 +305,7 @@ app.get('/searchcategory', (req, res) => {
     let search = {};
     
     console.log(sort_keywords);
-    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords, sort_keywords, page, "", pages));
+    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords, sort_keywords, page, "", limit));
 
 /*
     let category_keywords = req.query.categorysearch;
@@ -343,16 +343,15 @@ console.log(req.query);
 app.get('/searchcategory/:sc', (req, res) => {
 
     const page = req.query.page || 1;
-    const limit = req.query.limit || 4;
+    const limit = req.query.limit || 3;
 
     const startIndex = (page -1) * limit;
     const endIndex = page * limit;
 
-     console.log(page + " Page");
     let keywords = req.params.sc;
     let search = {};
 
-    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords,"Price High-to-Low", page, "", pages));
+    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords,"Price High-to-Low", page, "", limit));
 
     res.render('listview', {
         title: 'List View',
@@ -364,12 +363,19 @@ app.get('/searchcategory/:sc', (req, res) => {
 app.get('/searchpage', (req, res) => {
 
     
-    const page = req.query.page;
-    const limit = req.query.limit;
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 3;
 
     const startIndex = (page -1) * limit;
     const endIndex = page * limit;
 console.log(page + "  "+limit)
+
+let pages = products.length / limit;
+
+    if(pages % 2 != 0)
+        pages = parseInt(pages) + 1;
+
+
     let keywords = req.params.sc;
     let search = {};
 
