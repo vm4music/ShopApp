@@ -121,9 +121,9 @@
                                 
                                 <% data.pages.forEach(page =>{ %>
                                     <% if(data.page_selected == page){%>
-                                        <a href="/searchpage?page=<%= page %>&limit=6" class="active"><%= page %></a>
+                                        <a href="/searchcategory/<%= data.qry %>?page=<%= page %>" class="active"><%= page %></a>
                                     <%} else{%>
-                                        <a href="/searchpage?page=<%= page %>&limit=6"><%= page %></a>
+                                        <a href="/searchcategory/<%= data.qry %>?page=<%= page %>"><%= page %></a>
                                         <%}%>
                                     
                                     <%})%>

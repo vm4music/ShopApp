@@ -1,5 +1,5 @@
 const express = require('express');
-const { getProducts, searchProducts } = require('./assets/js/search');
+const { getProducts, searchProductsByCategories } = require('./assets/js/search');
 const app = express();
 
 
@@ -254,7 +254,7 @@ app.get('/search', (req, res) => {
     let qry = req.query.searchbar.toLowerCase();
     //console.log(products.filter(item => item.name.toLowerCase().includes(qry) ));
     let search = {};
-    search.result = products.filter(item => item.name.toLowerCase().includes(qry));
+    search.result = productsFromAPI.filter(item => item.name.toLowerCase().includes(qry));
 
     search.qry = search.result.length != 0 ? qry : "No Results found for this keyword(s)...";
     res.render('listview', {
@@ -271,7 +271,7 @@ app.get('/searchkey', (req, res) => {
     let search = {};
 
     keywords.forEach(element => {
-        let arr = products.filter(item => item.name.toLowerCase().includes(element));
+        let arr = productsFromAPI.filter(item => item.name.toLowerCase().includes(element));
         finalResult = (finalResult.length == 0) ? arr : finalResult.concat(arr);
 
     });
@@ -292,6 +292,22 @@ app.get('/searchkey', (req, res) => {
 
 //=========== Category BASED SEARCH =============//
 app.get('/searchcategory', (req, res) => {
+
+
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 4;
+
+    const startIndex = (page -1) * limit;
+    const endIndex = page * limit;
+
+    let keywords = req.query.categorysearch;
+    let sort_keywords = req.query.sortsearch;
+    let search = {};
+    
+    console.log(sort_keywords);
+    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords, sort_keywords, page, "", pages));
+
+/*
     let category_keywords = req.query.categorysearch;
     let sort_keywords = req.query.sortsearch;
     let search = {};
@@ -313,10 +329,10 @@ console.log(req.query);
     search.category_selected = category_keywords!=""?category_keywords:"none";
     search.product_categories = product_categories;
     search.sort_categories = sort_categories;
-   
+   */
     // search.qry = arr.length != 0 ? "Results for: \"" + req.query.categorysearch + "\"" : "No Results found for the keyword(s)...\" " + req.query.categorysearch + "\"";
     // search.qry = keywords.length != 0 ? req.query.categorysearch : "";
-    search.qry = "";
+    // search.qry = "";
     res.render('listview', {
         title: 'List View',
         data: search
@@ -325,11 +341,18 @@ console.log(req.query);
 
 //=========== Category BASED SEARCH FORM QUICK LINKS =============//
 app.get('/searchcategory/:sc', (req, res) => {
-     console.log(req.params);
+
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 4;
+
+    const startIndex = (page -1) * limit;
+    const endIndex = page * limit;
+
+     console.log(page + " Page");
     let keywords = req.params.sc;
     let search = {};
 
-    search = JSON.parse(searchProducts(products, 0, 6, keywords, product_categories, sort_categories, 1, "", pages));
+    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords,"Price High-to-Low", page, "", pages));
 
     res.render('listview', {
         title: 'List View',
@@ -346,7 +369,7 @@ app.get('/searchpage', (req, res) => {
 
     const startIndex = (page -1) * limit;
     const endIndex = page * limit;
-
+console.log(page + "  "+limit)
     let keywords = req.params.sc;
     let search = {};
 
