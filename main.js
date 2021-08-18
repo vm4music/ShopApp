@@ -1,6 +1,8 @@
 const express = require('express');
-const { paginatedSearch, searchProducts } = require('./assets/js/search');
+const { getProducts, searchProducts } = require('./assets/js/search');
 const app = express();
+
+
 
 app.set('view engine', 'ejs'); // configure template engine
 
@@ -189,6 +191,7 @@ var products =
 
     ];
 
+var productsFromAPI = [];
 //========== API Response ============//
 app.get('/api/shop', (req, res) => {
 
@@ -204,12 +207,16 @@ app.get('/api/shop', (req, res) => {
 //\\======= API Response ENDS ========//\\
 
 //========== ROUTERS START =============//
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+let resp = await getProducts();
+//resp = JSON.parse(resp);
+console.log(resp)
+productsFromAPI  = resp;
     // res.render('index');
     res.render('index', {
         title: 'Little Bugs',
         about: about_us,
-        data: products
+        data: productsFromAPI
     });
 
 });
@@ -217,7 +224,7 @@ app.get('/', (req, res) => {
 app.get('/shop', (req, res) => {
 
     let list = {};
-    list.result = products;
+    list.result = productsFromAPI;
     list.qry = "Welcome to shop";
 
     // res.render('listview');

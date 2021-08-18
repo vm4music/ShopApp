@@ -57,13 +57,12 @@
                                     <h2 class="section-subtitle">No Results found for your query</h2>
                                     <%}%>
                         </div>
-
                         <div class="sort__filter__box">
-
+                            <p >Home / <b>Educational Toys</b></p>
                             <form action="/searchcategory" method="get" class="search__filter">
+                                                            
                                 <select class="filter__box" id="categorysearch" name="categorysearch"
                                     onchange="this.form.submit()">
-                                    <!-- <option value="">--none--</option> -->
                                     <% data.product_categories.forEach(category=> { %>
                                         <% if(data.category_selected==category){%>
                                             <option value="<%= category %>" selected>
@@ -75,9 +74,9 @@
                                                 </option>
                                                 <%}%>
                                                     <%});%>
-                                </select>
-                            <!-- </form> -->
-                            <!-- <form action="/searchcategory" method="get"> -->
+                                </select> 
+                           
+
                                 <select class="filter__box" id="categorysearch" name="sortsearch"
                                     onchange="this.form.submit()">
                                     <!-- <option value="">--none--</option> -->
