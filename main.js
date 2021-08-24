@@ -481,6 +481,16 @@ app.get('/api/shop', (req, res) => {
     res.json(list);
 });
 
+app.get('/times', (req, res) => res.send(showTimes()))
+
+showTimes = () => {
+    let result = '';
+    const times = process.env.TIMES || 5;
+    for (i = 0; i < times; i++) {
+      result += i + ' ';
+    }
+    return result;
+  }
 
 //\\======= API Response ENDS ========//\\
 const port = process.env.PORT || 8081;
