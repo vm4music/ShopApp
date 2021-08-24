@@ -1005,7 +1005,7 @@ This is added to show the details section for the product page.*/
 
 /* Apply dollar signs */
 .cart__product .cart__product-price:before, .cart__product .cart__product-line-price:before, .totals-value:before {
-  content: 'INR';
+  content: 'INR ';
 }
 
 .shopping-cart {
