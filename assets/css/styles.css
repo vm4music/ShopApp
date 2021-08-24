@@ -53,8 +53,9 @@
   }
 
   .sort__filter__box{
-    margin-left: 40%;
+    /* margin-left: 40%; */
     position: relative;
+    display: flex;
   }
 }
 
@@ -181,7 +182,9 @@ This is added to show the details section for the product page.*/
   justify-content: space-between;
   align-items: center;
 }
-
+.sort__filter__box__a a:visited {
+  color: var(--first-color);
+ }
 @media screen and (max-width: 768px){
   .nav__menu{
     position: fixed;
@@ -213,6 +216,8 @@ This is added to show the details section for the product page.*/
  .sort__filter__box{
   margin-left: 0%;
  }
+
+ 
 
    /* Cart count */
 .responsiveFlyoutBasket_itemsCount{
@@ -911,9 +916,10 @@ This is added to show the details section for the product page.*/
   height: 2.507em;  
   padding: 0 .75em;
   font: inherit;
-  display: flex;
+  /* display: flex; */
   margin: 5px 5px;
   background-size: auto 16px;
+  vertical-align: middle;
   /* margin-right: auto; */
   /* margin-left: auto; */
 }
@@ -925,7 +931,7 @@ This is added to show the details section for the product page.*/
   /* flex-direction: column; */
   justify-content: center;
   margin-left: auto;
-  margin-right: auto;
+  /* margin-right: auto; */
   position: relative;
   -webkit-box-orient: horizontal;
   justify-content: space-between;
@@ -1403,4 +1409,64 @@ This is added to show the details section for the product page.*/
   .login__create{
     bottom: -5.5rem;
   }
+}
+
+/* Trying */
+.navbar {
+  overflow: hidden;
+  background-color: var(--first-color);
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: var(--body-color);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px 16px;
+  background-color: inherit;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: var(--first-color-alt);
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: var(--first-color-alt);
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  float: none;
+  color: var(--body-color);
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: var(--first-color);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
 }

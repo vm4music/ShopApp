@@ -36,22 +36,23 @@
                         </div>
         
                         <div class="login__forms">
-                            <form action="" class="login__registre" id="login-in">
+                            <form action="/users/login" class="login__registre" id="login-in" method="POST">
                                 <h1 class="login__title">Sign In</h1>
             
                                 <div class="login__box">
                                     <i class='bx bx-user login__icon'></i>
-                                    <input type="text" placeholder="Username" class="login__input">
+                                    <input type="text" placeholder="Username" class="login__input" name="username">
                                 </div>
             
                                 <div class="login__box">
                                     <i class='bx bx-lock-alt login__icon'></i>
-                                    <input type="password" placeholder="Password" class="login__input">
+                                    <input type="password" placeholder="Password" class="login__input" name="password">
                                 </div>
         
                                 <a href="#" class="login__forgot">Forgot password?</a>
         
                                 <a href="#" class="login__button">Sign In</a>
+                                <button type="submit">Submit</button>
         
                                 <div>
                                     <span class="login__account">Don't have an Account ?</span>
@@ -59,24 +60,24 @@
                                 </div>
                             </form>
         
-                            <form action="" class="login__create none" id="login-up">
+                            <form action="/users/sign-up" class="login__create none" id="login-up" method="POST">
                                 <h1 class="login__title">Create Account</h1>
             
                                 <div class="login__box">
                                     <i class='bx bx-user login__icon'></i>
-                                    <input type="text" placeholder="Username" class="login__input">
+                                    <input type="text" placeholder="Username" class="login__input" name="username">
                                 </div>
             
                                 <div class="login__box">
                                     <i class='bx bx-at login__icon'></i>
-                                    <input type="text" placeholder="Email" class="login__input">
+                                    <input type="text" placeholder="Email" class="login__input" name="email">
                                 </div>
         
                                 <div class="login__box">
                                     <i class='bx bx-lock-alt login__icon'></i>
-                                    <input type="password" placeholder="Password" class="login__input">
+                                    <input type="password" placeholder="Password" class="login__input" name="password">
                                 </div>
-        
+                                <button type="submit">Submit</button>
                                 <a href="#" class="login__button">Sign Up</a>
         
                                 <div>

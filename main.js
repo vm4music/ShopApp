@@ -1,19 +1,55 @@
 const express = require('express');
+const session = require('express-session');
+const passport = require('passport');
+const mongoose = require('mongoose');
+const Product = require('./models/Product')
+const methodOverride = require('method-override')
+
 const { getProducts, searchProductsByCategories } = require('./assets/js/search');
 const app = express();
 
-
+require('dotenv/config')
 
 app.set('view engine', 'ejs'); // configure template engine
 
+//MIDDLEWARES
+// app.use(flash())
+app.use(methodOverride('_method'))
+
+const initializePassport = require('./assets/js/passport-config');
+initializePassport(passport)
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use('/assets', express.static(__dirname + '/assets'));
+
+//Body Parser
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json())
+
+//IMPORT ROUTES
+const productsRoute = require('./routes/product');
+const userRoute = require('./routes/userroute');
+
+const { getAllProducts } = require('./db/productdbservice');
+const uri = process.env.DB_CONNECTION;
+
+//ROUTERS
+app.use('/products', productsRoute);
+app.use('/users', userRoute);
 
 // app.use('/views', express.static(__dirname + '/views'));
 // app.set('views', __dirname + '/views'); // set express to look in this folder to render our view
+
 //use node main.js for production 
 var product_categories = ["Age 1-3", "Age 4-6", "Age 7-13", "Age 14+", "Educational Toys"];
 var sort_categories = ["Price Low-to-High", "Price High-to-Low"];
-//const pages = ["1", "2", "3", "4"]
 var about_us = {
     "title": "Our children deserve the best",
     "descripton_line_1": "Play is a Child’s Work and Our Store is a child’s workshop of award-winning toys carefully selected for excellence in play value, design, quality and impact on environment. Every toy we choose is evaluated for these qualities and we do not compromise because we believe our children deserve the best.",
@@ -191,60 +227,95 @@ var products =
 
     ];
 
-var productsFromAPI = [];
-//========== API Response ============//
-app.get('/api/shop', (req, res) => {
-
-    let list = {};
-    list.result = products;
-    list.qry = "Welcome to shop";
-
-    res.json(list);
-});
-
-
-
-//\\======= API Response ENDS ========//\\
-
 //========== ROUTERS START =============//
-app.get('/', async (req, res) => {
-let resp = await getProducts();
-//resp = JSON.parse(resp);
-console.log(resp)
-productsFromAPI  = resp;
-    // res.render('index');
+var productsFromAPI = [];
+let search = {};
+app.get('/', connectMongoose, async (req, res) => {
+    try {
+        productsFromAPI =  (await Product.find({}, null, {limit:3}));
+    } catch (err) {
+        return ({ message: err })
+    }
+
     res.render('index', {
         title: 'Little Bugs',
         about: about_us,
-        data: productsFromAPI
+        data: (productsFromAPI),
+        user: req.user || ""
     });
 
 });
 
-app.get('/shop', (req, res) => {
-
+app.get('/shop', connectMongoose, async (req, res) => {
     let list = {};
-    list.result = productsFromAPI;
     list.qry = "Welcome to shop";
 
-    // res.render('listview');
+    try {
+        productsFromAPI =  (await Product.find());
+    } catch (err) {
+        return ({ message: err })
+    }
+
+    list.result = productsFromAPI;
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 3;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    
+    let keywords = "";
     res.render('listview', {
         title: 'List View',
-        data: list
+        data: JSON.parse(searchProductsByCategories(productsFromAPI, startIndex, endIndex, keywords,"Price High-to-Low", page, "", limit)),
+        user: req.user || ""
     });
 });
 
-//==================LOGIN===========================//
-app.get('/login', (req, res) => {
+//=========== Category BASED SEARCH =============//
+app.get('/searchcategory', (req, res) => {
 
-    // let list = {};
-    // list.result = products;
-    // list.qry = "Welcome to shop";
 
-    // res.render('listview');
-    res.render('login', {
-        title: 'Login Page',
-        data: "list"
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 3;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    let keywords = req.query.categorysearch;
+    let sort_keywords = req.query.sortsearch;
+    console.log(sort_keywords);
+    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords, sort_keywords, page, "", limit));
+
+    /*
+        let category_keywords = req.query.categorysearch;
+        let sort_keywords = req.query.sortsearch;
+        let search = {};
+        
+    console.log(req.query);
+    
+        let arr = category_keywords!=""?products.filter(item => item.categories.includes(category_keywords)): products;
+        
+        if(sort_keywords == sort_categories[0]){
+            search.result = arr.sort(function(a, b){return a.price - b.price});
+        }else if(sort_keywords == sort_categories[1]){
+            search.result = arr.sort(function(a, b){return b.price - a.price});
+        }
+        else{
+            search.result = arr;
+        }
+        
+        search.sort_selected = sort_keywords!=""?sort_keywords:"none";    
+        search.category_selected = category_keywords!=""?category_keywords:"none";
+        search.product_categories = product_categories;
+        search.sort_categories = sort_categories;
+       */
+    // search.qry = arr.length != 0 ? "Results for: \"" + req.query.categorysearch + "\"" : "No Results found for the keyword(s)...\" " + req.query.categorysearch + "\"";
+    // search.qry = keywords.length != 0 ? req.query.categorysearch : "";
+    // search.qry = "";
+    res.render('listview', {
+        title: 'List View',
+        data: search,
+        user: req.user || ""
     });
 });
 
@@ -253,7 +324,6 @@ app.get('/login', (req, res) => {
 app.get('/search', (req, res) => {
     let qry = req.query.searchbar.toLowerCase();
     //console.log(products.filter(item => item.name.toLowerCase().includes(qry) ));
-    let search = {};
     search.result = productsFromAPI.filter(item => item.name.toLowerCase().includes(qry));
 
     search.qry = search.result.length != 0 ? qry : "No Results found for this keyword(s)...";
@@ -268,7 +338,6 @@ app.get('/search', (req, res) => {
 app.get('/searchkey', (req, res) => {
     let finalResult = [];
     let keywords = req.query.searchbar.toLowerCase().split(' ');
-    let search = {};
 
     keywords.forEach(element => {
         let arr = productsFromAPI.filter(item => item.name.toLowerCase().includes(element));
@@ -276,7 +345,7 @@ app.get('/searchkey', (req, res) => {
 
     });
     // console.log(products.sort(function(a, b){return a.price - b.price}));
-    search.category_selected = keywords!=""?keywords:"none";
+    search.category_selected = keywords != "" ? keywords : "none";
     search.product_categories = product_categories;
     search.sort_categories = sort_categories;
     search.result = finalResult;
@@ -285,57 +354,8 @@ app.get('/searchkey', (req, res) => {
 
     res.render('listview', {
         title: 'List View',
-        data: search
-    });
-});
-
-
-//=========== Category BASED SEARCH =============//
-app.get('/searchcategory', (req, res) => {
-
-
-    const page = req.query.page || 1;
-    const limit = req.query.limit || 3;
-
-    const startIndex = (page -1) * limit;
-    const endIndex = page * limit;
-
-    let keywords = req.query.categorysearch;
-    let sort_keywords = req.query.sortsearch;
-    let search = {};
-    
-    console.log(sort_keywords);
-    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords, sort_keywords, page, "", limit));
-
-/*
-    let category_keywords = req.query.categorysearch;
-    let sort_keywords = req.query.sortsearch;
-    let search = {};
-    
-console.log(req.query);
-
-    let arr = category_keywords!=""?products.filter(item => item.categories.includes(category_keywords)): products;
-    
-    if(sort_keywords == sort_categories[0]){
-        search.result = arr.sort(function(a, b){return a.price - b.price});
-    }else if(sort_keywords == sort_categories[1]){
-        search.result = arr.sort(function(a, b){return b.price - a.price});
-    }
-    else{
-        search.result = arr;
-    }
-    
-    search.sort_selected = sort_keywords!=""?sort_keywords:"none";    
-    search.category_selected = category_keywords!=""?category_keywords:"none";
-    search.product_categories = product_categories;
-    search.sort_categories = sort_categories;
-   */
-    // search.qry = arr.length != 0 ? "Results for: \"" + req.query.categorysearch + "\"" : "No Results found for the keyword(s)...\" " + req.query.categorysearch + "\"";
-    // search.qry = keywords.length != 0 ? req.query.categorysearch : "";
-    // search.qry = "";
-    res.render('listview', {
-        title: 'List View',
-        data: search
+        data: search,
+        user: req.user || ""
     });
 });
 
@@ -345,46 +365,42 @@ app.get('/searchcategory/:sc', (req, res) => {
     const page = req.query.page || 1;
     const limit = req.query.limit || 3;
 
-    const startIndex = (page -1) * limit;
+    const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
 
     let keywords = req.params.sc;
-    let search = {};
 
-    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords,"Price High-to-Low", page, "", limit));
+    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords, "Price High-to-Low", page, "", limit));
 
     res.render('listview', {
         title: 'List View',
-        data: search
+        data: search,
+        user: req.user || ""
     });
 });
 
 //==================== PAGINATED SEARCH AND SORT RESULTS =============================//
 app.get('/searchpage', (req, res) => {
 
-    
+
     const page = req.query.page || 1;
     const limit = req.query.limit || 3;
 
-    const startIndex = (page -1) * limit;
+    const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-console.log(page + "  "+limit)
+    console.log(page + "  " + limit)
 
-let pages = products.length / limit;
+    let pages = products.length / limit;
 
-    if(pages % 2 != 0)
+    if (pages % 2 != 0)
         pages = parseInt(pages) + 1;
 
 
     let keywords = req.params.sc;
-    let search = {};
-
-    search = JSON.parse(searchProducts(products,startIndex, endIndex, keywords, product_categories, sort_categories, page, "", pages));
-
-
+    // search = JSON.parse(searchProducts(products, startIndex, endIndex, keywords, product_categories, sort_categories, page, "", pages));
     res.render('listview', {
         title: 'List View',
-        data: search
+        data: JSON.parse(searchProducts(products, startIndex, endIndex, keywords, product_categories, sort_categories, page, "", pages))
     });
 });
 
@@ -404,7 +420,7 @@ app.get('/product/:p_id', (req, res) => {
 
 //==================== CART RESULTS =============================//
 app.get('/add-to-cart/:p_id', (req, res) => {
-    
+
     res.render('cart', {
         title: 'Cart View',
         data: products.filter(item => item.p_id === req.params.p_id)
@@ -412,14 +428,37 @@ app.get('/add-to-cart/:p_id', (req, res) => {
 })
 
 app.get('/showcart', (req, res) => {
-    
+
     res.render('cart', {
         title: 'Cart View',
-        data: ""
+        data: "",
+        user: req.user || ""
     });
 });
 
+//==============MIDDLEWARES=================//
+function connectMongoose(req, res, next) {
+    mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log("test DB"));
+    // app.use(function(req, res, next) {
+        res.locals.session = req.session;  // 
+    console.log(req.session);  // 
+        // });
+        
+    next()
+}
 
+//========== API Response ============//
+app.get('/api/shop', (req, res) => {
+
+    let list = {};
+    list.result = products;
+    list.qry = "Welcome to shop";
+
+    res.json(list);
+});
+
+
+//\\======= API Response ENDS ========//\\
 const port = process.env.PORT || 8081;
 
 app.listen(port, () => {

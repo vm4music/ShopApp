@@ -40,11 +40,13 @@
 
             <!--====================FILTERS======================-->
 
+
             <!--========== PRODUCT LIST ==========-->
             <section class="menu section bd-container" id="menu">
                 <span class="section-subtitle">Special Sale</span>
                 <!-- <h2 class="section-title">New Collection </h2> -->
-                <!-- <h2 class="section-title">
+                <!-- 
+                    <h2 class="section-title">
                     <%= data.qry %>
                 </h2> -->
                 <% if(data.product_categories){%>
@@ -58,47 +60,58 @@
                                     <%}%>
                         </div>
                         <div class="sort__filter__box">
-                            <p >Home / <b><%= data.qry %></b></p>
-                            <form action="/searchcategory" method="get" class="search__filter">
-                                                            
-                                <select class="filter__box" id="categorysearch" name="categorysearch"
-                                    onchange="this.form.submit()">
-                                    <% data.product_categories.forEach(category=> { %>
-                                        <% if(data.category_selected==category){%>
-                                            <option value="<%= category %>" selected>
-                                                <%= category %>
-                                            </option>
-                                            <%}else{%>
-                                                <option value="<%= category %>">
-                                                    <%= category %>
-                                                </option>
-                                                <%}%>
-                                                    <%});%>
-                                </select> 
-                           
+                            <% if(data.qry){ %>
+                                <div class="sort__filter__box__a">
+                                    <p>
+                                        <a href="/searchkey?searchbar=">Home</a> / <a
+                                            href="/searchcategory/<%= data.qry %>">
+                                            <b>
+                                                <%= data.qry %>
+                                            </b>
+                                        </a>
+                                    </p>
+                                </div>
+                                <%}%>
+                                    <form action="/searchcategory" method="get" class="search__filter">
 
-                                <select class="filter__box" id="categorysearch" name="sortsearch"
-                                    onchange="this.form.submit()">
-                                    <!-- <option value="">--none--</option> -->
-                                    <% data.sort_categories.forEach(category=> { %>
-                                        <% if(data.sort_selected==category){%>
-                                            <option value="<%= category %>" selected>
-                                                <%= category %>
-                                            </option>
-                                            <%}else{%>
-                                                <option value="<%= category %>">
-                                                    <%= category %>
-                                                </option>
-                                                <%}%>
-                                                    <%});%>
-                                </select>
-                            </form>
+                                        <select class="filter__box" id="categorysearch" name="categorysearch"
+                                            onchange="this.form.submit()">
+                                            <% data.product_categories.forEach(category=> { %>
+                                                <% if(data.category_selected==category){%>
+                                                    <option value="<%= category %>" selected>
+                                                        <%= category %>
+                                                    </option>
+                                                    <%}else{%>
+                                                        <option value="<%= category %>">
+                                                            <%= category %>
+                                                        </option>
+                                                        <%}%>
+                                                            <%});%>
+                                        </select>
+
+
+                                        <select class="filter__box" id="categorysearch" name="sortsearch"
+                                            onchange="this.form.submit()">
+                                            <!-- <option value="">--none--</option> -->
+                                            <% data.sort_categories.forEach(category=> { %>
+                                                <% if(data.sort_selected==category){%>
+                                                    <option value="<%= category %>" selected>
+                                                        <%= category %>
+                                                    </option>
+                                                    <%}else{%>
+                                                        <option value="<%= category %>">
+                                                            <%= category %>
+                                                        </option>
+                                                        <%}%>
+                                                            <%});%>
+                                        </select>
+                                    </form>
                         </div>
 
                     </div>
                     <%}%>
                         <div class="menu__container bd-grid">
-                            <% data.result.forEach(function(product) { %>
+                            <% data.result.map(function(product) { %>
                                 <div class="menu__content"> <img src="/assets/img/<%= product.img %>" alt=""
                                         class="menu__img">
                                     <h3 class="menu__name">
@@ -114,26 +127,27 @@
                     <%= product.name %> -->
                                 <% }); %>
 
+                        <!--========== PAGINATION ==========-->
                         </div>
                         <div class="pagination">
                             <a href="/searchcategory/<%= data.qry %>?page=1">&laquo;</a>
-                            <% if(data.pages) {  %>
-                               <% for(var i=1;i<= data.pages; i++) {%>
-                                <% if(data.page_selected == i){%>
-                                    <a href="/searchcategory/<%= data.qry %>?page=<%= i %>" class="active"><%= i %></a>
-                                <%} else{%>
-                                    <a href="/searchcategory/<%= data.qry %>?page=<%= i %>"><%= i %></a>
-                                    
-                                <%}}%>
-                                
-                               
-
-                                
-                            <%}%>
-                            <a href="/searchcategory/<%= data.qry %>?page=<%= data.pages %>">&raquo;</a>
-                          </div>
+                            <% if(data.pages) { %>
+                                <% for(var i=1;i<=data.pages; i++) {%>
+                                    <% if(data.page_selected==i){%>
+                                        <a href="/searchcategory/<%= data.qry %>?page=<%= i %>" class="active">
+                                            <%= i %>
+                                        </a>
+                                        <%} else{%>
+                                            <a href="/searchcategory/<%= data.qry %>?page=<%= i %>">
+                                                <%= i %>
+                                            </a>
+                                            <%}}%>
+                                                <%}%>
+                                                    <a
+                                                        href="/searchcategory/<%= data.qry %>?page=<%= data.pages %>">&raquo;</a>
+                        </div>
             </section>
-           
+
             <!--===============SERVICES SECTION================-->
             <%- include('services') -%>
 
