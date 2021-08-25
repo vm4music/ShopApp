@@ -29,7 +29,9 @@
             <a href="/showcart" class="nav__link"><i class="bx bx-cart-alt"></i></a>
             <% if(session.cart) { %>
             <span class="responsiveFlyoutBasket_itemsCount"> <%= session.cart.totalQty %> </span>
-            <% } %>
+            <% } else { %>
+                <span class="responsiveFlyoutBasket_itemsCount"> 0 </span>
+                <% } %>
             <!-- <ul> -->
             <!-- <li> -->
                 <!-- <i class='bx bx-circle'></i> -->
@@ -47,7 +49,9 @@
             <a href="/showcart" class="nav__link"><i class="bx bx-cart-alt"></i></a>
             <% if(session.cart) { %>
                 <span class="responsiveFlyoutBasket_itemsCount"> <%= session.cart.totalQty %> </span>
-                <% } %>
+                <% } else { %>
+                    <span class="responsiveFlyoutBasket_itemsCount"> 0 </span>
+                    <% } %>
             <i class='bx bx-menu' id="nav-toggle"></i>
         </div>
 
