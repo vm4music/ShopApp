@@ -1,7 +1,7 @@
-// if (process.env.NODE_ENV === 'development') {
-//     require('dotenv').config()
-//   }
-  const express = require('express');
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+  }
+ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const mongoose = require('mongoose');
@@ -24,12 +24,10 @@ const initializePassport = require('./assets/js/passport-config');
 initializePassport(passport)
 
 app.use(session({
-    // secret: process.env.SESSION_SECRET,
-    secret: 'secret',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    // store: MongoStore.create({ mongoUrl: process.env.DB_CONNECTION }),
-    store: MongoStore.create({ mongoUrl: 'mongodb+srv://maindbservice:maindbservice@cluster0.kxynt.mongodb.net/productService?retryWrites=true&w=majority' }),
+    store: MongoStore.create({ mongoUrl: process.env.DB_CONNECTION }),
     cookie: { maxAge: 100 * 60 * 1000 }
 }))
 app.use(passport.initialize())
@@ -459,8 +457,7 @@ app.get('/remove-item/:id', (req, res) => {
     });
 });
 
-// const uri = process.env.DB_CONNECTION;
-const uri = 'mongodb+srv://maindbservice:maindbservice@cluster0.kxynt.mongodb.net/productService?retryWrites=true&w=majority'
+const uri = process.env.DB_CONNECTION;
 //==============MIDDLEWARES=================//
 function connectMongoose(req, res, next) {
     if (mongoose.connection.readyState < 1)
