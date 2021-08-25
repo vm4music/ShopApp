@@ -28,6 +28,7 @@
 
             <!--===================LOGIN========================-->
             <section class="section bd-container">
+
                 
                 <div class="login">
                     <div class="login__content">
@@ -37,6 +38,13 @@
         
                         <div class="login__forms">
                             <form action="/users/login" class="login__registre" id="login-in" method="POST">
+                                <% if (messages.error) { %>
+                                    <div class="danger__box">
+                                         <p>
+                                            <!--<strong>Error!</strong>--> <%= messages.error %>
+                                        </p> 
+                                      </div>
+                                  <% } %>
                                 <h1 class="login__title">Sign In</h1>
             
                                 <div class="login__box">

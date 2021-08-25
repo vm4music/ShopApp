@@ -47,8 +47,9 @@ router.post('/sign-up', async (req, res) => {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/users/nologin',
-    failureMessage: true
+    failureRedirect: '/users/login',
+    failureMessage: true,
+    failureFlash: true
 }))
 
 //==================LOGIN===========================//

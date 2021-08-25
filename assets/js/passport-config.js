@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const User = require('../../models/User')
 const bcrypt = require('bcrypt')
 
+
 function initialize(passport){
     const authenticateUser =  (email, password, done) => {
           User.findOne({ email: email},async function (err, user) {
@@ -11,14 +12,14 @@ function initialize(passport){
             }
             else{
                 if(user == null){
-                    return done(null, false, {message : 'no user with that email'})
+                    return done(null, false, {message : 'Username or Password incorrect'})
                 }
                 try {
                     if(await bcrypt.compare(password, user.password)){
                         return done(null, user)
                     }
                     else{
-                        return done(null, false, {message : 'Password incorrect'})
+                        return done(null, false, {message : 'Username or Password incorrect'})
                     }
                     
                 } catch (error) {

@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
   }
-  
+
  const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const Product = require('./models/Product')
 const methodOverride = require('method-override')
 let Cart = require('./assets/js/cart')
+const flash = require('express-flash')
 
 let MongoStore = require('connect-mongo');
 
@@ -18,7 +19,7 @@ const app = express();
 app.set('view engine', 'ejs'); // configure template engine
 
 //MIDDLEWARES
-// app.use(flash())
+app.use(flash())
 app.use(methodOverride('_method'))
 
 const initializePassport = require('./assets/js/passport-config');
@@ -44,7 +45,7 @@ app.use(express.json())
 const productsRoute = require('./routes/product');
 const userRoute = require('./routes/userroute');
 
-const { getProductsForIndex, getAllProducts } = require('./db/productdbservice');
+const { getProductsForIndex, getAllProducts, getKeywordProducts } = require('./db/productdbservice');
 const { options } = require('./routes/product');
 const cart = require('./assets/js/cart');
 
@@ -264,22 +265,50 @@ app.get('/shop', connectMongoose, async (req, res) => {
     list.qry = "Welcome to shop";
 
     try {
-        productsFromAPI = (await Product.find());
+
+        list.result = productsFromAPI;
+        const page = req.query.page || 1;
+        const limit = req.query.limit || 3;
+    
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+    
+        let keywords = "";
+        res.render('listview', {
+            title: 'List View',
+            data: JSON.parse(searchProductsByCategories(await getAllProducts(), startIndex, endIndex, keywords, "Price High-to-Low", page, "", limit)),
+            user: req.user || ""
+        });
+        // productsFromAPI = (await Product.find());
     } catch (err) {
         return ({ message: err })
     }
+});
 
-    list.result = productsFromAPI;
-    const page = req.query.page || 1;
-    const limit = req.query.limit || 3;
+//=========== KEYWORD BASED SEARCH =============//
+app.get('/searchkey',async (req, res) => {
+    let finalResult = [];
+    let keywords = req.query.searchbar.toLowerCase().split(' ');
 
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
+    //await getKeywordProducts(req.query.searchbar)
+    keywords.forEach(  element => {
+        let arr = products.filter(item => item.name.toLowerCase().includes(element));
+        finalResult = (finalResult.length == 0) ? arr : finalResult.concat(arr);
+        
+    });
 
-    let keywords = "";
+
+    // console.log(products.sort(function(a, b){return a.price - b.price}));
+    search.category_selected = keywords != "" ? keywords : "none";
+    search.product_categories = product_categories;
+    search.sort_categories = sort_categories;
+    search.result = finalResult;
+    // search.qry = finalResult.length != 0 ? "Search results for: \"" + req.query.searchbar + "\"" : "No Results found for the keyword(s): \" " + req.query.searchbar + "\"";
+    search.qry = keywords.length != 0 ? req.query.searchbar : "";
+
     res.render('listview', {
         title: 'List View',
-        data: JSON.parse(searchProductsByCategories(await getAllProducts(), startIndex, endIndex, keywords, "Price High-to-Low", page, "", limit)),
+        data: search,
         user: req.user || ""
     });
 });
@@ -297,45 +326,6 @@ app.get('/searchcategory', (req, res) => {
     let keywords = req.query.categorysearch;
     let sort_keywords = req.query.sortsearch;
     search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords, sort_keywords, page, "", limit));
-
-    res.render('listview', {
-        title: 'List View',
-        data: search,
-        user: req.user || ""
-    });
-});
-
-
-//========== full word based search ================//
-app.get('/search', (req, res) => {
-    let qry = req.query.searchbar.toLowerCase();
-    search.result = productsFromAPI.filter(item => item.name.toLowerCase().includes(qry));
-
-    search.qry = search.result.length != 0 ? qry : "No Results found for this keyword(s)...";
-    res.render('listview', {
-        title: 'List View',
-        data: search
-    });
-});
-
-
-//=========== KEYWORD BASED SEARCH =============//
-app.get('/searchkey', (req, res) => {
-    let finalResult = [];
-    let keywords = req.query.searchbar.toLowerCase().split(' ');
-
-    keywords.forEach(element => {
-        let arr = productsFromAPI.filter(item => item.name.toLowerCase().includes(element));
-        finalResult = (finalResult.length == 0) ? arr : finalResult.concat(arr);
-
-    });
-    // console.log(products.sort(function(a, b){return a.price - b.price}));
-    search.category_selected = keywords != "" ? keywords : "none";
-    search.product_categories = product_categories;
-    search.sort_categories = sort_categories;
-    search.result = finalResult;
-    // search.qry = finalResult.length != 0 ? "Search results for: \"" + req.query.searchbar + "\"" : "No Results found for the keyword(s): \" " + req.query.searchbar + "\"";
-    search.qry = keywords.length != 0 ? req.query.searchbar : "";
 
     res.render('listview', {
         title: 'List View',
@@ -413,14 +403,13 @@ app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) =>
         else {
             try {
                 var cart = new Cart(req.session.cart ? req.session.cart : {});
-                // console.log(product);
                 cart.add(product, product.p_id)
                 req.session.cart = cart;
                 console.log("req.session.cart.items");
                 console.log(res.locals.session);
-                res.render('cart', {
-                    title: 'Cart View',
-                    // data: products.filter(item => item.p_id === req.params.p_id),
+                res.render('product', {
+                    title: 'Product View',
+                    data: products.filter(item => item.p_id === req.params.p_id),
                     user: req.user || "",
                     cart: cart.generateArray()
                 });
@@ -482,6 +471,19 @@ app.get('/api/shop', (req, res) => {
 
     res.json(list);
 });
+
+//========== full word based search ================//
+app.get('/search', (req, res) => {
+    let qry = req.query.searchbar.toLowerCase();
+    search.result = productsFromAPI.filter(item => item.name.toLowerCase().includes(qry));
+
+    search.qry = search.result.length != 0 ? qry : "No Results found for this keyword(s)...";
+    res.render('listview', {
+        title: 'List View',
+        data: search
+    });
+});
+
 
 app.get('/times', (req, res) => res.send(showTimes()))
 
