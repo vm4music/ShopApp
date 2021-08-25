@@ -37,9 +37,17 @@
             <!-- </ul> -->
         </div>
         <div class="nav__toggle">
-            <a href="/users/login" class="nav__link"><i class='bx bx-user'></i></a>
+            <%if(user) { %>
+                <form action="/users/logout?_method=DELETE" method="POST">
+                    <button class="searchButton" type="submit">Log Out</button>
+                  </form>
+                  <% } else {%>
+                <a href="/users/login" class="nav__link"><i class='bx bx-user'></i></a>
+                <% } %>
             <a href="/showcart" class="nav__link"><i class="bx bx-cart-alt"></i></a>
-            <span class="responsiveFlyoutBasket_itemsCount">0</span>
+            <% if(session.cart) { %>
+                <span class="responsiveFlyoutBasket_itemsCount"> <%= session.cart.totalQty %> </span>
+                <% } %>
             <i class='bx bx-menu' id="nav-toggle"></i>
         </div>
 

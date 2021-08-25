@@ -1309,28 +1309,33 @@ This is added to show the details section for the product page.*/
   margin-left: auto;
   margin-top: .5rem;
   font-size: var(--small-font-size);
-  font-weight: 600;
+  font-weight: var(--font-semi-bold);
   color: var(--first-color-light);
 }
 
 .login__button{
-  display: block;
   padding: 1rem;
-  margin: 2rem 0;
+  border: none;
+  display: block;
+  margin: 2.5rem 0;
+  font-size: var(--mb-2);
+  font-family: var(--body-font);
+  font-weight: var(--font-semi-bold);
   background-color: var(--first-color);
-  color: #FFF;
-  font-weight: 600;
+  width: inherit;
+  color: var(--body-color);
+  /* color: #FFF; */
   text-align: center;
   border-radius: .5rem;
   transition: .3s;
 }
 
 .login__button:hover{
-  background-color: var(--first-color-dark);
+  background-color: var(--first-color-alt);
 }
 
 .login__account, .login__signin, .login__signup{
-  font-weight: 600;
+  font-weight: var(--font-semi-bold);
   font-size: var(--small-font-size);
 }
 
@@ -1469,4 +1474,41 @@ This is added to show the details section for the product page.*/
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+.heart{
+  margin-left: 60%;
+  font-size: var(--h2-font-size);
+  color: var(--first-color);
+}
+
+.button__buy__now{
+  background-color: #f18400!important;
+  display: inline-block;
+  color: #FFF;
+  padding: .75rem 2.5rem;
+  /* border-radius: .5rem; */
+  transition: .3s;
+}
+.button__add__2cart{
+  background-color: var(--first-color);
+  display: inline-block;
+  color: #FFF;
+  padding: .75rem 2.5rem;
+  /* border-radius: .5rem; */
+  transition: .3s;
+}
+
+.product-rating{
+  color: #ffc107;
+}
+.product-rating span{
+  font-weight: var(--body-font);
+  font-size: var(--normal-font-size);
+  color: var(--first-color);
+  /* color: #252525; */
+}
+.rating__overall{
+  font-size: var(--normal-font-size);
+  color: var(--first-color);
 }
