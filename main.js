@@ -45,7 +45,7 @@ app.use(express.json())
 const productsRoute = require('./routes/product');
 const userRoute = require('./routes/userroute');
 
-const { getProductsForIndex, getAllProducts, getKeywordProducts } = require('./db/productdbservice');
+const { getProductsForIndex, getAllMongooseProducts, getSomething, getAllProducts } = require('./db/productdbservice');
 const { options } = require('./routes/product');
 const cart = require('./assets/js/cart');
 
@@ -260,30 +260,30 @@ app.get('/', connectMongoose, async (req, res) => {
     }
 });
 
+
+
 app.get('/shop', connectMongoose, async (req, res) => {
-    let list = {};
-    list.qry = "Welcome to shop";
-
+    
     try {
-
-        list.result = productsFromAPI;
-        const page = req.query.page || 1;
-        const limit = req.query.limit || 3;
-    
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
-    
-        let keywords = "";
+        let key = req.query.key || "a"; // this is to get the keywords from the searchbar
+        let page = req.query.page || 1;
+        let sort = req.query.sort || "Price High-to-Low";
         res.render('listview', {
-            title: 'List View',
-            data: JSON.parse(searchProductsByCategories(await getAllProducts(), startIndex, endIndex, keywords, "Price High-to-Low", page, "", limit)),
+            title: 'sdfs',
+            data: (await getSomething(page, 6, sort)),
             user: req.user || ""
         });
-        // productsFromAPI = (await Product.find());
+      
     } catch (err) {
         return ({ message: err })
     }
 });
+
+
+
+
+
+
 
 //=========== KEYWORD BASED SEARCH =============//
 app.get('/searchkey',async (req, res) => {
@@ -379,7 +379,7 @@ app.get('/searchpage', (req, res) => {
 });
 
 
-//==================== SORT RESULTS =============================//
+//==================== PRODUCT PAGE =============================//
 app.get('/product/:p_id', (req, res) => {
     var cart = new Cart(req.session.cart ? req.session.cart : {});
     let list = {};
@@ -395,6 +395,7 @@ app.get('/product/:p_id', (req, res) => {
 
 
 //==================== CART RESULTS =============================//
+
 app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) => {
     Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
         if (err) {
@@ -462,6 +463,7 @@ function checkAuthenticated(req, res, next) {
     res.redirect('/users/login')
 
 }
+
 //========== API Response ============//
 app.get('/api/shop', (req, res) => {
 
@@ -484,6 +486,31 @@ app.get('/search', (req, res) => {
     });
 });
 
+app.get('/shop2', connectMongoose, async (req, res) => {
+    let list = {};
+    list.qry = "Welcome to shop";
+    // let page = Math.max(0, req.query.page) || 1;
+    try {
+
+        list.result = productsFromAPI;
+        const page = req.query.page || 1;
+        const limit = req.query.limit || 10;
+    
+        const startIndex = (page - 1) * limit;
+        const endIndex = page * limit;
+    
+        let keywords = "";
+        res.render('listview', {
+            title: 'List View',
+            data: JSON.parse(searchProductsByCategories2(await getAllMongooseProducts(page), startIndex, endIndex, keywords, "Price High-to-Low", page, "", limit)),
+            // data: JSON.parse(await getAllMongooseProducts(page)),
+            user: req.user || ""
+        });
+        // productsFromAPI = (await Product.find());
+    } catch (err) {
+        return ({ message: err })
+    }
+});
 
 app.get('/times', (req, res) => res.send(showTimes()))
 
