@@ -63,8 +63,7 @@
                             <% if(data.qry){ %>
                                 <div class="sort__filter__box__a">
                                     <p>
-                                        <a href="/">Home</a> / <a
-                                            href="/searchcategory/<%= data.qry %>">
+                                        <a href="/">Home</a> / <a href="/searchcategory/<%= data.qry %>">
                                             <b>
                                                 <%= data.qry %>
                                             </b>
@@ -72,6 +71,22 @@
                                     </p>
                                 </div>
                                 <%}%>
+                                    <div class="dropdown">
+                                        <button class="dropbtn">Sort</button>
+                                        <div class="dropdown-content">
+                                            <% data.sort_categories.forEach(category=> { %>
+                                                <% if(data.sort_selected==category){%>
+                                                    <a href="#">
+                                                        <%= category %>
+                                                    </a>
+                                                    <%}else{%>
+                                                        <a href="#">
+                                                            <%= category %>
+                                                        </a>
+                                                        <%}%>
+                                                            <%});%>
+                                        </div>
+                                    </div>
                                     <form action="/searchcategory" method="get" class="search__filter">
 
                                         <select class="filter__box" id="categorysearch" name="categorysearch"
@@ -127,7 +142,7 @@
                     <%= product.name %> -->
                                 <% }); %>
 
-                        <!--========== PAGINATION ==========-->
+                                    <!--========== PAGINATION ==========-->
                         </div>
                         <div class="pagination">
                             <a href="/searchcategory/<%= data.qry %>?page=1">&laquo;</a>

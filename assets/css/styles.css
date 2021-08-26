@@ -1432,18 +1432,26 @@ This is added to show the details section for the product page.*/
 }
 
 .dropdown {
-  float: left;
-  overflow: hidden;
+  /* position: inherit; */
+  /* display: inline-block; */
+  width: fit-content;
+  display: flex;
+  /* flex-direction: column; */
+  justify-content: center;
+  margin-left: auto;
+  /* margin-right: auto; */
+  position: relative;
+  -webkit-box-orient: horizontal;
+  justify-content: space-between;
+  /* vertical-align: middle; */
 }
-.dropdown .dropbtn {
-  font-size: 16px;  
+.dropbtn {
+  background-color: var(--first-color);
+  color: var(--body-color);
+  padding: 13px 53px;
+  font-size: 16px;
   border: none;
-  outline: none;
-  color: white;
-  padding: 14px 16px;
-  background-color: inherit;
-  font-family: inherit;
-  margin: 0;
+  cursor: pointer;
 }
 
 .navbar a:hover, .dropdown:hover .dropbtn {
@@ -1464,6 +1472,7 @@ This is added to show the details section for the product page.*/
   color: var(--body-color);
   padding: 12px 16px;
   text-decoration: none;
+  width: max-content;
   display: block;
   text-align: left;
 }
@@ -1475,6 +1484,7 @@ This is added to show the details section for the product page.*/
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
 
 .heart{
   margin-left: 60%;
