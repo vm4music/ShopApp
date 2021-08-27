@@ -142,10 +142,20 @@
                         
                         <div class="pagination">
                             <% if(data.previous) { %>
-                                <a href="/shop?page=<%= data.previous.page %>&sort=<%= data.sort %>&text=<%= data.text %>">&laquo;</a>
+                                <% if(data.text.category) { %>
+                                    <a href="/shop?page=<%= data.previous.page %>&sort=<%= data.sort %>&category=<%= data.text.category %>">&laquo;</a>
+                                <% } %>
+                                <% if(data.text.key) { %>
+                                    <a href="/shop?page=<%= data.previous.page %>&sort=<%= data.sort %>&text=<%= data.text.key %>">&laquo;</a>
+                                <% } %>
                                 <% } %>
                             <% if(data.next) { %>
-                                <a href="/shop?page=<%= data.next.page %>&sort=<%= data.sort %>&text=<%= data.text %>">&raquo;</a>
+                                <% if(data.text.category) { %>
+                                    <a href="/shop?page=<%= data.next.page %>&sort=<%= data.sort %>&category=<%= data.text.category %>">&raquo;</a>
+                                <% } %>
+                                <% if(data.text.key) { %>
+                                    <a href="/shop?page=<%= data.next.page %>&sort=<%= data.sort %>&text=<%= data.text.key %>">&raquo;</a>
+                                <% } %>
                                 <% } %>
                             <!-- <a href="/shop?page=1"></a> -->
                            

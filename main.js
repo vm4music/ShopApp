@@ -265,31 +265,14 @@ app.get('/', connectMongoose, async (req, res) => {
 app.get('/shop', connectMongoose, async (req, res) => {
     
     try {
-        let key = req.query.text; // this is to get the keywords from the searchbar
         let page = req.query.page || 1;
         let sort = req.query.sort || "Price High-to-Low";
+        let text = {};
+        text.key = req.query.text;
+        text.category = req.query.category;
         res.render('listview', {
             title: 'sdfs',
-            data: (await getSomething(page, 6, sort, key)),
-            user: req.user || ""
-        });
-      
-    } catch (err) {
-        return ({ message: err })
-    }
-});
-
-//=========== Category BASED SEARCH =============//
-app.get('/searchcategory', async (req, res) => {
-
-
-    try {
-        let key = req.query.text; // this is to get the keywords from the searchbar
-        let page = req.query.page || 1;
-        let sort = req.query.sort || "Price High-to-Low";
-        res.render('listview', {
-            title: 'sdfs',
-            data: (await getProductsByCategory(page, 6, sort, key)),
+            data: (await getSomething(page, 6, sort, text)),
             user: req.user || ""
         });
       
@@ -445,6 +428,24 @@ app.get('/searchkey',async (req, res) => {
     });
 });
 
+//=========== Category BASED SEARCH =============//
+app.get('/searchcategory', async (req, res) => {
+
+
+    try {
+        let key = req.query.text; // this is to get the keywords from the searchbar
+        let page = req.query.page || 1;
+        let sort = req.query.sort || "Price High-to-Low";
+        res.render('listview', {
+            title: 'sdfs',
+            data: (await getProductsByCategory(page, 6, sort, key)),
+            user: req.user || ""
+        });
+      
+    } catch (err) {
+        return ({ message: err })
+    }
+});
 
 //=========== Category BASED SEARCH FORM QUICK LINKS =============//
 app.get('/searchcategory/:sc', (req, res) => {
