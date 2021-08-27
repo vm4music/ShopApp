@@ -28,7 +28,7 @@
 
             <!--========== CART ==========-->
             <section class="section bd-container cart">
-                <% if(session.cart){ %>
+                <% if(session.cart.totalQty > 0){ %>
                     <h1 style="font-weight:100">Shopping Cart</h1>
 
                     <div class="shopping-cart">
@@ -100,11 +100,11 @@
                                     </div>
                                 </div>
 
-                                <button class="checkout">Checkout</button>
-                                <% } else { %>
-                                    <h1 class="section-title">Cart is empty...</h1>
-                                    <% } %>
+                                <button class="checkout">Checkout</button>                               
                     </div>
+                    <% } else { %>
+                        <h1 class="section-title">Cart is empty...</h1>
+                        <% } %>
             </section>
             <!--===============SERVICES SECTION================-->
             <%- include('services') -%>

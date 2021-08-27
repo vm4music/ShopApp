@@ -267,6 +267,7 @@ app.get('/shop', connectMongoose, async (req, res) => {
     try {
         let page = req.query.page || 1;
         let sort = req.query.sort || "Price High-to-Low";
+
         let text = {};
         text.key = req.query.text;
         text.category = req.query.category;
@@ -298,7 +299,7 @@ app.get('/product/:p_id', (req, res) => {
 
 //==================== CART RESULTS =============================//
 
-app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) => {
+app.get('/add-to-cart/:p_id', connectMongoose, (req, res) => {
     Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
         if (err) {
             console.log(err);
