@@ -18,14 +18,12 @@ router.get('/', async (req, res)=>{
 
 router.post('/', async (req, res) => {
 
-    console.log(req.body.img)
-
     const post = new Product({
         p_id: req.body.p_id,
         name: req.body.name,
         img: req.body.img,
-        price: req.body.price//,
-        // details: req.body.details
+        price: req.body.price,
+        detail: req.body.details
     })
 
     try {

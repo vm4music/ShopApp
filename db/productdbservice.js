@@ -1,9 +1,10 @@
 const Product = require('../models/Product')
 var mongoose = require('mongoose');
 const e = require('express');
+const { find } = require('../models/Product');
 
 module.exports = {
-    
+
     //ROUTES
     /**
      * 
@@ -12,98 +13,98 @@ module.exports = {
      * @param {sort for the result set required} sort 
      * @returns an object containing previous, next, sort and results in the JSON object
      */
-    getSomething: async function (page , limit, sort) {
-            let sort_categories = ["Price Low-to-High", "Price High-to-Low"];
-           
-            page = parseInt(page)
-            limit = parseInt(limit)
+    getSomething: async function (page, limit, sort, text) {
+        
+        let find_query = (text) ? { $text: { $search: text } } : {};
+        let sort_categories = ["Price Low-to-High", "Price High-to-Low"];
 
-            const startIndex = (page - 1) * limit
-            const endIndex = page * limit
+        page = parseInt(page)
+        limit = parseInt(limit)
 
-            const results = {}
+        const startIndex = (page - 1) * limit
+        const endIndex = page * limit
 
-            if (endIndex < await Product.countDocuments().exec()) {
-                results.next = {
-                    page: page + 1,
-                    limit: limit
-                }
+        const results = {}
+
+        if (endIndex < await Product.countDocuments(find_query).exec()) {
+            results.next = {
+                page: page + 1,
+                limit: limit
             }
-            if (startIndex > 0) {
-                results.previous = {
-                    page: page - 1,
-                    limit: limit
-                }
+        }
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit
             }
-            // if(sort){
-                results.sort = sort;
+        }
 
-                try {
-                    if(sort == sort_categories[0]){
-                        results.results = await Product.find().limit(limit).skip(startIndex).sort({price: 1}).exec()
-                    }else{
-                        results.results = await Product.find().limit(limit).skip(startIndex).sort({price:  -1}).exec()
-                    }
-    
-                    console.log(results)
-                    return paginatedResults = results
-                } catch (e) {
-                    return ({ message: e.message })
-                }
-            // }
-           
-    },
-    getAllMongooseProducts: async function (page) {
 
-        let perpage = 2;
-        //Decrement to set the correct starting index as the array index starts from 0 and the page number starts from 1
-        page--;
+        // if(sort){
+        results.sort = sort;
 
-        let totalPages = page || 1;
-
-        await Product.find({ p_id: { $gte: 11 } }, {}, {}, async function (err, products) {
-            try {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    let pages = products.length / perpage;
-                    if (!Number.isInteger(pages))
-                        pages = parseInt(pages) + 1;
-
-                    totalPages = pages;
-                }
-            } catch (error) {
-                console.log(error);
+        try {
+            if (sort == sort_categories[0]) {
+                results.results = await Product.find(find_query).limit(limit).skip(startIndex).sort({ price: 1 }).exec()
+            } else {
+                results.results = await Product.find(find_query).limit(limit).skip(startIndex).sort({ price: -1 }).exec()
             }
-        });
-
-        console.log("Total Page Number is: " + totalPages);
-        let search = {};
-        // MyModel.find(query, fields, { skip: 10, limit: 5 }, function(err, results) { ... });
-
-        await Product.find({ p_id: { $gte: 11 } }, {}, { skip: perpage * Number(page), limit: perpage }, async function (err, products) {
-            try {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-
-                    if (products == null) {
-
-                    }
-                    search.p = products;
-                    search.totalPages = totalPages;
-                    search.currentPage = page + 1;
-                    console.log(search)
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        });
-
+            results.text = text;
+            console.log(results)
+            return paginatedResults = results
+        } catch (e) {
+            return ({ message: e.message })
+        }
+        // }
 
     },
+
+    getProductsByCategory: async function (page, limit, sort, text) {
+        
+        let find_query = (text) ? { categories: text } : {};
+        let sort_categories = ["Price Low-to-High", "Price High-to-Low"];
+
+        page = parseInt(page)
+        limit = parseInt(limit)
+
+        const startIndex = (page - 1) * limit
+        const endIndex = page * limit
+
+        const results = {}
+
+        if (endIndex < await Product.countDocuments(find_query).exec()) {
+            results.next = {
+                page: page + 1,
+                limit: limit
+            }
+        }
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit
+            }
+        }
+
+
+        // if(sort){
+        results.sort = sort;
+
+        try {
+            if (sort == sort_categories[0]) {
+                results.results = await Product.find(find_query).limit(limit).skip(startIndex).sort({ price: 1 }).exec()
+            } else {
+                results.results = await Product.find(find_query).limit(limit).skip(startIndex).sort({ price: -1 }).exec()
+            }
+            results.text = text;
+            console.log(results)
+            return paginatedResults = results
+        } catch (e) {
+            return ({ message: e.message })
+        }
+        // }
+
+    },
+
 
     getAllProducts: async function () {
 
@@ -125,25 +126,15 @@ module.exports = {
     },
 
     getKeywordProducts: async function (keyword) {
-        const rgx = (pattern) => new RegExp(`.*${pattern}.*`);
-        const searchRgx = rgx(keyword);
-        // const userRegex = new RegExp(keyword, 'i')
-        let logg = await Product.find(
-            {
-                name: { $regex: searchRgx, $options: "i" }
-            }
-        );
+        try {
 
-        console.log(logg)
-        return logg;
-        // let logg = await Product.find({ name: { $regex: keyword, $options: "i" } }, function(err, docs) {
-        //     console.log("Partial Search Begins");
-        //     console.log(docs);
-        //     });
-        //{ $regex: keyword, $options: "i" }
-        // var result = db.collection('AdSchema').find({
-        //     $or: [ {vehicleDescription : { $regex: search.keyWord, $options: 'i' }}, { adDescription: { $regex: search.keyWord, $options: 'i' } } ]
-        // });
+            results = await Product.find({ $text: { $search: "suspension truck" } })
+
+            console.log(results)
+            return paginatedResults = results
+        } catch (e) {
+            return ({ message: e.message })
+        }
     }
 };
 // Add the logic to show the recently seen products on the carousel on home page.

@@ -45,7 +45,7 @@ app.use(express.json())
 const productsRoute = require('./routes/product');
 const userRoute = require('./routes/userroute');
 
-const { getProductsForIndex, getAllMongooseProducts, getSomething, getAllProducts } = require('./db/productdbservice');
+const { getProductsForIndex, getProductsByCategory, getSomething, getAllProducts } = require('./db/productdbservice');
 const { options } = require('./routes/product');
 const cart = require('./assets/js/cart');
 
@@ -265,12 +265,12 @@ app.get('/', connectMongoose, async (req, res) => {
 app.get('/shop', connectMongoose, async (req, res) => {
     
     try {
-        let key = req.query.key || "a"; // this is to get the keywords from the searchbar
+        let key = req.query.text; // this is to get the keywords from the searchbar
         let page = req.query.page || 1;
         let sort = req.query.sort || "Price High-to-Low";
         res.render('listview', {
             title: 'sdfs',
-            data: (await getSomething(page, 6, sort)),
+            data: (await getSomething(page, 6, sort, key)),
             user: req.user || ""
         });
       
@@ -279,105 +279,24 @@ app.get('/shop', connectMongoose, async (req, res) => {
     }
 });
 
-
-
-
-
-
-
-//=========== KEYWORD BASED SEARCH =============//
-app.get('/searchkey',async (req, res) => {
-    let finalResult = [];
-    let keywords = req.query.searchbar.toLowerCase().split(' ');
-
-    //await getKeywordProducts(req.query.searchbar)
-    keywords.forEach(  element => {
-        let arr = products.filter(item => item.name.toLowerCase().includes(element));
-        finalResult = (finalResult.length == 0) ? arr : finalResult.concat(arr);
-        
-    });
-
-
-    // console.log(products.sort(function(a, b){return a.price - b.price}));
-    search.category_selected = keywords != "" ? keywords : "none";
-    search.product_categories = product_categories;
-    search.sort_categories = sort_categories;
-    search.result = finalResult;
-    // search.qry = finalResult.length != 0 ? "Search results for: \"" + req.query.searchbar + "\"" : "No Results found for the keyword(s): \" " + req.query.searchbar + "\"";
-    search.qry = keywords.length != 0 ? req.query.searchbar : "";
-
-    res.render('listview', {
-        title: 'List View',
-        data: search,
-        user: req.user || ""
-    });
-});
-
 //=========== Category BASED SEARCH =============//
-app.get('/searchcategory', (req, res) => {
+app.get('/searchcategory', async (req, res) => {
 
 
-    const page = req.query.page || 1;
-    const limit = req.query.limit || 3;
-
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-
-    let keywords = req.query.categorysearch;
-    let sort_keywords = req.query.sortsearch;
-    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords, sort_keywords, page, "", limit));
-
-    res.render('listview', {
-        title: 'List View',
-        data: search,
-        user: req.user || ""
-    });
+    try {
+        let key = req.query.text; // this is to get the keywords from the searchbar
+        let page = req.query.page || 1;
+        let sort = req.query.sort || "Price High-to-Low";
+        res.render('listview', {
+            title: 'sdfs',
+            data: (await getProductsByCategory(page, 6, sort, key)),
+            user: req.user || ""
+        });
+      
+    } catch (err) {
+        return ({ message: err })
+    }
 });
-
-//=========== Category BASED SEARCH FORM QUICK LINKS =============//
-app.get('/searchcategory/:sc', (req, res) => {
-
-    const page = req.query.page || 1;
-    const limit = req.query.limit || 3;
-
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-
-    let keywords = req.params.sc;
-
-    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords, "Price High-to-Low", page, "", limit));
-
-    res.render('listview', {
-        title: 'List View',
-        data: search,
-        user: req.user || ""
-    });
-});
-
-//==================== PAGINATED SEARCH AND SORT RESULTS =============================//
-app.get('/searchpage', (req, res) => {
-
-
-    const page = req.query.page || 1;
-    const limit = req.query.limit || 3;
-
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-    // console.log(page + "  " + limit)
-
-    let pages = products.length / limit;
-
-    if (pages % 2 != 0)
-        pages = parseInt(pages) + 1;
-
-
-    let keywords = req.params.sc;
-    res.render('listview', {
-        title: 'List View',
-        data: JSON.parse(searchProducts(products, startIndex, endIndex, keywords, product_categories, sort_categories, page, "", pages))
-    });
-});
-
 
 //==================== PRODUCT PAGE =============================//
 app.get('/product/:p_id', (req, res) => {
@@ -474,6 +393,79 @@ app.get('/api/shop', (req, res) => {
     res.json(list);
 });
 
+//==================== PAGINATED SEARCH AND SORT RESULTS =============================//
+app.get('/searchpage', (req, res) => {
+
+
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 3;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    // console.log(page + "  " + limit)
+
+    let pages = products.length / limit;
+
+    if (pages % 2 != 0)
+        pages = parseInt(pages) + 1;
+
+
+    let keywords = req.params.sc;
+    res.render('listview', {
+        title: 'List View',
+        data: JSON.parse(searchProducts(products, startIndex, endIndex, keywords, product_categories, sort_categories, page, "", pages))
+    });
+});
+
+//=========== KEYWORD BASED SEARCH =============//
+app.get('/searchkey',async (req, res) => {
+    let finalResult = [];
+    let keywords = req.query.searchbar.toLowerCase().split(' ');
+
+    //await getKeywordProducts(req.query.searchbar)
+    keywords.forEach(  element => {
+        let arr = products.filter(item => item.name.toLowerCase().includes(element));
+        finalResult = (finalResult.length == 0) ? arr : finalResult.concat(arr);
+        
+    });
+
+
+    // console.log(products.sort(function(a, b){return a.price - b.price}));
+    search.category_selected = keywords != "" ? keywords : "none";
+    search.product_categories = product_categories;
+    search.sort_categories = sort_categories;
+    search.result = finalResult;
+    // search.qry = finalResult.length != 0 ? "Search results for: \"" + req.query.searchbar + "\"" : "No Results found for the keyword(s): \" " + req.query.searchbar + "\"";
+    search.qry = keywords.length != 0 ? req.query.searchbar : "";
+
+    res.render('listview', {
+        title: 'List View',
+        data: search,
+        user: req.user || ""
+    });
+});
+
+
+//=========== Category BASED SEARCH FORM QUICK LINKS =============//
+app.get('/searchcategory/:sc', (req, res) => {
+
+    const page = req.query.page || 1;
+    const limit = req.query.limit || 3;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    let keywords = req.params.sc;
+
+    search = JSON.parse(searchProductsByCategories(products, startIndex, endIndex, keywords, "Price High-to-Low", page, "", limit));
+
+    res.render('listview', {
+        title: 'List View',
+        data: search,
+        user: req.user || ""
+    });
+});
+
 //========== full word based search ================//
 app.get('/search', (req, res) => {
     let qry = req.query.searchbar.toLowerCase();
@@ -491,22 +483,12 @@ app.get('/shop2', connectMongoose, async (req, res) => {
     list.qry = "Welcome to shop";
     // let page = Math.max(0, req.query.page) || 1;
     try {
+        let key = req.query.text; // this is to get the keywords from the searchbar
+        let page = req.query.page || 1;
+        let sort = req.query.sort || "Price High-to-Low";
 
-        list.result = productsFromAPI;
-        const page = req.query.page || 1;
-        const limit = req.query.limit || 10;
-    
-        const startIndex = (page - 1) * limit;
-        const endIndex = page * limit;
-    
-        let keywords = "";
-        res.render('listview', {
-            title: 'List View',
-            data: JSON.parse(searchProductsByCategories2(await getAllMongooseProducts(page), startIndex, endIndex, keywords, "Price High-to-Low", page, "", limit)),
-            // data: JSON.parse(await getAllMongooseProducts(page)),
-            user: req.user || ""
-        });
-        // productsFromAPI = (await Product.find());
+        res.json(await getProductsByCategory(page, 6, sort, "Educational Toys"))
+       
     } catch (err) {
         return ({ message: err })
     }
