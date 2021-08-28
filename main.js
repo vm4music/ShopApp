@@ -7,6 +7,7 @@ const session = require('express-session');
 const passport = require('passport');
 const mongoose = require('mongoose');
 const Product = require('./models/Product')
+const Order = require('./models/Order');
 const methodOverride = require('method-override')
 let Cart = require('./assets/js/cart')
 const flash = require('express-flash')
@@ -44,16 +45,40 @@ app.use(express.json())
 //IMPORT ROUTES
 const productsRoute = require('./routes/product');
 const userRoute = require('./routes/userroute');
+// const orderRoute = require('./routes/order');
 
 const { getProductsForIndex, getProductsByCategory, getSomething, getAllProducts } = require('./db/productdbservice');
-const { options } = require('./routes/product');
-const cart = require('./assets/js/cart');
 
-app.use(function (req, res, next) {
+
+app.use(async function (req, res, next) {
 
     res.locals.session = req.session;
     res.locals.login = req.isAuthenticated()  // 
     console.log(res.locals.session)
+
+    if(req.session.passport){
+        let cartObj = {};
+        if(req.session.cart){
+            cartObj = req.session.cart;
+        }else{
+            cartObj = await Order.findOne({ user: req.session.passport.user}, async function (err, order) {
+                if (err) {
+                    console.log(err + " Order Error");
+                }
+                else{
+                    if(order){
+                        cartObj = order;
+                    }
+                    else{
+                        cartObj = {}
+                    }
+                }
+            })
+        }
+        req.session.cart = cartObj;
+    }
+   
+
     next();
 });
 
@@ -267,7 +292,7 @@ app.get('/shop', connectMongoose, async (req, res) => {
     try {
         let page = req.query.page || 1;
         let sort = req.query.sort || "Price High-to-Low";
-
+        
         let text = {};
         text.key = req.query.text;
         text.category = req.query.category;
@@ -299,18 +324,39 @@ app.get('/product/:p_id', (req, res) => {
 
 //==================== CART RESULTS =============================//
 
-app.get('/add-to-cart/:p_id', connectMongoose, (req, res) => {
+app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) => {
     Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
         if (err) {
             console.log(err);
         }
         else {
             try {
-                var cart = new Cart(req.session.cart ? req.session.cart : {});
+                let cartObj = {};
+                if(req.session.cart){
+                    cartObj = req.session.cart;
+                }else{
+                    await Order.findOne({ user: req.session.passport.user}, async function (err, order) {
+                        if (err) {
+                            console.log(err + " Order Error");
+                        }
+                        else{
+                            if(order){
+                                cartObj = order;
+                            }
+                            else{
+                                cartObj = {}
+                            }
+                        }
+                    })
+                }
+                var cart = new Cart(cartObj, req.session.passport.user);
+                // var cart = new Cart(req.session.cart ? req.session.cart : {});
                 cart.add(product, product.p_id)
                 req.session.cart = cart;
-                console.log("req.session.cart.items");
-                console.log(res.locals.session);
+                console.log("Updated Cart***************************");
+                console.log(cart);
+                console.log("*************************Updated Cart end***************************");
+                console.log(product);
                 res.render('product', {
                     title: 'Product View',
                     data: products.filter(item => item.p_id === req.params.p_id),
@@ -323,9 +369,8 @@ app.get('/add-to-cart/:p_id', connectMongoose, (req, res) => {
             }
         }
     });
-
-
 })
+
 
 app.get('/showcart', (req, res) => {
 
@@ -341,7 +386,7 @@ app.get('/showcart', (req, res) => {
 app.get('/remove-item/:id', (req, res) => {
 
     var cart = new Cart(req.session.cart ? req.session.cart : {});
-    cart.remove(req.params.id)
+    cart.remove(req.params.id, req.session.passport.user)
     req.session.cart = cart
     res.render('cart', {
         title: 'Cart View',
@@ -480,21 +525,34 @@ app.get('/search', (req, res) => {
     });
 });
 
-app.get('/shop2', connectMongoose, async (req, res) => {
-    let list = {};
-    list.qry = "Welcome to shop";
-    // let page = Math.max(0, req.query.page) || 1;
-    try {
-        let key = req.query.text; // this is to get the keywords from the searchbar
-        let page = req.query.page || 1;
-        let sort = req.query.sort || "Price High-to-Low";
+// app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) => {
+//     Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
+//         if (err) {
+//             console.log(err);
+//         }
+//         else {
+//             try {
 
-        res.json(await getProductsByCategory(page, 6, sort, "Educational Toys"))
-       
-    } catch (err) {
-        return ({ message: err })
-    }
-});
+//                 var cart = new Cart(req.session.cart ? req.session.cart : {});
+//                 cart.add(product, product.p_id)
+//                 req.session.cart = cart;
+//                 console.log("Updated Cart***************************");
+//                 console.log(cart);
+//                 console.log("*************************Updated Cart end***************************");
+//                 console.log(product);
+//                 res.render('product', {
+//                     title: 'Product View',
+//                     data: products.filter(item => item.p_id === req.params.p_id),
+//                     user: req.user || "",
+//                     cart: cart.generateArray()
+//                 });
+
+//             } catch (error) {
+//                 console.log(error)
+//             }
+//         }
+//     });
+// })
 
 app.get('/times', (req, res) => res.send(showTimes()))
 

@@ -37,7 +37,7 @@ module.exports = {
             
 
             console.log(find_query)
-        let sort_categories = ["Price Low-to-High", "Price High-to-Low"];3
+        let sort_categories = ["Price Low-to-High", "Price High-to-Low"];
 
         page = parseInt(page)
         limit = parseInt(limit)
@@ -127,16 +127,16 @@ module.exports = {
     // },
 
 
-    // getAllProducts: async function () {
+    getAllProducts: async function () {
 
-    //     console.log(mongoose.connection.readyState + " fsdfsfdsfds Product service" + mongoose.connection.client)
-    //     try {
-    //         return (await Product.find());
-    //     } catch (err) {
-    //         return ({ message: err })
-    //     }
+        console.log(mongoose.connection.readyState + " fsdfsfdsfds Product service" + mongoose.connection.client)
+        try {
+            return (await Product.find());
+        } catch (err) {
+            return ({ message: err })
+        }
 
-    // },
+    },
 
     
 
