@@ -308,14 +308,16 @@ app.get('/shop', connectMongoose, async (req, res) => {
 });
 
 //==================== PRODUCT PAGE =============================//
-app.get('/product/:p_id', (req, res) => {
+app.get('/product/:p_id', async (req, res) => {
     var cart = new Cart(req.session.cart ? req.session.cart : {});
     let list = {};
-    list.result = products.filter(item => item.p_id === req.params.p_id);
+    //list.result = products.filter(item => item.p_id === req.params.p_id);
+    list.result = await Product.find({p_id : req.params.p_id})
     list.qry = "New Arrivals";
     res.render('product', {
         title: 'Product View',
-        data: products.filter(item => item.p_id === req.params.p_id),
+        // data: products.filter(item => item.p_id === req.params.p_id),
+        data: await Product.find({p_id : req.params.p_id}),
         user: req.user || "",
         cart: cart.generateArray()
     });
@@ -359,7 +361,7 @@ app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) =>
                 console.log(product);
                 res.render('product', {
                     title: 'Product View',
-                    data: products.filter(item => item.p_id === req.params.p_id),
+                    data: await Product.find({p_id : req.params.p_id}),
                     user: req.user || "",
                     cart: cart.generateArray()
                 });
