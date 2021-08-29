@@ -56,7 +56,16 @@ module.exports = function Cart(oldCart, user) {
 
         delete this.items[id];
 
-        await Order.findOneAndUpdate({ user: user }, { items: this.items }, { useFindAndModify: false })
+        if(this.totalQty == 0)
+            await Order.findOneAndDelete({user: user})
+        else
+            await Order.findOneAndUpdate({ user: user }, {
+                 items: this.items,
+                totalQty: this.totalQty,
+                totalPrice: this.totalPrice,
+                grandTotal: this.grandTotal,
+                tax: this.tax
+             }, { useFindAndModify: false })
     };
 
     this.generateArray = function () {
