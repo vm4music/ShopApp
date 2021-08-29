@@ -61,21 +61,24 @@ app.use(async function (req, res, next) {
         if(req.session.cart){
             cartObj = req.session.cart;
         }else{
-            cartObj = await Order.findOne({ user: req.session.passport.user}, async function (err, order) {
+             await Order.findOne({ user: req.session.passport.user}, async function (err, order) {
                 if (err) {
                     console.log(err + " Order Error");
                 }
                 else{
                     if(order){
+                        console.log(cartObj + "1")
                         cartObj = order;
                     }
                     else{
+                        console.log(cartObj)
                         cartObj = {}
                     }
                 }
             })
         }
-        req.session.cart = cartObj;
+        req.session.cart = new Cart(cartObj);
+        console.log(req.session.cart)
     }
    
 
@@ -358,7 +361,7 @@ app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) =>
                 console.log("Updated Cart***************************");
                 console.log(cart);
                 console.log("*************************Updated Cart end***************************");
-                console.log(product);
+                // console.log(product);
                 res.render('product', {
                     title: 'Product View',
                     data: await Product.find({p_id : req.params.p_id}),
