@@ -52,7 +52,7 @@ module.exports = function Cart(oldCart, user) {
     this.remove = async function (id, user) {
         this.totalQty -= this.items[id].qty;
         this.totalPrice -= this.items[id].price;
-        this.tax = (.05 * this.totalPrice);
+        this.tax = Math.round(.05 * this.totalPrice);
         this.grandTotal = (this.totalQty == 0) ? 0 : (this.grandTotal - this.items[id].price - (.05 * this.items[id].price));
 
         delete this.items[id];
