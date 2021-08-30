@@ -53,70 +53,48 @@
                     <div class="filter">
 
                         <div class="container_results">
+                            <% if(data.previous || data.next) { %>
                             <div class="dropdown">
                                 <button class="dropbtn">Sort</button>
                                 <div class="dropdown-content">
-                                    <% if(data.previous || data.next) { %>
-                                        <a href="/shop?sort=Price Low-to-High&text=<%= data.text %>">Price Low-to-High</a>
-                                        <a href="/shop?sort=Price High-to-Low&text=<%= data.text %>">Price High-to-Low</a>
-                                        <% } %>
+                                    <% if(data.text.category !="" && data.text.key == "") { %>
+                                        <a href="/shop?sort=Price Low-to-High&category=<%= data.sort_text %>">Price Low-to-High</a>
+                                    <% } %>
+                                    <% if((data.text.key == "" || data.text.key !="") && data.text.category =="") { %>
+                                        <a href="/shop?sort=Price Low-to-High&text=<%= data.sort_text %>">Price Low-to-High</a>
+                                    <% } %>
+                                    <% if(data.text.category !="" && data.text.key == "") { %>
+                                        <a href="/shop?sort=Price High-to-Low&category=<%= data.sort_text %>">Price High-to-Low</a>
+                                    <% } %>
+                                    <% if((data.text.key == "" || data.text.key !="") && data.text.category =="") { %>
+                                        <a href="/shop?sort=Price High-to-Low&text=<%= data.sort_text %>">Price High-to-Low</a>
+                                    <% } %>
+                                        <!-- <a href="/shop?sort=Price Low-to-High&text=<%= data.sort_text %>">Price Low-to-High</a>
+                                        <a href="/shop?sort=Price High-to-Low&text=<%= data.sort_text %>">Price High-to-Low</a> -->
+                                      
                                 </div>
                             </div>
-
-                            <% if(data.product_categories){%>
-                            <% if(data.qry !="" ) {%>
-                                <h3 class="section-subtitle">Search results for: "<%= data.qry %>"</h3>
-                                <%} if(data.result.length==0){%>
+                            <% } %>
+                            <% if(data.text.key !="" ) {%>
+                                <h3 class="section-subtitle">Search results for: "<%= data.text.key %>"</h3>
+                                <%} if(data.results.length==0){%>
                                     <h2 class="section-subtitle">No Results found for your query</h2>
                                     <%}%>
+                            <% if(data.product_categories) { %>
+                            
                         </div>
                         <div class="sort__filter__box">
-                            <% if(data.qry){ %>
+                            <% if(data.text.category){ %>
                                 <div class="sort__filter__box__a">
                                     <p>
-                                        <a href="/">Home</a> / <a href="/searchcategory/<%= data.qry %>">
+                                        <a href="/">Home</a> / <a href="/shop?sort=<%= data.sort %>&category=<%= data.text.category %>">
                                             <b>
-                                                <%= data.qry %>
+                                                <%= data.text.category %>
                                             </b>
                                         </a>
                                     </p>
                                 </div>
                                 <%}%>
-                                    
-                                    <form action="/searchcategory" method="get" class="search__filter">
-
-                                        <select class="filter__box" id="categorysearch" name="categorysearch"
-                                            onchange="this.form.submit()">
-                                            <% data.product_categories.forEach(category=> { %>
-                                                <% if(data.category_selected==category){%>
-                                                    <option value="<%= category %>" selected>
-                                                        <%= category %>
-                                                    </option>
-                                                    <%}else{%>
-                                                        <option value="<%= category %>">
-                                                            <%= category %>
-                                                        </option>
-                                                        <%}%>
-                                                            <%});%>
-                                        </select>
-
-
-                                        <select class="filter__box" id="categorysearch" name="sortsearch"
-                                            onchange="this.form.submit()">
-                                            <!-- <option value="">--none--</option> -->
-                                            <% data.sort_categories.forEach(category=> { %>
-                                                <% if(data.sort_selected==category){%>
-                                                    <option value="<%= category %>" selected>
-                                                        <%= category %>
-                                                    </option>
-                                                    <%}else{%>
-                                                        <option value="<%= category %>">
-                                                            <%= category %>
-                                                        </option>
-                                                        <%}%>
-                                                            <%});%>
-                                        </select>
-                                    </form>
                         </div>
                         <%}%>
                     </div>
@@ -142,18 +120,18 @@
                         
                         <div class="pagination">
                             <% if(data.previous) { %>
-                                <% if(data.text.category) { %>
+                                <% if(data.text.category !="" && data.text.key == "") { %>
                                     <a href="/shop?page=<%= data.previous.page %>&sort=<%= data.sort %>&category=<%= data.text.category %>">&laquo;</a>
                                 <% } %>
-                                <% if(data.text.key) { %>
+                                <% if((data.text.key == "" || data.text.key !="") && data.text.category =="") { %>
                                     <a href="/shop?page=<%= data.previous.page %>&sort=<%= data.sort %>&text=<%= data.text.key %>">&laquo;</a>
                                 <% } %>
                                 <% } %>
                             <% if(data.next) { %>
-                                <% if(data.text.category) { %>
+                                <% if(data.text.category !="" && data.text.key == "") { %>
                                     <a href="/shop?page=<%= data.next.page %>&sort=<%= data.sort %>&category=<%= data.text.category %>">&raquo;</a>
                                 <% } %>
-                                <% if(data.text.key) { %>
+                                <% if((data.text.key == "" || data.text.key !="") && data.text.category =="") { %>
                                     <a href="/shop?page=<%= data.next.page %>&sort=<%= data.sort %>&text=<%= data.text.key %>">&raquo;</a>
                                 <% } %>
                                 <% } %>

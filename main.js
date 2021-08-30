@@ -297,8 +297,8 @@ app.get('/shop', connectMongoose, async (req, res) => {
         let sort = req.query.sort || "Price High-to-Low";
         
         let text = {};
-        text.key = req.query.text;
-        text.category = req.query.category;
+        text.key = req.query.text|| "";
+        text.category = req.query.category || "";
         res.render('listview', {
             title: 'sdfs',
             data: (await getSomething(page, 6, sort, text)),

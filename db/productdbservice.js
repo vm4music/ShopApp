@@ -25,18 +25,21 @@ module.exports = {
         let find_query = {};
         let s_text = '';
 
-        if(text.category){
+        if(text.category != ""){
             find_query = { categories: text.category };
             s_text = text.category;
         }
            
-        if(text.key){
+        if(text.key != ""){
             find_query = { $text: { $search: text.key } };
             s_text = text.key;
         }
-            
+        // if(text.key == "" && text.category != ""){
+        //     find_query = {};
+        //     s_text = text.key;
+        // }
 
-            console.log(find_query)
+        console.log(find_query)
         let sort_categories = ["Price Low-to-High", "Price High-to-Low"];
 
         page = parseInt(page)
@@ -60,9 +63,10 @@ module.exports = {
             }
         }
 
-
+        console.log( await Product.countDocuments(find_query).exec())
         // if(sort){
         results.sort = sort;
+        results.sort_text = s_text
 
         try {
             if (sort == sort_categories[0]) {
@@ -71,7 +75,7 @@ module.exports = {
                 results.results = await Product.find(find_query).limit(limit).skip(startIndex).sort({ price: -1 }).exec()
             }
             results.text = text;
-            console.log(results)
+            // console.log(results.results)
             return paginatedResults = results
         } catch (e) {
             return ({ message: e.message })
