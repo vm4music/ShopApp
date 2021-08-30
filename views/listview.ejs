@@ -51,7 +51,15 @@
                 </h2> -->
                
                     <div class="filter">
-
+                        <% if(data.text.category != ""){ %>
+                        <div class="sort__filter__box">
+                                <div class="sort__filter__box__a">
+                                    <!-- <p> -->
+                                        <a href="/">Home</a> / <a href="/shop?sort=<%= data.sort %>&category=<%= data.text.category %>"> <%= data.text.category %> </a>
+                                    <!-- </p> -->
+                                </div>
+                        </div>
+                        <%}%>
                         <div class="container_results">
                             <% if(data.previous || data.next) { %>
                             <div class="dropdown">
@@ -80,23 +88,11 @@
                                 <%} if(data.results.length==0){%>
                                     <h2 class="section-subtitle">No Results found for your query</h2>
                                     <%}%>
-                            <% if(data.product_categories) { %>
-                            
                         </div>
-                        <div class="sort__filter__box">
-                            <% if(data.text.category){ %>
-                                <div class="sort__filter__box__a">
-                                    <p>
-                                        <a href="/">Home</a> / <a href="/shop?sort=<%= data.sort %>&category=<%= data.text.category %>">
-                                            <b>
-                                                <%= data.text.category %>
-                                            </b>
-                                        </a>
-                                    </p>
-                                </div>
-                                <%}%>
-                        </div>
-                        <%}%>
+                         
+                        
+                        <!-- <% if(data.product_categories) { %> -->
+                        <!-- <%}%> -->
                     </div>
                    
                         <div class="menu__container bd-grid">

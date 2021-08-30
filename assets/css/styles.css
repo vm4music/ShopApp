@@ -907,6 +907,10 @@ This is added to show the details section for the product page.*/
   
 }
 
+.filter a{
+  color: var(--first-color);
+  font-family: var(--body-font);
+}
 /* Select box for list view filtering and sorting */
 .filter__box{
   border: 1px solid var(--first-color-alt);
@@ -1142,7 +1146,7 @@ This is added to show the details section for the product page.*/
   }
   
   .cart__product .cart__product-line-price:before {
-    content: 'Item Total: $';
+    content: 'Item Total: INR';
   }
   
   .totals .totals-item label{
