@@ -328,6 +328,7 @@ app.get('/product/:p_id', async (req, res) => {
         if (err)
             console.log("There is an error updating the popularity of the product. ");
         console.log("Product " + product.name + " is updated successfully");
+        console.log(product)
         res.render('product', {
             title: 'Product View',
             // data: products.filter(item => item.p_id === req.params.p_id),
@@ -340,8 +341,8 @@ app.get('/product/:p_id', async (req, res) => {
 
 //==================== CART RESULTS =============================//
 
-app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) => {
-    Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
+app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, async (req, res) => {
+    await Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
         if (err) {
             console.log("Error in finding the product to add to Cart: " + err);
         }
@@ -360,6 +361,7 @@ app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) =>
                         }
                     })
                 }
+
                 var cart = new Cart(cartObj, req.session.passport.user);
                 // var cart = new Cart(req.session.cart ? req.session.cart : {});
                 
@@ -372,7 +374,7 @@ app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) =>
                 
                 res.render('product', {
                     title: 'Product View',
-                    data: await Product.find({p_id : req.params.p_id}),
+                    data: product,
                     user: req.user || "",
                     cart: cart.generateArray()
                 });
