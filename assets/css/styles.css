@@ -216,7 +216,9 @@ This is added to show the details section for the product page.*/
  .sort__filter__box{
   margin-left: 0%;
  }
-
+ .dropdown{
+  width: 50%;
+}
  
 
    /* Cart count */
@@ -944,7 +946,8 @@ This is added to show the details section for the product page.*/
 }
 
 .container_results{
-  padding-top: 10px
+  padding-top: 10px;
+  display: flex;
 }
 
 .pagination{

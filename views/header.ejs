@@ -10,7 +10,14 @@
                 <!-- <li class="nav__item"><a href="#about" class="nav__link">About</a></li> -->
                 <!-- <li class="nav__item"><a href="#services" class="nav__link">Services</a></li> -->
                 <li class="nav__item"><a href="/shop" class="nav__link">Shop</a></li>
-                <!-- <li class="nav__item"><a href="/shop2" class="nav__link">Shop2</a></li> -->
+                <%if(user) { %>
+                <li class="nav__item"><a href="/shop2" class="nav__link">
+                    <form action="/users/logout?_method=DELETE" method="POST">
+                        <button class="searchButton" type="submit">Log Out</button>
+                      </form>
+                </a></li>
+                <% } %>
+               
                 <!-- <li class="nav__item"><a href="#contact" class="nav__link">Contact us</a></li> -->
 
                 <li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
@@ -20,11 +27,8 @@
         </div>
         <div class="nav__cart">
             <!-- <i class="bx bx-search" id="search-toggle-d"></i> -->
-            <%if(user) { %>
-            <form action="/users/logout?_method=DELETE" method="POST">
-                <button class="searchButton" type="submit">Log Out</button>
-              </form>
-              <% } else {%>
+            <%if(!user) { %>
+        
             <a href="/users/login" class="nav__link"><i class='bx bx-user'></i></a>
             <% } %>
             <a href="/showcart" class="nav__link"><i class="bx bx-cart-alt"></i></a>
@@ -42,11 +46,7 @@
 
         <div class="nav__toggle">
             <!-- <i class="bx bx-search" id="search-toggle-m"></i>           -->
-            <%if(user) { %>
-                <form action="/users/logout?_method=DELETE" method="POST">
-                    <button class="searchButton" type="submit">Log Out</button>
-                  </form>
-                  <% } else {%>
+            <%if(!user) { %>
                 <a href="/users/login" class="nav__link"><i class='bx bx-user'></i></a>
                 <% } %>
             <a href="/showcart" class="nav__link"><i class="bx bx-cart-alt"></i></a>
