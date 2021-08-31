@@ -19,9 +19,15 @@ module.exports = {
      * @param {page number} page 
      * @param {limt of the result set to be displayed} limit 
      * @param {sort for the result set required} sort 
+     * @param {keyowrd or the category of the products to be displayed on the page} text
      * @returns an object containing previous, next, sort and results in the JSON object
-     */
-    getSomething: async function (page, limit, sort, text) {
+     * results.next [Page number and limit of the next set of records]
+     * restuls.previous [Page number and limit of the previous set of records]
+     * results.sort [Sort applied to the current set of records being queried]
+     * results.sort_text [keyword or the category for which the list of products need to be returned]
+     * results.results [Array of Products] 
+     */    
+    getProductsWithPage: async function (page, limit, sort, text) {
         let find_query = {};
         let s_text = '';
 
@@ -34,11 +40,7 @@ module.exports = {
             find_query = { $text: { $search: text.key } };
             s_text = text.key;
         }
-        // if(text.key == "" && text.category != ""){
-        //     find_query = {};
-        //     s_text = text.key;
-        // }
-
+        
         console.log(find_query)
         let sort_categories = ["Price Low-to-High", "Price High-to-Low"];
 
@@ -64,7 +66,6 @@ module.exports = {
         }
 
         console.log( await Product.countDocuments(find_query).exec())
-        // if(sort){
         results.sort = sort;
         results.sort_text = s_text
 
@@ -80,7 +81,6 @@ module.exports = {
         } catch (e) {
             return ({ message: e.message })
         }
-        // }
 
     },
 

@@ -27,11 +27,11 @@
              <!--========== ABOUT ==========-->
              <section class="about section bd-container" id="about">
                 <div class="about__container  bd-grid">
-                    <img src="/assets/img/<%= data[0].img %>" alt="" class="about__img">    
+                    <img src="/assets/img/<%= data.img %>" alt="" class="about__img">    
                     <div class="about__data">
-                        <a href="/product/<%= data[0].p_id %>" class="heart" ><i class='bx bx-heart'></i></a>
+                        <a href="/product/<%= data.p_id %>" class="heart" ><i class='bx bx-heart'></i></a>
                         <span class="section-subtitle about__initial">Sale</span>
-                        <h2 class="section-title about__initial"><%= data[0].name %></h2>
+                        <h2 class="section-title about__initial"><%= data.name %></h2>
                         <div class = "product-rating">
                             <i class='bx bxs-star'></i>
                             <i class='bx bxs-star'></i>
@@ -40,22 +40,22 @@
                             <i class='bx bxs-star-half'></i>
                             <span class="rating__overall">4.7(21)</span>
                           </div>
-                        <h2 class="section-subtitle-rate">INR <%= data[0].price %></h2>
+                        <h2 class="section-subtitle-rate">INR <%= data.price %></h2>
                         <!-- <ul class="about__description">
-                        <% for(var i=0;i<data[0].detail.length;i++) { %>
-                        <li><p class="about__description"></p><%= data[0].detail[i] %></p></li>
+                        <% for(var i=0;i<data.detail.length;i++) { %>
+                        <li><p class="about__description"></p><%= data.detail[i] %></p></li>
                         <% }; %>
                         </ul> -->
                         <div>
-                        <!-- <a href="/add-to-cart/<%= data[0].p_id %>" class="button__buy__now">Buy Now</a> -->
-                        <a href="/add-to-cart/<%= data[0].p_id %>" class="button__add__2cart">Add To Cart </a>
+                        <!-- <a href="/add-to-cart/<%= data.p_id %>" class="button__buy__now">Buy Now</a> -->
+                        <a href="/add-to-cart/<%= data.p_id %>" class="button__add__2cart">Add To Cart </a>
                         </div>
                         <!-- <div>
-                        <a href="/add-to-cart/<%= data[0].p_id %>" class="button">Buy Now</a>
-                        <a href="/add-to-cart/<%= data[0].p_id %>" class="button">Add To Cart</a>
-                        <a href="/product/<%= data[0].p_id %>" class="button"><i class='bx bx-heart'></i></a>
+                        <a href="/add-to-cart/<%= data.p_id %>" class="button">Buy Now</a>
+                        <a href="/add-to-cart/<%= data.p_id %>" class="button">Add To Cart</a>
+                        <a href="/product/<%= data.p_id %>" class="button"><i class='bx bx-heart'></i></a>
                         </div> -->
-                        <!-- <a href="/product/<%= data[0].p_id %>" class="button"><i class='bx bxs-heart'></i></a> -->
+                        <!-- <a href="/product/<%= data.p_id %>" class="button"><i class='bx bxs-heart'></i></a> -->
                     </div>
                        
                 </div>
@@ -65,8 +65,8 @@
         <!-- <span class="section-subtitle about__initial">Sale</span> -->
         <h2 class="about__description">Details:</h2>
         <ol class="about__description">
-        <% for(var i=0;i<data[0].detail.length;i++) { %>
-        <li><p class="about__description"></p><%= data[0].detail[i] %></p></li>
+        <% for(var i=0;i<data.detail.length;i++) { %>
+        <li><p class="about__description"></p><%= data.detail[i] %></p></li>
         <% }; %>
         </ol>
         
@@ -80,12 +80,12 @@
             <!-- ========== PRODUCT ==========
             <section class="home" id="home">
                 <div class="home__container pd-container bd-grid">
-                    <img src="/assets/img/<%= data[0].img %>" alt="" class="product__img">
+                    <img src="/assets/img/<%= data.img %>" alt="" class="product__img">
                     
                     <div class="home__data">
-                        <h1 class="product__title"><%= data[0].name %></h1>
-                        <h1 class="product__price">$<%= data[0].price %></h1>
-                        <h3 class="product__subtitle"><%= data[0].detail %></h3>
+                        <h1 class="product__title"><%= data.name %></h1>
+                        <h1 class="product__price">$<%= data.price %></h1>
+                        <h3 class="product__subtitle"><%= data.detail %></h3>
                         
                         
                         <a href="#menu" class="cart_button">Add To Cart</a>

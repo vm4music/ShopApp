@@ -61,9 +61,12 @@
                         </div>
                         <%}%>
                         <div class="container_results">
+
+                       
+          
                             <% if(data.previous || data.next) { %>
                             <div class="dropdown">
-                                <button class="dropbtn">Sort</button>
+                                <button class="dropbtn" id="sort-dropdown" >Sort</button>
                                 <div class="dropdown-content">
                                     <% if(data.text.category !="" && data.text.key == "") { %>
                                         <a href="/shop?sort=Price Low-to-High&category=<%= data.sort_text %>">Price Low-to-High</a>
@@ -77,9 +80,6 @@
                                     <% if((data.text.key == "" || data.text.key !="") && data.text.category =="") { %>
                                         <a href="/shop?sort=Price High-to-Low&text=<%= data.sort_text %>">Price High-to-Low</a>
                                     <% } %>
-                                        <!-- <a href="/shop?sort=Price Low-to-High&text=<%= data.sort_text %>">Price Low-to-High</a>
-                                        <a href="/shop?sort=Price High-to-Low&text=<%= data.sort_text %>">Price High-to-Low</a> -->
-                                      
                                 </div>
                             </div>
                             <% } %>

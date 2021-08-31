@@ -13,13 +13,13 @@
                 <!-- <li class="nav__item"><a href="/shop2" class="nav__link">Shop2</a></li> -->
                 <!-- <li class="nav__item"><a href="#contact" class="nav__link">Contact us</a></li> -->
 
-
                 <li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
 
             </ul>
 
         </div>
         <div class="nav__cart">
+            <!-- <i class="bx bx-search" id="search-toggle-d"></i> -->
             <%if(user) { %>
             <form action="/users/logout?_method=DELETE" method="POST">
                 <button class="searchButton" type="submit">Log Out</button>
@@ -35,11 +35,13 @@
                 <% } %>
             <!-- <ul> -->
             <!-- <li> -->
-                <!-- <i class='bx bx-circle'></i> -->
+                
             <!-- </li> -->
             <!-- </ul> -->
         </div>
+
         <div class="nav__toggle">
+            <!-- <i class="bx bx-search" id="search-toggle-m"></i>           -->
             <%if(user) { %>
                 <form action="/users/logout?_method=DELETE" method="POST">
                     <button class="searchButton" type="submit">Log Out</button>
@@ -57,7 +59,7 @@
         </div>
 
     </nav>
-    <div class="bd-grid">
+    <div class="bd-grid search-box">
         <form action="/shop" method="get">
             <div class="search">
 

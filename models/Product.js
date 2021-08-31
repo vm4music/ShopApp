@@ -20,6 +20,11 @@ const ProductSchema = mongoose.Schema({
     detail : {
         type: Array,
     },
+
+    popular : {
+        type : Number,
+        default : 0
+    },
     created : {
         type: Date,
         default: Date.now

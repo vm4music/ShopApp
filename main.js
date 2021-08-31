@@ -14,7 +14,7 @@ const flash = require('express-flash')
 
 let MongoStore = require('connect-mongo');
 
-const { getProducts, searchProductsByCategories } = require('./assets/js/search');
+// const { getProducts, searchProductsByCategories } = require('./assets/js/search');
 const app = express();
 
 app.set('view engine', 'ejs'); // configure template engine
@@ -47,7 +47,7 @@ const productsRoute = require('./routes/product');
 const userRoute = require('./routes/userroute');
 // const orderRoute = require('./routes/order');
 
-const { getProductsForIndex, getProductsByCategory, getSomething, getAllProducts } = require('./db/productdbservice');
+const { getProductsForIndex, getProductsWithPage } = require('./db/productdbservice');
 
 
 app.use(async function (req, res, next) {
@@ -273,7 +273,6 @@ var products =
     ];
 
 //========== ROUTERS START =============//
-var productsFromAPI = [];
 let search = {};
 app.get('/', connectMongoose, async (req, res) => {
     try {
@@ -289,7 +288,15 @@ app.get('/', connectMongoose, async (req, res) => {
 });
 
 
-
+/**
+ * parameters:
+ * Page : Page number to be returned
+ * Sort : Sort in which the result needs to be sorted
+ * Text : [Optional] keyword against which results need to be searched
+ * Category : Category of the products for which the results need to be displayed
+ * 
+ * 
+ */
 app.get('/shop', connectMongoose, async (req, res) => {
     
     try {
@@ -301,7 +308,7 @@ app.get('/shop', connectMongoose, async (req, res) => {
         text.category = req.query.category || "";
         res.render('listview', {
             title: 'sdfs',
-            data: (await getSomething(page, 6, sort, text)),
+            data: (await getProductsWithPage(page, 6, sort, text)),
             user: req.user || ""
         });
       
@@ -312,27 +319,31 @@ app.get('/shop', connectMongoose, async (req, res) => {
 
 //==================== PRODUCT PAGE =============================//
 app.get('/product/:p_id', async (req, res) => {
+
     var cart = new Cart(req.session.cart ? req.session.cart : {});
     let list = {};
-    //list.result = products.filter(item => item.p_id === req.params.p_id);
-    list.result = await Product.find({p_id : req.params.p_id})
-    list.qry = "New Arrivals";
-    res.render('product', {
-        title: 'Product View',
-        // data: products.filter(item => item.p_id === req.params.p_id),
-        data: await Product.find({p_id : req.params.p_id}),
-        user: req.user || "",
-        cart: cart.generateArray()
-    });
-})
 
+    //list.result = products.filter(item => item.p_id === req.params.p_id);
+    await Product.findOneAndUpdate({ p_id: req.params.p_id }, { $inc: { 'popular': 1 } }, { new: true, useFindAndModify: false }, function (err, product) {
+        if (err)
+            console.log("There is an error updating the popularity of the product. ");
+        console.log("Product " + product.name + " is updated successfully");
+        res.render('product', {
+            title: 'Product View',
+            // data: products.filter(item => item.p_id === req.params.p_id),
+            data: product,
+            user: req.user || "",
+            cart: cart.generateArray()
+        });
+    })
+})
 
 //==================== CART RESULTS =============================//
 
 app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) => {
     Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
         if (err) {
-            console.log(err);
+            console.log("Error in finding the product to add to Cart: " + err);
         }
         else {
             try {
@@ -345,23 +356,20 @@ app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) =>
                             console.log(err + " Order Error");
                         }
                         else{
-                            if(order){
-                                cartObj = order;
-                            }
-                            else{
-                                cartObj = {}
-                            }
+                            cartObj = order ? order : {};
                         }
                     })
                 }
                 var cart = new Cart(cartObj, req.session.passport.user);
                 // var cart = new Cart(req.session.cart ? req.session.cart : {});
+                
                 cart.add(product, product.p_id)
                 req.session.cart = cart;
+                
                 console.log("Updated Cart***************************");
                 console.log(cart);
                 console.log("*************************Updated Cart end***************************");
-                // console.log(product);
+                
                 res.render('product', {
                     title: 'Product View',
                     data: await Product.find({p_id : req.params.p_id}),
@@ -370,7 +378,7 @@ app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, (req, res) =>
                 });
 
             } catch (error) {
-                console.log(error)
+                console.log("Error in add the product to the cart: " + error)
             }
         }
     });
@@ -519,6 +527,7 @@ app.get('/searchcategory/:sc', (req, res) => {
 });
 
 //========== full word based search ================//
+var productsFromAPI = [];
 app.get('/search', (req, res) => {
     let qry = req.query.searchbar.toLowerCase();
     search.result = productsFromAPI.filter(item => item.name.toLowerCase().includes(qry));
