@@ -53,7 +53,7 @@ module.exports = function Cart(oldCart, user) {
         this.totalQty -= this.items[id].qty;
         this.totalPrice -= this.items[id].price;
         this.tax = Number((.05 * this.totalPrice).toFixed(2));
-        this.grandTotal = (this.totalQty == 0) ? 0 : (this.grandTotal - this.items[id].price - (.05 * this.items[id].price));
+        this.grandTotal = (this.totalQty == 0) ? 0 : (this.grandTotal - this.items[id].price - Number((.05 * this.items[id].price).toFixed(2)));
 
         delete this.items[id];
 
