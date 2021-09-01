@@ -24,7 +24,7 @@ module.exports = function Cart(oldCart, user) {
         // var cartItem = this.items[product_id];
 
         cartItem.qty++;
-        cartItem.price =  Number(cartItem.item.price) * parseInt(cartItem.qty);
+        cartItem.price =  Number(((cartItem.item.price) * parseInt(cartItem.qty).toFixed(2)));
         this.totalQty++;
         this.totalPrice += Math.max(cartItem.item.price);
         this.tax = Number((.05 * this.totalPrice).toFixed(2));
@@ -53,7 +53,7 @@ module.exports = function Cart(oldCart, user) {
         this.totalQty -= this.items[id].qty;
         this.totalPrice -= this.items[id].price;
         this.tax = Number((.05 * this.totalPrice).toFixed(2));
-        this.grandTotal = (this.totalQty == 0) ? 0 : (this.grandTotal - this.items[id].price - Number((.05 * this.items[id].price).toFixed(2)));
+        this.grandTotal = (this.totalQty == 0) ? 0 : Number((this.grandTotal - this.items[id].price - Number((.05 * this.items[id].price).toFixed(2))).toFixed(2));
 
         delete this.items[id];
 
