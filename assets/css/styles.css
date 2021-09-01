@@ -1256,7 +1256,7 @@ This is added to show the details section for the product page.*/
   bottom: 1rem;
   width: 100%;
   background-color: var(--first-color-lighten);
-  padding: 2rem   0rem;
+  padding: 2rem   0.5rem;
   border-radius: 1rem;
   text-align: center;
   box-shadow: 0 8px 20px rgba(35,0,77,.2);
