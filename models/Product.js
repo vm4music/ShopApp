@@ -24,13 +24,6 @@ const ProductSchema = mongoose.Schema({
         type : Number,
         default : 0
     },
-    // totalreviews : {
-    //     type : Number,
-    //     default : 0
-    // },
-    // rating : {
-    //     type : Number
-    // },
     created : {
         type: Date,
         default: Date.now
