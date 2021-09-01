@@ -27,7 +27,7 @@ module.exports = function Cart(oldCart, user) {
         cartItem.price =  Number(cartItem.item.price) * parseInt(cartItem.qty);
         this.totalQty++;
         this.totalPrice += Math.max(cartItem.item.price);
-        this.tax = parseFloat((.05 * this.totalPrice).toFixed(2));
+        this.tax = (Math.round(.05 * this.totalPrice));
         console.log(this.totalPrice + " "+this.tax + " " + this.shipping + "  vvvvvvvvvvvvvvvvvvv")
         this.grandTotal = Math.round(this.totalPrice + this.tax + this.shipping);
 
@@ -52,7 +52,7 @@ module.exports = function Cart(oldCart, user) {
     this.remove = async function (id, user) {
         this.totalQty -= this.items[id].qty;
         this.totalPrice -= this.items[id].price;
-        this.tax = parseFloat((.05 * this.totalPrice).toFixed(2));
+        this.tax = (.05 * this.totalPrice);
         this.grandTotal = (this.totalQty == 0) ? 0 : (this.grandTotal - this.items[id].price - (.05 * this.items[id].price));
 
         delete this.items[id];
