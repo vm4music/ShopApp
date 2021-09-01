@@ -138,21 +138,17 @@ inputs.forEach(input=>{
 const toggled = document.getElementById('sort-dropdown'),
     sort = document.getElementsByClassName('dropdown-content')
 // search[0].style.display = "none";
-toggled.addEventListener('click', () => {
-    // sort.forEach(sorts => {
+if(toggled){
+    toggled.addEventListener('click', () => {
+    
         if (sort[0].style.display === "none" || sort[0].style.display == "") {
             sort[0].style.display = "block";
     } else {
         sort[0].style.display = "none";
             }
-    // })
-    
-//     if (search[0].style.display === "none") {
-//         search[0].style.display = "block";
-//     } else {
-//         search[0].style.display = "none";
-//     }
-})
+})    
+}
+
 
 // togglem.addEventListener('click', () => {
 //     if (search[0].style.display === "none" || search[0].style.display == "") {

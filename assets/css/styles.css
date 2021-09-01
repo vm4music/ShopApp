@@ -1247,12 +1247,12 @@ This is added to show the details section for the product page.*/
 }
 
 .login__forms{
-  position: relative;
-  height: 368px;
+  /* position: relative; */
+  /* height: 368px; */
 }
 
 .login__registre, .login__create{
-  position: absolute;
+  /* position: absolute; */
   bottom: 1rem;
   width: 100%;
   background-color: var(--first-color-lighten);
