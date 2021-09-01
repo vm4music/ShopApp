@@ -20,10 +20,16 @@ const ProductSchema = mongoose.Schema({
     detail : {
         type: Array,
     },
-
     popular : {
         type : Number,
         default : 0
+    },
+    totalreviews : {
+        type : Number,
+        default : 0
+    },
+    rating : {
+        type : Number
     },
     created : {
         type: Date,

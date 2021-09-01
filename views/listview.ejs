@@ -97,16 +97,18 @@
                    
                         <div class="menu__container bd-grid">
                             <% for(i in data.results) { %>
-                                <div class="menu__content"> <img src="/assets/img/<%= data.results[i].img %>" alt=""
-                                        class="menu__img">
+                                <div class="menu__content"> 
+                                    <a href="/product/<%= data.results[i].p_id %>">
+                                    <img src="/assets/img/<%= data.results[i].img %>" alt="" class="menu__img">
                                     <h3 class="menu__name">
                                         <%= data.results[i].name %>
                                     </h3>
                                     <!-- <span class="menu__detail"><%= data.results[i].detail %></span> -->
 
                                     <span class="menu__preci">INR <%= data.results[i].price %></span>
-                                    <a href="/product/<%= data.results[i].p_id %>" class="button menu__button"><i
+                                    <a href="/add-to-cart/<%= data.results[i].p_id %>" class="button menu__button"><i
                                             class='bx bx-cart-alt'></i></a>
+                                    </a>
                                 </div>
                                 <!-- <%= data.results[i].p_id %>
                     <%= data.results[i].name %> -->
