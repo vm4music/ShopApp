@@ -29,7 +29,7 @@ module.exports = function Cart(oldCart, user) {
         this.totalPrice += Math.max(cartItem.item.price);
         this.tax = Number((.05 * this.totalPrice).toFixed(2));
         console.log(this.totalPrice + " "+this.tax + " " + this.shipping + "  vvvvvvvvvvvvvvvvvvv")
-        this.grandTotal = Math.round(this.totalPrice + this.tax + this.shipping);
+        this.grandTotal = (this.totalPrice + this.tax + this.shipping);
 
         await Order.findOneAndDelete({ user: user })
         if (this.user) {
