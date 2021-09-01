@@ -1246,10 +1246,10 @@ This is added to show the details section for the product page.*/
   margin-bottom: 13.5rem;
 }
 
-.login__forms{
-  /* position: relative; */
-  /* height: 368px; */
-}
+/* .login__forms{
+  position: relative;
+  height: 368px;
+} */
 
 .login__registre, .login__create{
   /* position: absolute; */
@@ -1262,6 +1262,7 @@ This is added to show the details section for the product page.*/
   box-shadow: 0 8px 20px rgba(35,0,77,.2);
   animation-duration: .4s;
   animation-name: animate-login;
+  margin: auto;
 }
 
 @keyframes animate-login{
