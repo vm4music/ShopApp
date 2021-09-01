@@ -29,7 +29,7 @@ module.exports = function Cart(oldCart, user) {
         this.totalPrice += Math.max(cartItem.item.price);
         this.tax = parseFloat((.05 * this.totalPrice).toFixed(2));
         console.log(this.totalPrice + " "+this.tax + " " + this.shipping + "  vvvvvvvvvvvvvvvvvvv")
-        this.grandTotal = parseFloat((this.totalPrice + this.tax + this.shipping).toFixed(2));
+        this.grandTotal = Math.round(this.totalPrice + this.tax + this.shipping);
 
         await Order.findOneAndDelete({ user: user })
         if (this.user) {
@@ -53,7 +53,7 @@ module.exports = function Cart(oldCart, user) {
         this.totalQty -= this.items[id].qty;
         this.totalPrice -= this.items[id].price;
         this.tax = parseFloat((.05 * this.totalPrice).toFixed(2));
-        this.grandTotal = (this.totalQty == 0) ? 0 : parseFloat((this.grandTotal - this.items[id].price - (.05 * this.items[id].price)).toFixed(2));
+        this.grandTotal = (this.totalQty == 0) ? 0 : (this.grandTotal - this.items[id].price - (.05 * this.items[id].price));
 
         delete this.items[id];
 
