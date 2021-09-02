@@ -29,7 +29,19 @@
                 <div class="about__container  bd-grid">
                     <img src="/assets/img/<%= data.img %>" alt="" class="about__img">    
                     <div class="about__data">
-                        <a href="/product/<%= data.p_id %>" class="heart" ><i class='bx bx-heart'></i></a>
+                        
+                        <div class="alert success"></div>
+
+                        <form action="/wishlist-toggle" method="POST">
+                            <input type="hidden" id="wishlist" name="wishlist" value="<%= wishlist %>" />
+                            <input type="hidden" id="pid" name="pid" value="<%= data.p_id %>" /> 
+
+                                <% var cl = (wishlist == true) ? "bxs-heart" : "bx-heart" %>
+                                    <button type="submit" class="heart__button"><i id="heart" class='bx <%= cl %>'></i></button>
+                        </form>
+                        <!-- <% if(wishlist) { %> -->
+                        <!-- <% } %> -->
+                        <!-- <a href="/wishlist/<%= data.p_id %>" class="heart" ><i class='bx bx-heart'></i></a> -->
                         <span class="section-subtitle about__initial">Sale</span>
                         <h2 class="section-title about__initial"><%= data.name %></h2>
                         <div class = "product-rating">
@@ -120,7 +132,11 @@
         <!--========== SCROLL REVEAL ==========-->
         <script src="https://unpkg.com/scrollreveal"></script>
 
+        <!--========== JQUERY CDN ==========-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
         <!--========== MAIN JS ==========-->
         <script src="/assets/js/main.js"></script>
+
     </body>
 </html>

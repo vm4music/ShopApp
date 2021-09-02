@@ -48,6 +48,7 @@ const userRoute = require('./routes/userroute');
 // const orderRoute = require('./routes/order');
 
 const { getProductsForIndex, getProductsWithPage } = require('./db/productdbservice');
+const User = require('./models/User');
 
 
 app.use(async function (req, res, next) {
@@ -75,12 +76,20 @@ app.use(async function (req, res, next) {
                         cartObj = {}
                     }
                 }
+                 
+
             })
         }
         req.session.cart = new Cart(cartObj);
-        console.log(req.session.cart)
-    }
-   
+        // console.log(req.session.cart)
+
+    //    console.log(req.session)
+    // if(req.session){
+    //     await User.findById({_id : req.session.passport.user}, function(err, user){
+    //         console.log(err);
+    //     })
+    // }
+}
 
     next();
 });
@@ -275,6 +284,15 @@ var products =
 //========== ROUTERS START =============//
 let search = {};
 app.get('/', connectMongoose, async (req, res) => {
+
+  if(req.session.passport){
+    await User.findById({_id : req.session.passport.user}, (err, user) => {
+       
+        if(!err && (req.session.wishlist != user.wishlist))
+            req.session.wishlist = user.wishlist
+   })
+  }
+
     try {
         res.render('index', {
             title: 'Little Bugs',
@@ -298,8 +316,15 @@ app.get('/', connectMongoose, async (req, res) => {
  * 
  */
 app.get('/shop', connectMongoose, async (req, res) => {
+
+
     
     try {
+
+        var wishlist = {}
+        if (req.session.wishlist)
+            wishlist = req.session.wishlist
+
         let page = req.query.page || 1;
         let sort = req.query.sort || "Price High-to-Low";
         
@@ -309,7 +334,8 @@ app.get('/shop', connectMongoose, async (req, res) => {
         res.render('listview', {
             title: 'sdfs',
             data: (await getProductsWithPage(page, 6, sort, text)),
-            user: req.user || ""
+            user: req.user || "",
+            wishlist: wishlist
         });
       
     } catch (err) {
@@ -317,12 +343,48 @@ app.get('/shop', connectMongoose, async (req, res) => {
     }
 });
 
+
+/*-=========================SEND WISHLIST==========================-*/
+app.post('/wishlist',checkAuthenticated, connectMongoose, async (req, res) => {
+
+        try {
+            var pid = req.body.pid;
+            
+            await User.findById( req.session.passport.user , function(err, user){
+                    if(err)
+                        console.log("Error updating the wishlish "+ err)
+                    
+                    if(!err){
+
+                        if(user.wishlist.includes(pid)){
+                            user.wishlist.pull(pid);
+                        }else{
+                            user.wishlist.push(pid);
+                            
+                        }
+                        user.save();
+
+                        req.session.wishlist = user.wishlist
+                        console.log(req.session.wishlist)
+                        res.json({message : "Wishlist updated successfully!"})
+                        
+                    }
+                })
+        } catch (error) {
+            console.log("Error in updating the wishlist : " + error)
+        }
+});
+
+
 //==================== PRODUCT PAGE =============================//
 app.get('/product/:p_id', async (req, res) => {
 
     var cart = new Cart(req.session.cart ? req.session.cart : {});
-    let list = {};
 
+    var wishlist = {}
+    if(req.session.wishlist)
+     wishlist = req.session.wishlist.includes(req.params.p_id)
+     console.log("Wishlist: "+ wishlist)
     //list.result = products.filter(item => item.p_id === req.params.p_id);
     await Product.findOneAndUpdate({ p_id: req.params.p_id }, { $inc: { 'popular': 1 } }, { new: true, useFindAndModify: false }, function (err, product) {
         if (err)
@@ -334,14 +396,16 @@ app.get('/product/:p_id', async (req, res) => {
             // data: products.filter(item => item.p_id === req.params.p_id),
             data: product,
             user: req.user || "",
-            cart: cart.generateArray()
+            cart: cart.generateArray(),
+            wishlist : wishlist
+            
         });
     })
 })
 
 //==================== CART RESULTS =============================//
 
-app.get('/add-to-cart/:p_id', connectMongoose, checkAuthenticated, async (req, res) => {
+app.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
     await Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
         if (err) {
             console.log("Error in finding the product to add to Cart: " + err);
@@ -415,7 +479,7 @@ const uri = process.env.DB_CONNECTION;
 //==============MIDDLEWARES=================//
 function connectMongoose(req, res, next) {
     if (mongoose.connection.readyState < 1)
-        mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true }, () => console.log("test DB"));
+        mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true  }, () => console.log("test DB"));
     next()
 }
 function checkAuthenticated(req, res, next) {

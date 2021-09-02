@@ -98,6 +98,13 @@
                         <div class="menu__container bd-grid">
                             <% for(i in data.results) { %>
                                 <div class="menu__content"> 
+                                    <form action="/wishlist-toggle" method="POST">
+                                        <input type="hidden" id="wishlist" name="wishlist" value="kuch" />
+                                        <input type="hidden" id="pid" name="pid" value="<%= data.results[i].p_id %>" /> 
+            
+                                        <% var cl = (wishlist.includes(data.results[i].p_id)) ? "bxs-heart" : "bx-heart" %>
+                                                <button type="submit" class="heart__button__list"><i id="heart" class='bx <%= cl %>'></i></button>
+                                    </form>
                                     <a href="/product/<%= data.results[i].p_id %>">
                                     <img src="/assets/img/<%= data.results[i].img %>" alt="" class="menu__img">
                                     <h3 class="menu__name">
@@ -176,6 +183,9 @@
 
             <!--========== SCROLL REVEAL ==========-->
             <script src="https://unpkg.com/scrollreveal"></script>
+
+            <!--========== JQUERY CDN ==========-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
             <!--========== MAIN JS ==========-->
             <script src="/assets/js/main.js"></script>

@@ -1,4 +1,3 @@
-
 /*==================== SHOW MENU ====================*/
 const showMenu = (toggleId, navId) =>{
     const toggle = document.getElementById(toggleId),
@@ -149,14 +148,74 @@ if(toggled){
 })    
 }
 
+if(document.getElementsByClassName('heart__button')){
+$(document).ready(function(){
 
-// togglem.addEventListener('click', () => {
-//     if (search[0].style.display === "none" || search[0].style.display == "") {
-//         search[0].style.display = "block";
-//     } else {
-//         search[0].style.display = "none";
-//     }
-// })
+    $('.heart__button').on('click',function(e){
+         e.preventDefault();
+ 
+         $("#heart").toggleClass("bxs-heart")
+         $("#heart").toggleClass("bx-heart")
+ 
+        $.ajax({
+            url : "/wishlist",
+            data : {
+                wishlist : $("#wishlist").val(),
+                pid : $("#pid").val()
+            },
+            method : "POST",
+            contentType : "application/x-www-form-urlencoded",
+            success : function(res){
+                if(res.message){
+                    $(".alert").text(res.message)
+                }else{
+                    window.location.href = "/users/login"
+                }
+                
+            },
+            error : function(error){
+                console.log(error)
+            }
+        })
+ 
+    });
+})
+}
+
+if(document.getElementsByClassName('heart__button__list')){
+    $(document).ready(function(){
+    
+        $('.heart__button__list').on('click',function(e){
+             e.preventDefault();
+     
+             $("#heart").toggleClass("bxs-heart")
+             $("#heart").toggleClass("bx-heart")
+     
+            $.ajax({
+                url : "/wishlist",
+                data : {
+                    wishlist : $("#wishlist").val(),
+                    pid : $("#pid").val()
+                },
+                method : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                success : function(res){
+                    if(res.message){
+                        $(".alert").text(res.message)
+                    }else{
+                        window.location.href = "/users/login"
+                    }
+                    
+                },
+                error : function(error){
+                    console.log(error)
+                }
+            })
+     
+        });
+    })
+    }
+
 
 /*===== LOGIN SHOW and HIDDEN =====*/
 const signUp = document.getElementById('sign-up'),
@@ -184,5 +243,3 @@ signIn.addEventListener('click', ()=>{
     loginIn.classList.toggle('block')
     loginUp.classList.toggle('none')
 })
-
-
