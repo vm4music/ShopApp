@@ -383,7 +383,7 @@ app.get('/product/:p_id', async (req, res) => {
 
     var cart = new Cart(req.session.cart ? req.session.cart : {});
 
-    var wishlist = {}
+    var wishlist = []
     if(req.session.wishlist)
      wishlist = req.session.wishlist.includes(req.params.p_id)
      console.log("Wishlist: "+ wishlist)
@@ -437,12 +437,17 @@ app.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
                 console.log("Updated Cart***************************");
                 console.log(cart);
                 console.log("*************************Updated Cart end***************************");
+
+                var wishlist = []
+                if (req.session.wishlist)
+                    wishlist = req.session.wishlist.includes(req.params.p_id)
                 
                 res.render('product', {
                     title: 'Product View',
                     data: product,
                     user: req.user || "",
-                    cart: cart.generateArray()
+                    cart: cart.generateArray(),
+                    wishlist : wishlist
                 });
 
             } catch (error) {
