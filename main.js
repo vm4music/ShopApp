@@ -321,7 +321,7 @@ app.get('/shop', connectMongoose, async (req, res) => {
     
     try {
 
-        var wishlist = {}
+        var wishlist = []
         if (req.session.wishlist)
             wishlist = req.session.wishlist
 
@@ -335,7 +335,7 @@ app.get('/shop', connectMongoose, async (req, res) => {
             title: 'sdfs',
             data: (await getProductsWithPage(page, 6, sort, text)),
             user: req.user || "",
-            wishlist: wishlist
+            wishlist: wishlist || []
         });
       
     } catch (err) {
@@ -348,6 +348,8 @@ app.get('/shop', connectMongoose, async (req, res) => {
 app.post('/wishlist',checkAuthenticated, connectMongoose, async (req, res) => {
 
         try {
+
+            console.log(req.body.pid)
             var pid = req.body.pid;
             
             await User.findById( req.session.passport.user , function(err, user){

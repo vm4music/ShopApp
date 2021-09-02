@@ -100,10 +100,10 @@
                                 <div class="menu__content"> 
                                     <form action="/wishlist-toggle" method="POST">
                                         <input type="hidden" id="wishlist" name="wishlist" value="kuch" />
-                                        <input type="hidden" id="pid" name="pid" value="<%= data.results[i].p_id %>" /> 
+                                        <input type="hidden" id="pid_<%= data.results[i].p_id %>" name="pid" value="<%= data.results[i].p_id %>" /> 
             
                                         <% var cl = (wishlist.includes(data.results[i].p_id)) ? "bxs-heart" : "bx-heart" %>
-                                                <button type="submit" class="heart__button__list"><i id="heart" class='bx <%= cl %>'></i></button>
+                                                <button type="submit" class="heart__button__list"><i id="heart_<%= data.results[i].p_id %>" class='bx <%= cl %>'></i></button>
                                     </form>
                                     <a href="/product/<%= data.results[i].p_id %>">
                                     <img src="/assets/img/<%= data.results[i].img %>" alt="" class="menu__img">
