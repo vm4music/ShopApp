@@ -7,16 +7,19 @@ const UserSchema = mongoose.Schema({
         required: true
     },
     password : {
-        type: String,
-        required: true
+        type: String
+        // required: true
     },
     email : {
         type: String,
-        unique : true,
-        required: true
+        unique : true
+        // required: true
     },
     wishlist : {
-        type : Array,
+        type : Array
+    },
+    googleId : {
+        type : String
     },
     created : {
         type: Date,

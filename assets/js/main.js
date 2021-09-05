@@ -148,7 +148,8 @@ if(toggled){
 })    
 }
 
-if(document.getElementsByClassName('heart__button')){
+console.log(document.getElementsByClassName('heart__button').length + " CCCCCCCCCCCCCCCCCCCCCCC")
+if(document.getElementsByClassName('heart__button').length > 0){
 $(document).ready(function(){
 
     $('.heart__button').on('click',function(e){
@@ -182,7 +183,7 @@ $(document).ready(function(){
 })
 }
 
-if(document.getElementsByClassName('heart__button__list')){
+if(document.getElementsByClassName('heart__button__list').length > 0){
     $(document).ready(function(){
     
         $('.heart__button__list').on('click',function(e){

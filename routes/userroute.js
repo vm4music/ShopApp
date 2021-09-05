@@ -67,7 +67,20 @@ router.get('/login', checkNotAuthenticated, (req, res) => {
 
 });
 
+
+router.get('/google', passport.authenticate('google', 
+{
+    scope: ['https://www.googleapis.com/auth/plus.login']
+}))
+
+router.get('/google/redirect', passport.authenticate('google',{ 
+    successRedirect: '/',
+    failureRedirect: '/users/login'
+}));
+
+
 router.delete('/logout', (req, res) => {
+    req.session.cart = '';
     req.logOut()
     res.redirect('/users/login')
   })

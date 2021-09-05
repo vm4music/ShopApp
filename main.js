@@ -55,7 +55,8 @@ app.use(async function (req, res, next) {
 
     res.locals.session = req.session;
     res.locals.login = req.isAuthenticated()  // 
-    console.log(res.locals.session)
+    console.log("Locals Session updated from Middleware")
+    console.log( res.locals.session)
 
     if(req.session.passport){
         let cartObj = {};
@@ -67,17 +68,8 @@ app.use(async function (req, res, next) {
                     console.log(err + " Order Error");
                 }
                 else{
-                    if(order){
-                        console.log(cartObj + "1")
-                        cartObj = order;
-                    }
-                    else{
-                        console.log(cartObj)
-                        cartObj = {}
-                    }
+                    cartObj = (order == null) ? {} : order;
                 }
-                 
-
             })
         }
         req.session.cart = new Cart(cartObj);
@@ -283,15 +275,7 @@ var products =
 
 //========== ROUTERS START =============//
 let search = {};
-app.get('/', connectMongoose, async (req, res) => {
-
-  if(req.session.passport){
-    await User.findById({_id : req.session.passport.user}, (err, user) => {
-       
-        if(!err && (req.session.wishlist != user.wishlist))
-            req.session.wishlist = user.wishlist
-   })
-  }
+app.get('/', connectMongoose, checkWishList, async (req, res) => {
 
     try {
         res.render('index', {
@@ -497,6 +481,23 @@ function checkAuthenticated(req, res, next) {
     res.redirect('/users/login')
 
 }
+async function checkWishList(req, res, next){
+       
+    if( req.session.passport){  
+      if( req.session.passport.user != null && req.session.wishlist == null){
+        console.log("PASSPORT ********************")
+        console.log(req.session.passport)
+        console.log("PASSPORT ********************")
+            await User.findById({_id : req.session.passport.user}, (err, user) => {
+           
+            if(!err && (req.session.wishlist != user.wishlist))
+                req.session.wishlist = user.wishlist
+       })
+      }
+    }
+      next()
+}
+
 
 //========== API Response ============//
 app.get('/api/shop', (req, res) => {
