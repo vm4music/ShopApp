@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+  }
+
 const LocalStrategy = require('passport-local').Strategy
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const mongoose = require('mongoose');
@@ -34,9 +38,9 @@ function initialize(passport){
     passport.use(new LocalStrategy({usernameField: 'email'}, authenticateUser))
 
     passport.use(new GoogleStrategy({
-        callbackURL : 'http://localhost:8081/users/google/redirect',
-        clientID : '326983430030-0es26bvo5h2h4r3bmomnth4s96mik6e8.apps.googleusercontent.com',
-        clientSecret : '2vr8purv5peMZ98fHwq3kQFI'
+        callbackURL : process.env.callbackURL,
+        clientID : process.env.clientId,
+        clientSecret : process.env.clientSecret
     }, async (accessToken, refreshToken, profile, done) => {
         console.log(JSON.stringify(profile)  + "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...............xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ")
 

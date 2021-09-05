@@ -221,6 +221,7 @@ console.log(id )
 
 
 /*===== LOGIN SHOW and HIDDEN =====*/
+if(document.getElementById('sign-up') != null){
 const signUp = document.getElementById('sign-up'),
     signIn = document.getElementById('sign-in'),
     loginIn = document.getElementById('login-in'),
@@ -246,3 +247,4 @@ signIn.addEventListener('click', ()=>{
     loginIn.classList.toggle('block')
     loginUp.classList.toggle('none')
 })
+}

@@ -73,14 +73,13 @@ router.get('/google', passport.authenticate('google',
     scope: ['https://www.googleapis.com/auth/plus.login']
 }))
 
-router.get('/google/redirect', passport.authenticate('google',{ 
-    successRedirect: '/',
-    failureRedirect: '/users/login'
-}));
+router.get('/google/redirect', passport.authenticate('google',{ failureRedirect: '/users/login'}), (req, res) => {
+    res.redirect(req.session.returnTo || '/')
+});
 
 
 router.delete('/logout', (req, res) => {
-    req.session.cart = '';
+    delete req.session.cart;
     req.logOut()
     res.redirect('/users/login')
   })
