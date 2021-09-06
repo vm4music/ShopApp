@@ -84,6 +84,58 @@ module.exports = {
 
     },
 
+    getWishlist: async function (page, limit, sort, text) {
+        let find_query = {};
+        let s_text = '';
+
+        if(text.category != ""){
+            s_text = text.category;
+        }
+           
+        if(text.key != ""){
+            s_text = text.key;
+        }
+        let sort_categories = ["Price Low-to-High", "Price High-to-Low"];
+
+        page = parseInt(page)
+        limit = parseInt(limit)
+
+        const startIndex = (page - 1) * limit
+        const endIndex = page * limit
+
+        const results = {}
+
+        if (endIndex < await Product.countDocuments({p_id: { $in: text.wishlist }}).exec()) {
+            results.next = {
+                page: page + 1,
+                limit: limit
+            }
+        }
+        if (startIndex > 0) {
+            results.previous = {
+                page: page - 1,
+                limit: limit
+            }
+        }
+
+        results.sort = sort;
+        results.sort_text = s_text
+
+        try {
+            if (sort == sort_categories[0]) {
+                results.results = await Product.find({p_id: { $in: text.wishlist }}).limit(limit).skip(startIndex).sort({ price: 1 }).exec();
+            } else {
+                results.results = await Product.find({p_id: { $in: text.wishlist }}).limit(limit).skip(startIndex).sort({ price: -1 }).exec()
+            }
+            results.text = text;
+            // console.log(results.results)
+            return paginatedResults = results
+        } catch (e) {
+            return ({ message: e.message })
+        }
+
+    },
+
     // getProductsByCategory: async function (page, limit, sort, text) {
         
     //     let find_query = (text) ? { categories: text } : {};

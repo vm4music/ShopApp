@@ -47,7 +47,7 @@ const productsRoute = require('./routes/product');
 const userRoute = require('./routes/userroute');
 // const orderRoute = require('./routes/order');
 
-const { getProductsForIndex, getProductsWithPage } = require('./db/productdbservice');
+const { getProductsForIndex, getProductsWithPage, getWishlist } = require('./db/productdbservice');
 const User = require('./models/User');
 
 
@@ -360,7 +360,33 @@ app.post('/wishlist',checkAuthenticated, connectMongoose, async (req, res) => {
             console.log("Error in updating the wishlist : " + error)
         }
 });
+/*-=========================Get WISHLIST==========================-*/
+app.get('/wishlist',checkAuthenticated, connectMongoose, async (req, res) => {
 
+    try {
+
+        var wishlist = []
+        if (req.session.wishlist)
+            wishlist = req.session.wishlist
+
+        let page = req.query.page || 1;
+        let sort = req.query.sort || "Price High-to-Low";
+        
+        let text = {};
+        text.key = req.query.text|| "";
+        text.category = req.query.category || "";
+        text.wishlist = wishlist
+        res.render('wishlist', {
+            title: 'sdfs',
+            data: (await getWishlist(page, 6, sort, text)),
+            user: req.user || "",
+            wishlist: wishlist || []
+        });
+      
+    } catch (err) {
+        return ({ message: err })
+    }
+});
 
 //==================== PRODUCT PAGE =============================//
 app.get('/product/:p_id', async (req, res) => {
