@@ -21,7 +21,8 @@ function linkAction(){
     // When we click on each nav__link, we remove the show-menu class
     navMenu.classList.remove('show-menu')
 }
-navLink.forEach(n => n.addEventListener('click', linkAction))
+// This line needs to be looked after for later by Vikas
+// navLink.forEach(n => n.addEventListener('click', linkAction))
 
 /*==================== SCROLL SECTIONS ACTIVE LINK ====================*/
 const sections = document.querySelectorAll('section[id]')
@@ -186,6 +187,15 @@ $(document).ready(function(){
 if(document.getElementsByClassName('heart__button__list').length > 0){
     $(document).ready(function(){
     
+        $("#menu-toggler").click(function() {
+            toggleBodyClass("menu-active");
+          });
+        
+          function toggleBodyClass(className) {
+            document.body.classList.toggle(className);
+          }
+
+
         $('.heart__button__list').on('click',function(e){
              e.preventDefault();
 

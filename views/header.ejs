@@ -4,31 +4,37 @@
         <a href="/" class="nav__logo">Little Bugs</a>
 
         <div class="nav__menu" id="nav-menu">
+
             <ul class="nav__list">
 
-                <!-- <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li> -->
-                <!-- <li class="nav__item"><a href="#about" class="nav__link">About</a></li> -->
-                
+              <li class="nav__item"><a href="/" class="nav__link">Home</a></li>
                 <li class="nav__item"><a href="/shop" class="nav__link">Shop</a></li>
+
                 <%if(user) { %>
-                    <li class="nav__item"><a href="/wishlist" class="nav__link">My Wishlist</a></li>
-                    <li class="nav__item"><a href="/shop2" class="nav__link">
-                    <form action="/users/logout?_method=DELETE" method="POST">
+                <li class="nav__item menu-item"><a href="#" class="nav__link nav__link__dropdown">Account</a>
+                  
+                    <ul class="sub-nav" >
+                      <li class="nav__item"><a class="sub-nav__link" href="#">My Profile</a></li>
+                      <li class="nav__item"><a href="/wishlist" class="sub-nav__link">My Wishlist</a></li>
+                      <li class="nav__item"><a href="/wishlist" class="sub-nav__link">My Orders</a></li>
+                    <li class="nav__item"><a class="nav__link" href="#">
+
+                      <form action="/users/logout?_method=DELETE" method="POST">
                         <button class="searchButton" type="submit">Log Out</button>
                       </form>
-                </a></li>
-                
-                <% } %>
-               
-                <!-- <li class="nav__item"><a href="#contact" class="nav__link">Contact us</a></li> -->
 
+                    </a></li>
+                  </ul>
+                </li>
+                <% } %>
                 <li><i class='bx bx-moon change-theme' id="theme-button"></i></li>
 
             </ul>
 
         </div>
+
         <div class="nav__cart">
-            <!-- <i class="bx bx-search" id="search-toggle-d"></i> -->
+            
             <%if(!user) { %>
         
             <a href="/users/login" class="nav__link"><i class='bx bx-user'></i></a>
@@ -39,15 +45,9 @@
             <% } else { %>
                 <span class="responsiveFlyoutBasket_itemsCount"> 0 </span>
                 <% } %>
-            <!-- <ul> -->
-            <!-- <li> -->
-                
-            <!-- </li> -->
-            <!-- </ul> -->
         </div>
 
         <div class="nav__toggle">
-            <!-- <i class="bx bx-search" id="search-toggle-m"></i>           -->
             <%if(!user) { %>
                 <a href="/users/login" class="nav__link"><i class='bx bx-user'></i></a>
                 <% } %>
@@ -61,6 +61,45 @@
         </div>
 
     </nav>
+     <!-- <li class="nav__item"><a href="#home" class="nav__link active-link">Home</a></li> --> 
+    
+  
+     <!-- <nav class="navbar">
+      <div class="logo"><img src="https://upload.wikimedia.org/wikipedia/commons/2/23/AS_sample_logo.png" alt="LOGO"></div>
+      <div class="push-left">
+        <button id="menu-toggler" data-class="menu-active" class="hamburger">
+          <span class="hamburger-line hamburger-line-top"></span>
+          <span class="hamburger-line hamburger-line-middle"></span>
+          <span class="hamburger-line hamburger-line-bottom"></span>
+        </button>
+     -->
+        <!--  Menu compatible with wp_nav_menu  -->
+        <!-- <ul id="primary-menu" class="menu nav-menu">
+          <li class="menu-item current-menu-item"><a class="nav__link"  href="#">Home</a></li>
+          <li class="menu-item dropdown"><a class="nav__link"  href="#">About</a>
+             <ul class="sub-nav" >
+              <li><a class="sub-nav__link" href="#">link 1</a></li>
+              <li><a class="sub-nav__link" href="#">link 2</a></li>
+              <li><a class="sub-nav__link" href="#">link 3 - long link - long link - long link</a></li>
+            </ul>
+    
+          </li>
+          <li class="menu-item dropdown"><a class="nav__link"  href="#">Contact</a>
+            <ul class = "sub-nav">
+              <li><a class="sub-nav__link"  href="#">link 1</a></li>
+              <li><a class="sub-nav__link"  href="#">link 2</a></li>
+              <li><a class="sub-nav__link"  href="#">link 3 - long link - long link - long link</a></li>
+            </ul>
+          </li>
+          <li class="menu-item "><a class="nav__link"  href="#">Blog</a>
+           
+          </li>
+        </ul>
+    
+    
+      </div>
+    </nav> -->
+    
     <div class="bd-grid search-box">
         <form action="/shop" method="get">
             <div class="search">
