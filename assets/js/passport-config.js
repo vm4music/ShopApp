@@ -57,8 +57,9 @@ function initialize(passport){
                     username: profile.displayName,
                     googleId: profile.id
                 })
+
                 const savedUser =  user.save();
-                console.log(savedUser + "  ******************************************************************************" )
+                // console.log(savedUser + "  ******************************************************************************" )
                 return done(null, savedUser);
             }
     }))
