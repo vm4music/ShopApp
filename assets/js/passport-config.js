@@ -52,14 +52,14 @@ function initialize(passport){
                 return done(null, user);
             }
             else{
-        //         console.log(profile)
-        //         const user = new User({
-        //             username: profile.displayName,
-        //             googleId: profile.id
-        //         })
-        //         const savedUser =  user.save();
-        //         console.log(savedUser + "  ******************************************************************************" )
-        //         return done(err, savedUser);
+                console.log(profile)
+                const user = new User({
+                    username: profile.displayName,
+                    googleId: profile.id
+                })
+                const savedUser =  user.save();
+                console.log(savedUser + "  ******************************************************************************" )
+                return done(null, savedUser);
             }
     }))
     passport.serializeUser(function(user, done) {
