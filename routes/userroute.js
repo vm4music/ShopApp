@@ -6,6 +6,7 @@ const router = express.Router();
 
 const User = require('../models/User')
 
+const mongoose = require('mongoose')
 
 var about_us = {
     "title": "Our children deserve the best",
@@ -68,21 +69,30 @@ router.get('/login', checkNotAuthenticated, (req, res) => {
 });
 
 
-router.get('/google', passport.authenticate('google', 
+router.get('/google', connectMongoose, passport.authenticate('google', 
 {
     scope: ['https://www.googleapis.com/auth/plus.login']
 }))
 
-router.get('/google/redirect', passport.authenticate('google',{ failureRedirect: '/users/login'}), (req, res) => {
+router.get('/google/redirect', connectMongoose, passport.authenticate('google',{ failureRedirect: '/users/login'}), (req, res) => {
     res.redirect(req.session.returnTo || '/')
 });
 
 
 router.delete('/logout', (req, res) => {
     delete req.session.cart;
+    delete req.session.returnTo;
     req.logOut()
     res.redirect('/users/login')
   })
+
+
+  //==============MIDDLEWARES=================//
+function connectMongoose(req, res, next) {
+    if (mongoose.connection.readyState < 1)
+        mongoose.connect(process.env.DB_CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true  }, () => console.log("test DB"));
+    next()
+}
 
 function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
@@ -101,6 +111,8 @@ function checkNotAuthenticated(req, res, next) {
     }
     next()
 }
+
+
 
 
 module.exports = router;

@@ -500,10 +500,11 @@ function connectMongoose(req, res, next) {
     next()
 }
 function checkAuthenticated(req, res, next) {
+    req.session.returnTo = req.originalUrl;
     if (req.isAuthenticated()) {
         return next()
     }
-    req.session.returnTo = req.originalUrl;
+    
     res.redirect('/users/login')
 
 }
