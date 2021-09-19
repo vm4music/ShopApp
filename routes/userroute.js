@@ -71,7 +71,7 @@ router.get('/login', checkNotAuthenticated, (req, res) => {
 
 router.get('/google', connectMongoose, passport.authenticate('google', 
 {
-    scope: ['https://www.googleapis.com/auth/plus.login']
+    scope: ['https://www.googleapis.com/auth/userinfo.profile' ,'https://www.googleapis.com/auth/userinfo.email']
 }))
 
 router.get('/google/redirect', connectMongoose, passport.authenticate('google',{ failureRedirect: '/users/login'}), (req, res) => {

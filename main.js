@@ -1,8 +1,8 @@
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config()
-  }
+}
 
- const express = require('express');
+const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const mongoose = require('mongoose');
@@ -12,7 +12,19 @@ const methodOverride = require('method-override')
 let Cart = require('./assets/js/cart')
 const flash = require('express-flash')
 
+const Paytm = require('paytmchecksum');
+const https = require('https');
+
+const FinalOrders = require('./models/FinalOrder')
+
 let MongoStore = require('connect-mongo');
+let orderStatus = {
+    INITIATED : "initiated",
+    SUCCESS : "success",
+    FAIL : "fail",
+    CANCELLED : "cancelled",
+    SHIPPED : "shipped"
+}
 
 // const { getProducts, searchProductsByCategories } = require('./assets/js/search');
 const app = express();
@@ -32,6 +44,7 @@ app.use(session({
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.DB_CONNECTION }),
     cookie: { maxAge: 100 * 60 * 1000 }
+    
 }))
 app.use(passport.initialize())
 app.use(passport.session())
@@ -45,10 +58,12 @@ app.use(express.json())
 //IMPORT ROUTES
 const productsRoute = require('./routes/product');
 const userRoute = require('./routes/userroute');
+const checkoutRoute = require('./routes/checkoutroute');
 // const orderRoute = require('./routes/order');
 
 const { getProductsForIndex, getProductsWithPage, getWishlist } = require('./db/productdbservice');
 const User = require('./models/User');
+const FinalOrder = require('./models/FinalOrder');
 
 
 app.use(async function (req, res, next) {
@@ -56,18 +71,19 @@ app.use(async function (req, res, next) {
     res.locals.session = req.session;
     res.locals.login = req.isAuthenticated()  // 
     console.log("Locals Session updated from Middleware")
-    console.log( res.locals.session)
+    console.log(res.locals.session)
 
-    if(req.session.passport){
+    if (req.session.passport) {
         let cartObj = {};
-        if(req.session.cart){
+        if (req.session.cart) {
             cartObj = req.session.cart;
-        }else{
-             await Order.findOne({ user: req.session.passport.user}, async function (err, order) {
+        } else {
+            await Order.findOne({ user: req.user }, async function (err, order) {
                 if (err) {
                     console.log(err + " Order Error");
                 }
-                else{
+                else {
+                    console.log(JSON.stringify(order) + " add to cart")
                     cartObj = (order == null) ? {} : order;
                 }
             })
@@ -75,13 +91,13 @@ app.use(async function (req, res, next) {
         req.session.cart = new Cart(cartObj);
         // console.log(req.session.cart)
 
-    //    console.log(req.session)
-    // if(req.session){
-    //     await User.findById({_id : req.session.passport.user}, function(err, user){
-    //         console.log(err);
-    //     })
-    // }
-}
+        //    console.log(req.session)
+        // if(req.session){
+        //     await User.findById({_id : req.session.passport.user}, function(err, user){
+        //         console.log(err);
+        //     })
+        // }
+    }
 
     next();
 });
@@ -89,7 +105,7 @@ app.use(async function (req, res, next) {
 //ROUTERS
 app.use('/products', productsRoute);
 app.use('/users', userRoute);
-
+app.use('/checkout', checkoutRoute);
 // app.use('/views', express.static(__dirname + '/views'));
 // app.set('views', __dirname + '/views'); // set express to look in this folder to render our view
 
@@ -290,6 +306,37 @@ app.get('/', connectMongoose, checkWishList, async (req, res) => {
 });
 
 
+
+
+
+app.get('/orderdetail/:order_id', connectMongoose, checkWishList, async (req, res) => {
+    
+    var cart = '';
+    console.log(req.params.order_id)
+    await FinalOrder.findById( req.params.order_id , (error, finalorders) => {
+        if(error)
+            return res.write("Error Fetching the order details");
+
+            console.log(finalorders)
+        // finalorders.forEach(order =>{
+            cart = new Cart(finalorders.cart);
+            finalorders.items = cart.generateArray();
+        // })
+        
+        try {
+
+            res.render('orderdetail', {
+                title: 'Order Details',
+                user: req.user || "",
+                orders: finalorders
+            });
+        } catch (err) {
+            return ({ message: err })
+        }
+
+    })
+
+});
 /**
  * parameters:
  * Page : Page number to be returned
@@ -302,7 +349,7 @@ app.get('/', connectMongoose, checkWishList, async (req, res) => {
 app.get('/shop', connectMongoose, async (req, res) => {
 
 
-    
+
     try {
 
         var wishlist = []
@@ -311,9 +358,9 @@ app.get('/shop', connectMongoose, async (req, res) => {
 
         let page = req.query.page || 1;
         let sort = req.query.sort || "Price High-to-Low";
-        
+
         let text = {};
-        text.key = req.query.text|| "";
+        text.key = req.query.text || "";
         text.category = req.query.category || "";
         res.render('listview', {
             title: 'sdfs',
@@ -321,7 +368,7 @@ app.get('/shop', connectMongoose, async (req, res) => {
             user: req.user || "",
             wishlist: wishlist || []
         });
-      
+
     } catch (err) {
         return ({ message: err })
     }
@@ -329,39 +376,39 @@ app.get('/shop', connectMongoose, async (req, res) => {
 
 
 /*-=========================SEND WISHLIST==========================-*/
-app.post('/wishlist',checkAuthenticated, connectMongoose, async (req, res) => {
+app.post('/wishlist', checkAuthenticated, connectMongoose, async (req, res) => {
 
-        try {
+    try {
 
-            console.log(req.body.pid)
-            var pid = req.body.pid;
-            
-            await User.findById( req.session.passport.user , function(err, user){
-                    if(err)
-                        console.log("Error updating the wishlish "+ err)
-                    
-                    if(!err){
+        console.log(req.body.pid)
+        var pid = req.body.pid;
 
-                        if(user.wishlist.includes(pid)){
-                            user.wishlist.pull(pid);
-                        }else{
-                            user.wishlist.push(pid);
-                            
-                        }
-                        user.save();
+        await User.findById(req.session.passport.user, function (err, user) {
+            if (err)
+                console.log("Error updating the wishlish " + err)
 
-                        req.session.wishlist = user.wishlist
-                        console.log(req.session.wishlist)
-                        res.json({message : "Wishlist updated successfully!"})
-                        
-                    }
-                })
-        } catch (error) {
-            console.log("Error in updating the wishlist : " + error)
-        }
+            if (!err) {
+
+                if (user.wishlist.includes(pid)) {
+                    user.wishlist.pull(pid);
+                } else {
+                    user.wishlist.push(pid);
+
+                }
+                user.save();
+
+                req.session.wishlist = user.wishlist
+                console.log(req.session.wishlist)
+                res.json({ message: "Wishlist updated successfully!" })
+
+            }
+        })
+    } catch (error) {
+        console.log("Error in updating the wishlist : " + error)
+    }
 });
 /*-=========================Get WISHLIST==========================-*/
-app.get('/wishlist',checkAuthenticated, connectMongoose, async (req, res) => {
+app.get('/wishlist', checkAuthenticated, connectMongoose, async (req, res) => {
 
     try {
 
@@ -371,9 +418,9 @@ app.get('/wishlist',checkAuthenticated, connectMongoose, async (req, res) => {
 
         let page = req.query.page || 1;
         let sort = req.query.sort || "Price High-to-Low";
-        
+
         let text = {};
-        text.key = req.query.text|| "";
+        text.key = req.query.text || "";
         text.category = req.query.category || "";
         text.wishlist = wishlist
         res.render('wishlist', {
@@ -382,7 +429,7 @@ app.get('/wishlist',checkAuthenticated, connectMongoose, async (req, res) => {
             user: req.user || "",
             wishlist: wishlist || []
         });
-      
+
     } catch (err) {
         return ({ message: err })
     }
@@ -394,9 +441,9 @@ app.get('/product/:p_id', async (req, res) => {
     var cart = new Cart(req.session.cart ? req.session.cart : {});
 
     var wishlist = []
-    if(req.session.wishlist)
-     wishlist = req.session.wishlist.includes(req.params.p_id)
-     console.log("Wishlist: "+ wishlist)
+    if (req.session.wishlist)
+        wishlist = req.session.wishlist.includes(req.params.p_id)
+    console.log("Wishlist: " + wishlist)
     //list.result = products.filter(item => item.p_id === req.params.p_id);
     await Product.findOneAndUpdate({ p_id: req.params.p_id }, { $inc: { 'popular': 1 } }, { new: true, useFindAndModify: false }, function (err, product) {
         if (err)
@@ -409,8 +456,8 @@ app.get('/product/:p_id', async (req, res) => {
             data: product,
             user: req.user || "",
             cart: cart.generateArray(),
-            wishlist : wishlist
-            
+            wishlist: wishlist
+
         });
     })
 })
@@ -425,14 +472,16 @@ app.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
         else {
             try {
                 let cartObj = {};
-                if(req.session.cart){
+                if (req.session.cart) {
                     cartObj = req.session.cart;
-                }else{
-                    await Order.findOne({ user: req.session.passport.user}, async function (err, order) {
+                } else {
+                    await Order.findOne({ user: req.session.passport.user }, function (err, order) {
                         if (err) {
                             console.log(err + " Order Error");
                         }
-                        else{
+                        else {
+
+                            
                             cartObj = order ? order : {};
                         }
                     })
@@ -440,10 +489,10 @@ app.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
 
                 var cart = new Cart(cartObj, req.session.passport.user);
                 // var cart = new Cart(req.session.cart ? req.session.cart : {});
-                
+
                 cart.add(product, product.p_id)
                 req.session.cart = cart;
-                
+
                 console.log("Updated Cart***************************");
                 console.log(cart);
                 console.log("*************************Updated Cart end***************************");
@@ -451,13 +500,13 @@ app.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
                 var wishlist = []
                 if (req.session.wishlist)
                     wishlist = req.session.wishlist.includes(req.params.p_id)
-                
+
                 res.render('product', {
                     title: 'Product View',
                     data: product,
                     user: req.user || "",
                     cart: cart.generateArray(),
-                    wishlist : wishlist
+                    wishlist: wishlist
                 });
 
             } catch (error) {
@@ -496,7 +545,7 @@ const uri = process.env.DB_CONNECTION;
 //==============MIDDLEWARES=================//
 function connectMongoose(req, res, next) {
     if (mongoose.connection.readyState < 1)
-        mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true  }, () => console.log("test DB"));
+        mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }, () => console.log("test DB"));
     next()
 }
 function checkAuthenticated(req, res, next) {
@@ -504,25 +553,25 @@ function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next()
     }
-    
+
     res.redirect('/users/login')
 
 }
-async function checkWishList(req, res, next){
-       
-    if( req.session.passport){  
-      if( req.session.passport.user != null && req.session.wishlist == null){
-        console.log("PASSPORT ********************")
-        console.log(req.session.passport)
-        console.log("PASSPORT ********************")
-            await User.findById({_id : req.session.passport.user}, (err, user) => {
-           
-            if(!err && (req.session.wishlist != user.wishlist))
-                req.session.wishlist = user.wishlist
-       })
-      }
+async function checkWishList(req, res, next) {
+
+    if (req.session.passport) {
+        if (req.session.passport.user != null && req.session.wishlist == null) {
+            console.log("PASSPORT ********************")
+            console.log(req.session.passport)
+            console.log("PASSPORT ********************")
+            await User.findById({ _id: req.session.passport.user }, (err, user) => {
+
+                if (!err && (req.session.wishlist != user.wishlist))
+                    req.session.wishlist = user.wishlist
+            })
+        }
     }
-      next()
+    next()
 }
 
 
@@ -561,15 +610,15 @@ app.get('/searchpage', (req, res) => {
 });
 
 //=========== KEYWORD BASED SEARCH =============//
-app.get('/searchkey',async (req, res) => {
+app.get('/searchkey', async (req, res) => {
     let finalResult = [];
     let keywords = req.query.searchbar.toLowerCase().split(' ');
 
     //await getKeywordProducts(req.query.searchbar)
-    keywords.forEach(  element => {
+    keywords.forEach(element => {
         let arr = products.filter(item => item.name.toLowerCase().includes(element));
         finalResult = (finalResult.length == 0) ? arr : finalResult.concat(arr);
-        
+
     });
 
 
@@ -601,7 +650,7 @@ app.get('/searchcategory', async (req, res) => {
             data: (await getProductsByCategory(page, 6, sort, key)),
             user: req.user || ""
         });
-      
+
     } catch (err) {
         return ({ message: err })
     }
@@ -675,10 +724,10 @@ showTimes = () => {
     let result = '';
     const times = process.env.TIMES || 5;
     for (i = 0; i < times; i++) {
-      result += i + ' ';
+        result += i + ' ';
     }
     return result;
-  }
+}
 
 //\\======= API Response ENDS ========//\\
 const port = process.env.PORT || 8081;

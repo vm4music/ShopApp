@@ -42,9 +42,9 @@ function initialize(passport){
         clientID : process.env.clientId,
         clientSecret : process.env.clientSecret
     }, async (accessToken, refreshToken, profile, done) => {
-        console.log(JSON.stringify(profile)  + "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx...............xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ")
+        console.log(JSON.stringify(profile.emails[0].value)  + "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx........1.......xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ")
 
-        let user = await User.findOne({ googleId: profile.id });
+        let user = await User.findOne({ email: profile.emails[0].value });
 
         console.log(user + " XXXXXXXXXXXXXXXXXXXX-----------------------XXXXXXXXXXXXXXXXXXXXX")
             if(user){
@@ -55,7 +55,8 @@ function initialize(passport){
                 console.log(profile)
                 const user = new User({
                     username: profile.displayName,
-                    googleId: profile.id
+                    googleId: profile.id,
+                    email: profile.emails[0].value
                 })
                 
                 const savedUser = await user.save();

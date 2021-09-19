@@ -1,95 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!--========== BOX ICONS ==========-->
-        <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <!--========== CSS ==========-->
-        <link rel="stylesheet" href="/assets/css/styles.css">
+  <!--========== BOX ICONS ==========-->
+  <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
 
-        <title>Responsive website food</title>
-    </head>
-    <body>
+  <!--========== CSS ==========-->
+  <link rel="stylesheet" href="/assets/css/styles.css">
 
-        <!--========== SCROLL TOP ==========-->
-        <a href="#" class="scrolltop" id="scroll-top">
-            <i class='bx bx-chevron-up scrolltop__icon'></i>
-        </a>
+  <title>Responsive website food</title>
+</head>
 
-         <!--========== HEADER ==========-->
-         <%- include('header') -%>
+<body>
 
-        <main class="l-main">
+  <!--========== SCROLL TOP ==========-->
+  <a href="#" class="scrolltop" id="scroll-top">
+    <i class='bx bx-chevron-up scrolltop__icon'></i>
+  </a>
 
-             <!--========== ABOUT ==========-->
-             <section class="about section bd-container" id="about">
-                <div class="about__container  bd-grid">
-                    <img src="/assets/img/<%= data.img %>" alt="" class="about__img">    
-                    <div class="about__data">
-                        
-                        <div class="alert success"></div>
+  <!--========== HEADER ==========-->
+  <%- include('header') -%>
 
-                        <form action="/wishlist-toggle" method="POST">
-                            <input type="hidden" id="wishlist" name="wishlist" value="<%= wishlist %>" />
-                            <input type="hidden" id="pid" name="pid" value="<%= data.p_id %>" /> 
+    <main class="l-main">
 
-                                <% var cl = (wishlist == true) ? "bxs-heart" : "bx-heart" %>
-                                    <button type="submit" class="heart__button"><i id="heart" class='bx <%= cl %>'></i></button>
-                        </form>
-                        <!-- <% if(wishlist) { %> -->
-                        <!-- <% } %> -->
-                        <!-- <a href="/wishlist/<%= data.p_id %>" class="heart" ><i class='bx bx-heart'></i></a> -->
-                        <span class="section-subtitle about__initial">Sale</span>
-                        <h2 class="section-title about__initial"><%= data.name %></h2>
-                        <div class = "product-rating">
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star'></i>
-                            <i class='bx bxs-star-half'></i>
-                            <span class="rating__overall">4.7(21)</span>
-                          </div>
-                        <h2 class="section-subtitle-rate">INR <%= data.price %></h2>
-                        <!-- <ul class="about__description">
+      <!--========== ABOUT ==========-->
+      <section class="about section bd-container" id="about">
+        <div class="about__container  bd-grid">
+          <img src="/assets/img/<%= data.img %>" alt="" class="about__img">
+          <div class="about__data">
+
+            <div class="alert success"></div>
+
+            <form action="/wishlist-toggle" method="POST">
+              <input type="hidden" id="wishlist" name="wishlist" value="<%= wishlist %>" />
+              <input type="hidden" id="pid" name="pid" value="<%= data.p_id %>" />
+
+              <% var cl=(wishlist==true) ? "bxs-heart" : "bx-heart" %>
+                <button type="submit" class="heart__button"><i id="heart" class='bx <%= cl %>'></i></button>
+            </form>
+            <!-- <% if(wishlist) { %> -->
+            <!-- <% } %> -->
+            <!-- <a href="/wishlist/<%= data.p_id %>" class="heart" ><i class='bx bx-heart'></i></a> -->
+            <span class="section-subtitle about__initial">Sale</span>
+            <h2 class="section-title about__initial">
+              <%= data.name %>
+            </h2>
+            <div class="product-rating">
+              <i class='bx bxs-star'></i>
+              <i class='bx bxs-star'></i>
+              <i class='bx bxs-star'></i>
+              <i class='bx bxs-star'></i>
+              <i class='bx bxs-star-half'></i>
+              <span class="rating__overall">4.7(21)</span>
+            </div>
+            <h2 class="section-subtitle-rate">INR <%= data.price %>
+            </h2>
+            <!-- <ul class="about__description">
                         <% for(var i=0;i<data.detail.length;i++) { %>
                         <li><p class="about__description"></p><%= data.detail[i] %></p></li>
                         <% }; %>
                         </ul> -->
-                        <div>
-                        <!-- <a href="/add-to-cart/<%= data.p_id %>" class="button__buy__now">Buy Now</a> -->
-                        <a href="/add-to-cart/<%= data.p_id %>" class="button__add__2cart">Add To Cart </a>
-                        </div>
-                        <!-- <div>
+            <div>
+              <!-- <a href="/add-to-cart/<%= data.p_id %>" class="button__buy__now">Buy Now</a> -->
+              <a href="/add-to-cart/<%= data.p_id %>" class="button__add__2cart">Add To Cart </a>
+            </div>
+            <!-- <div>
                         <a href="/add-to-cart/<%= data.p_id %>" class="button">Buy Now</a>
                         <a href="/add-to-cart/<%= data.p_id %>" class="button">Add To Cart</a>
                         <a href="/product/<%= data.p_id %>" class="button"><i class='bx bx-heart'></i></a>
                         </div> -->
-                        <!-- <a href="/product/<%= data.p_id %>" class="button"><i class='bx bxs-heart'></i></a> -->
-                    </div>
-                       
-                </div>
+            <!-- <a href="/product/<%= data.p_id %>" class="button"><i class='bx bxs-heart'></i></a> -->
+          </div>
 
-<div class="detail_section">
-    <div class="about__data">
-        <!-- <span class="section-subtitle about__initial">Sale</span> -->
-        <h2 class="about__description">Details:</h2>
-        <ol class="about__description">
-        <% for(var i=0;i<data.detail.length;i++) { %>
-        <li><p class="about__description"></p><%= data.detail[i] %></p></li>
-        <% }; %>
-        </ol>
-        
-    </div>
+        </div>
 
-</div>
+        <div class="detail_section">
+          <div class="">
 
-            </section>
+            <h2 class="product__description">Details</h2>
+            <ol class="about__description">
+              <% for(var i=0;i<data.detail.length;i++) { %>
+                <li>
+                  <p class="about__description"></p>
+                  <%= data.detail[i] %>
+                    </p>
+                </li>
+                <% }; %>
+            </ol>
 
-<!---->
-            <!-- ========== PRODUCT ==========
+          </div>
+  <!--
+          <div class="tab">
+            <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Product Details</button>
+            <button class="tablinks" onclick="openCity(event, 'Paris')">Description</button>
+            
+          </div>
+
+          <div id="London" class="tabcontent">
+            <h3>Details</h3>
+            <p>London is the capital city of England.</p>
+            <table>
+              <% for(var i=0;i<data.detail.length;i++) { %>
+                <tr>
+
+                  <td>
+
+                    <ul>
+
+                      <li>
+                        <p class="about__description"></p>
+                        <%= data.detail[i] %>
+                          </p>
+                      </li>
+
+                    </ul>
+
+                  </td>
+
+                </tr>
+                <% }; %>
+            </table>
+          </div>
+
+          <div id="Paris" class="tabcontent">
+            <p>Paris is the capital of France.</p>
+          </div>
+
+         <div id="Tokyo" class="tabcontent">
+        <h3>Tokyo</h3>
+        <p>Tokyo is the capital of Japan.</p>
+      </div> -->
+
+        </div>
+
+      </section>
+
+      <section class="bd-container">
+
+        <div>
+          <h2 class="product__description">User Rating</h2>
+          <!-- <span class="heading">User Rating</span> -->
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+          <p>4.1 average based on 254 reviews.</p>
+          <hr style="border:3px solid #f1f1f1">
+
+          <div class="row">
+            <div class="side">
+              <div>5 star</div>
+            </div>
+            <div class="middle">
+              <div class="bar-container">
+                <div class="bar-5"></div>
+              </div>
+            </div>
+            <div class="side right">
+              <div>150</div>
+            </div>
+            <div class="side">
+              <div>4 star</div>
+            </div>
+            <div class="middle">
+              <div class="bar-container">
+                <div class="bar-4"></div>
+              </div>
+            </div>
+            <div class="side right">
+              <div>63</div>
+            </div>
+            <div class="side">
+              <div>3 star</div>
+            </div>
+            <div class="middle">
+              <div class="bar-container">
+                <div class="bar-3"></div>
+              </div>
+            </div>
+            <div class="side right">
+              <div>15</div>
+            </div>
+            <div class="side">
+              <div>2 star</div>
+            </div>
+            <div class="middle">
+              <div class="bar-container">
+                <div class="bar-2"></div>
+              </div>
+            </div>
+            <div class="side right">
+              <div>6</div>
+            </div>
+            <div class="side">
+              <div>1 star</div>
+            </div>
+            <div class="middle">
+              <div class="bar-container">
+                <div class="bar-1"></div>
+              </div>
+            </div>
+            <div class="side right">
+              <div>20</div>
+            </div>
+          </div>
+
+
+        </div>
+
+        <div>
+          <h2>Reviews</h2>
+          <div class="container">
+            <img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;">
+            <p>Hello. How are you today?</p>
+            <span class="time-right">11:00</span>
+          </div>
+
+          <div class="container darker">
+            <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right" style="width:100%;">
+            <p>Hey! I'm fine. Thanks for asking!</p>
+            <span class="time-left">11:01</span>
+          </div>
+
+          <div class="container">
+            <img src="/w3images/bandmember.jpg" alt="Avatar" style="width:100%;">
+            <p>Sweet! So, what do you wanna do today?</p>
+            <span class="time-right">11:02</span>
+          </div>
+
+          <div class="container darker">
+            <img src="/w3images/avatar_g2.jpg" alt="Avatar" class="right" style="width:100%;">
+            <p>Nah, I dunno. Play soccer.. or learn more coding perhaps?</p>
+            <span class="time-left">11:05</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- <span class="section-subtitle about__initial">Sale</span> -->
+      <!---->
+      <!-- ========== PRODUCT ==========
             <section class="home" id="home">
                 <div class="home__container pd-container bd-grid">
                     <img src="/assets/img/<%= data.img %>" alt="" class="product__img">
@@ -107,36 +260,38 @@
                 </div> 
             -->
 
-           <!-- Header for the page-->
-            <%- include('services') -%>  
+      <!-- Header for the page-->
+      <%- include('services') -%>
 
-            <!--========== CONTACT US ==========-->
-            <section class="contact section bd-container" id="contact">
-                <div class="contact__container bd-grid">
-                    <div class="contact__data">
-                        <span class="section-subtitle contact__initial">Let's talk</span>
-                        <h2 class="section-title contact__initial">Contact us</h2>
-                        <p class="contact__description">If you want to reserve a table in our restaurant, contact us and we will attend you quickly, with our 24/7 chat service.</p>
-                    </div>
+        <!--========== CONTACT US ==========-->
+        <section class="contact section bd-container" id="contact">
+          <div class="contact__container bd-grid">
+            <div class="contact__data">
+              <span class="section-subtitle contact__initial">Let's talk</span>
+              <h2 class="section-title contact__initial">Contact us</h2>
+              <p class="contact__description">If you want to reserve a table in our restaurant, contact us and we will
+                attend you quickly, with our 24/7 chat service.</p>
+            </div>
 
-                    <div class="contact__button">
-                        <a href="#" class="button">Contact us now</a>
-                    </div>
-                </div>
-            </section>
-        </main>
+            <div class="contact__button">
+              <a href="#" class="button">Contact us now</a>
+            </div>
+          </div>
+        </section>
+    </main>
 
-         <!--========== FOOTER ==========-->
-         <%- include('footer') -%> 
+    <!--========== FOOTER ==========-->
+    <%- include('footer') -%>
 
-        <!--========== SCROLL REVEAL ==========-->
-        <script src="https://unpkg.com/scrollreveal"></script>
+      <!--========== SCROLL REVEAL ==========-->
+      <script src="https://unpkg.com/scrollreveal"></script>
 
-        <!--========== JQUERY CDN ==========-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        
-        <!--========== MAIN JS ==========-->
-        <script src="/assets/js/main.js"></script>
+      <!--========== JQUERY CDN ==========-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    </body>
+      <!--========== MAIN JS ==========-->
+      <script src="/assets/js/main.js"></script>
+
+</body>
+
 </html>

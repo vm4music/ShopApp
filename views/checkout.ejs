@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--========== BOX ICONS ==========-->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+    <!--========== CSS ==========-->
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/checkout.css">
+
+    <title>Responsive website food</title>
+</head>
+
+<body>
+
+    <!--========== SCROLL TOP ==========-->
+    <a href="#" class="scrolltop" id="scroll-top">
+        <i class='bx bx-chevron-up scrolltop__icon'></i>
+    </a>
+
+    <!--========== HEADER ==========-->
+    <%- include('header') -%>
+
+        <main class="l-main">
+
+            <!--========== CART ==========-->
+            <section class="section bd-container">
+                <div class="sort__filter__box__a">
+                    <!-- <p> -->
+                    <a href="/showcart" class="section-title">Shopping Cart</a> <span class="section-title"> <i
+                            class='bx bx-chevron-right'></i> </span> <a href="/shop?" class="section-title"> Checkout
+                    </a>
+                    <!-- </p> -->
+                </div>
+                <!-- <h2>Shopping Cart</h2> > <h2>Checkout</h2> -->
+                <!-- <p>Resize the browser window to see the effect. When the screen is less than 800px wide, make the two
+                    columns stack on top of each other instead of next to each other.</p> -->
+                <div class="row__checkout">
+                    <div class="col-60">
+                        <div class="container__checkout">
+                            <form action="/checkout" method="POST">
+
+                                <div class="row__checkout">
+                                    <div class="col-50">
+                                        <h3 class="">Billing Address</h3>
+                                        <label for="fname"><i class='bx bxs-user'></i> Full Name</label>
+                                        <input type="text" id="fname" name="firstname" placeholder="John M. Doe">
+                                        <label for="email"><i class='bx bx-envelope'></i> Email</label>
+                                        <input type="text" id="email" name="email" placeholder="john@example.com">
+                                        <label for="adr"><i class='bx bxs-id-card'></i> Address</label>
+                                        <input type="text" id="adr" name="address" placeholder="542 W. 15th Street">
+                                        <label for="city"><i class='bx bx-home'></i> City</label>
+                                        <input type="text" id="city" name="city" placeholder="New York">
+
+                                        <div class="row__checkout">
+                                            <div class="col-50">
+                                                <label for="state">State</label>
+                                                <input type="text" id="state" name="state" placeholder="NY">
+                                            </div>
+                                            <div class="col-50">
+                                                <label for="zip">Zip</label>
+                                                <input type="text" id="zip" name="zip" placeholder="10001">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="col-50">
+                                        <h3>Payment</h3>
+                                        <label for="fname">Accepted Cards</label>
+                                        <div class="icon-container">
+                                            <i class='bx bxl-visa' style="color:navy;"></i>
+                                            <i class='bx bxl-mastercard' style="color:red;"></i>
+                                            <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                                            <i class="fa fa-cc-discover" style="color:orange;"></i>
+                                        </div>
+                                        <label for="cname">Name on Card</label>
+                                        <input type="text" id="cname" name="cardname" placeholder="John More Doe">
+                                        <label for="ccnum">Credit card number</label>
+                                        <input type="text" id="ccnum" name="cardnumber"
+                                            placeholder="1111-2222-3333-4444">
+                                        <label for="expmonth">Exp Month</label>
+                                        <input type="text" id="expmonth" name="expmonth" placeholder="September">
+                                        <div class="row__checkout">
+                                            <div class="col-50">
+                                                <label for="expyear">Exp Year</label>
+                                                <input type="text" id="expyear" name="expyear" placeholder="2018">
+                                            </div>
+                                            <div class="col-50">
+                                                <label for="cvv">CVV</label>
+                                                <input type="text" id="cvv" name="cvv" placeholder="352">
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                </div>
+                                <label>
+                                    <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as
+                                    billing
+                                </label>
+                                <!-- <input type="submit" value="Continue to checkout" class="btn"> -->
+                            <!-- </form> -->
+                        </div>
+                    </div>
+                    <div class="col-40">
+                        <!-- <form action="/checkout" method="POST"> -->
+                            <div class="container__checkout">
+                                <% if(cart) { var total=0; %>
+                                    <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i>
+                                            <!-- <b>4</b> -->
+                                        </span></h4>
+                                    <% cart.map(ci=> { total = (total==0)?ci.price : (total + ci.price)%>
+
+                                        <p><a href="/product/<%= ci.item.p_id %>">
+                                                <%= ci.item.name %>
+                                            </a> X <%= ci.qty %> <span class="price">
+                                                    <%= ci.price %>
+                                                </span></p>
+                                        <% }) %>
+                                            <hr>
+                                            <p>Total <span class="price" style="color:black"><b>
+                                                        <%= total %>
+                                                    </b></span></p>
+                                            <p>Tax <span class="price" style="color:black"><b>
+                                                        <%= (total*.05).toFixed(2) %>
+                                                    </b></span></p>
+                                            <p>Shipping <span class="price" style="color:black"><b>15</b></span></p>
+                                            <p>Grand Total <span class="price" style="color:black"><b>
+                                                        <%= (total + (total*.05) + 15).toFixed(2) %>
+                                                    </b></span></p>
+                                            <% } %>
+                            </div>
+                            <input type="hidden" name="totalPrice" value="<%= (total + (total*.05) + 15).toFixed(2) %>"/>
+                            <input type="submit" value="Continue to checkout" class="btn">
+                    </div>
+                    </form>
+                </div>
+
+
+
+            </section>
+            <!--===============SERVICES SECTION================-->
+            <%- include('services') -%>
+
+                <!--========== CONTACT US ==========-->
+                <section class="contact section bd-container" id="contact">
+                    <div class="contact__container bd-grid">
+                        <div class="contact__data">
+                            <span class="section-subtitle contact__initial">Let's talk</span>
+                            <h2 class="section-title contact__initial">Contact us</h2>
+                            <p class="contact__description">If you want to reserve a table in our restaurant, contact us
+                                and we will attend you quickly, with our 24/7 chat service.</p>
+                        </div>
+
+                        <div class="contact__button">
+                            <a href="#" class="button">Contact us now</a>
+                        </div>
+                    </div>
+                </section>
+        </main>
+
+        <!--========== FOOTER ==========-->
+        <%- include('footer') -%>
+
+            <!--========== SCROLL REVEAL ==========-->
+            <script src="https://unpkg.com/scrollreveal"></script>
+
+            <!--========== MAIN JS ==========-->
+            <script src="/assets/js/main.js"></script>
+</body>
+
+</html>

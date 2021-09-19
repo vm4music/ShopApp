@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--========== BOX ICONS ==========-->
+    <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+    <!--========== CSS ==========-->
+    <link rel="stylesheet" href="/assets/css/mypurchases.css">
+
+    <title>My Purchases</title>
+</head>
+
+<body>
+
+    <!--========== SCROLL TOP ==========-->
+    <a href="#" class="scrolltop" id="scroll-top">
+        <i class='bx bx-chevron-up scrolltop__icon'></i>
+    </a>
+
+    <!--========== HEADER ==========-->
+    <%- include('header') -%>
+
+        <main class="l-main">
+
+            <!--========== ORDERS ==========-->
+            <section class="section bd-container">
+
+                <% if(session.cart){ %>
+                    <h2>My Purchases</h2>
+                    
+                    <% orders.map(ci=> { %>
+                        
+                        <!-- <p> <%= ci.items %> </p> -->
+                        <div class="order__overall__div">
+
+                        <div class="order__status">
+                            STATUS:
+                        </div>
+                        <!-- </div> -->
+                        <div class="order__div">
+                            
+                            <a href="/orderdetail/<%= ci.id %>">
+                            <% ci.items.map(item=> { %>
+                                
+                                    
+                                <div class="item__div">
+                                    
+                                    <div class="item__div-image">
+                                        <!-- <a href="/product/<%= item.item.p_id %>"> -->
+                                            <img src="/assets/img/<%= (item.item.img) %>">
+                                        <!-- </a> -->
+                                    </div>
+                                    <div class="item__div-details">
+                                        <div class="item__div-title">
+                                            <%= (item.item.name) %>
+                                        </div>
+                                        <p class="item__div-description">
+                                            <!-- <strong>Order#1234</strong> -->
+                                            x <%= (item.qty) %>
+                                        </p>
+                                    </div>
+                                    <div class="item__div-line-price">
+                                        <%= (item.item.price) %>
+                                    </div>
+                                    
+                                </div>
+                            
+                                <% }) %>
+                            </a>
+                                    <div class="totals">
+                                        <div class="totals-item">
+                                            <label>Order Total</label>
+                                            <div class="totals-value" id="cart-subtotal">
+                                                <strong><%= JSON.stringify(ci.cart.grandTotal) %></strong>
+                                            </div>
+                                        </div>
+                
+                                    </div>
+                        </div>
+                    </div>
+                        <% }) %>
+                    
+                            <% } %>
+            </section>
+            <!--===============SERVICES SECTION================-->
+            <%- include('services') -%>
+
+                <!--========== CONTACT US ==========-->
+                <section class="contact section bd-container" id="contact">
+                    <div class="contact__container bd-grid">
+                        <div class="contact__data">
+                            <span class="section-subtitle contact__initial">Let's talk</span>
+                            <h2 class="section-title contact__initial">Contact us</h2>
+                            <p class="contact__description">If you want to reserve a table in our restaurant, contact us
+                                and we will attend you quickly, with our 24/7 chat service.</p>
+                        </div>
+
+                        <div class="contact__button">
+                            <a href="#" class="button">Contact us now</a>
+                        </div>
+                    </div>
+                </section>
+        </main>
+
+        <!--========== FOOTER ==========-->
+        <%- include('footer') -%>
+
+            <!--========== SCROLL REVEAL ==========-->
+            <script src="https://unpkg.com/scrollreveal"></script>
+
+            <!--========== MAIN JS ==========-->
+            <script src="/assets/js/main.js"></script>
+</body>
+
+</html>
