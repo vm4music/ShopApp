@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 let Cart = require('../assets/js/cart')
 const FinalOrder = require('../models/FinalOrder')
 const Order = require('../models/Order')
+const Product = require('../models/Product')
 
 const Paytm = require('paytmchecksum')
 const https = require('https');
@@ -37,15 +38,14 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
 
+    //Get the Price of the products based on the product ids received from Client to calculate the acutal cost of the order
+    // as the price can be manupulated from Client side.
+
     console.log(req.user + " TOTAL PRICE");
     var orderID = 'TEST_' + new Date().getTime();
     var custID = 'CUST_' + new Date().getTime();
     // var orderID = "TEST_123";
 
-    /*
-    * import checksum generation utility
-    * You can get this utility from https://developer.paytm.com/docs/checksum/
-    */
     var paytmParams = {};
 
     paytmParams.body = {
@@ -219,9 +219,13 @@ router.post("/callback", connectMongoose, (req, res) => {
                     delete session.cart
                     console.log(req.session.cart);
                     console.log(req.user + "  callback *****************************")
+
+                    let order_details = {};
+                    order_details.orderId = _result.body.orderId;
                     res.render('paymentstatus', {
                         // title: 'Payment',
-                        user: req.user 
+                        user: req.user,
+                        orderDetails : order_details
                     });
                 } else {
                     //Update the FINAL ORDERS record for this TRANSACTION [when the transaction has failed]
@@ -280,6 +284,66 @@ router.get('/orders', connectMongoose, checkAuthenticated, async (req, res) => {
    
 });
 
+router.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
+    await Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
+        if (err) {
+            console.log("Error in finding the product to add to Cart: " + err);
+        }
+        else {
+            try {
+                let cartObj = {};
+                if (req.session.cart) {
+                    cartObj = req.session.cart;
+                } else {
+                    await Order.findOne({ user: req.session.passport.user }, function (err, order) {
+                        if (err) {
+                            console.log(err + " Order Error");
+                        }
+                        else {
+
+                            
+                            cartObj = order ? order : {};
+                        }
+                    })
+                }
+
+                var cart = new Cart(cartObj, req.session.passport.user);
+                // var cart = new Cart(req.session.cart ? req.session.cart : {});
+
+                cart.add(product, product.p_id)
+                req.session.cart = cart;
+
+                console.log("Updated Cart***************************");
+                console.log(cart);
+                console.log("*************************Updated Cart end***************************");
+
+                var wishlist = []
+                if (req.session.wishlist)
+                    wishlist = req.session.wishlist.includes(req.params.p_id)
+
+                    var cart = new Cart(req.session.cart ? req.session.cart : {});
+        
+                res.render('checkout', {
+                    title: 'Little Bugs',
+                    // about: about_us,
+                    cart: cart.generateArray(),
+                    user: req.user || ""
+                });
+
+                // res.render('product', {
+                //     title: 'Product View',
+                //     data: product,
+                //     user: req.user || "",
+                //     cart: cart.generateArray(),
+                //     wishlist: wishlist
+                // });
+
+            } catch (error) {
+                console.log("Error in add the product to the cart: " + error)
+            }
+        }
+    });
+})
 
 function connectMongoose(req, res, next) {
     if (mongoose.connection.readyState < 1)

@@ -12,19 +12,7 @@ const methodOverride = require('method-override')
 let Cart = require('./assets/js/cart')
 const flash = require('express-flash')
 
-const Paytm = require('paytmchecksum');
-const https = require('https');
-
-const FinalOrders = require('./models/FinalOrder')
-
 let MongoStore = require('connect-mongo');
-let orderStatus = {
-    INITIATED : "initiated",
-    SUCCESS : "success",
-    FAIL : "fail",
-    CANCELLED : "cancelled",
-    SHIPPED : "shipped"
-}
 
 // const { getProducts, searchProductsByCategories } = require('./assets/js/search');
 const app = express();
@@ -304,10 +292,6 @@ app.get('/', connectMongoose, checkWishList, async (req, res) => {
         return ({ message: err })
     }
 });
-
-
-
-
 
 app.get('/orderdetail/:order_id', connectMongoose, checkWishList, async (req, res) => {
     
