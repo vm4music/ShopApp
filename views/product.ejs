@@ -63,7 +63,7 @@
                         <li><p class="about__description"></p><%= data.detail[i] %></p></li>
                         <% }; %>
                         </ul> -->
-            <div>
+            <div class="action__buttons">
               <a href="/checkout/add-to-cart/<%= data.p_id %>" class="button__buy__now">Buy Now</a>
               <a href="/add-to-cart/<%= data.p_id %>" class="button__add__2cart">Add To Cart </a>
             </div>
@@ -278,7 +278,15 @@
             </div>
           </div>
         </section>
+
+        <section class="bd-container">
+          <div class="action__buttons__mobile">
+            <a href="/checkout/add-to-cart/<%= data.p_id %>" class="button__buy__now">Buy Now</a>
+            <a href="/add-to-cart/<%= data.p_id %>" class="button__add__2cart">Add To Cart </a>
+          </div>
+        </section>
     </main>
+
 
     <!--========== FOOTER ==========-->
     <%- include('footer') -%>
