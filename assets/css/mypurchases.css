@@ -8,7 +8,11 @@
 .item__div-price { float: left; width: 12%; }
 .item__div-quantity { float: left; width: 10%; }
 .item__div-removal { float: left; width: 9%; }
-.item__div-line-price { float: left; width: 12%; text-align: right; color: var(--text-color); }
+.item__div-line-price { float: left; width: 12%; text-align: right; color: var(--title-color); }
+
+h2{
+  color : var(--title-color);
+}
 
 a{
     background-color: transparent;
@@ -70,14 +74,14 @@ a{
   .item__div .item__div-details .item__div-title {
       margin-right: 20px;
       font-family: var(--body-font);
-      color: var(--text-color);
+      color: var(--title-color);
     
   }
   
   .item__div-details .item__div-description {
     margin: 5px 20px 5px 0;
     line-height: 1.4em;
-    color: var(--text-color);
+    color: var(--text-color-light);
   }
   
   .item__div .item__div-quantity input {
@@ -249,4 +253,148 @@ a{
     
   }
   
-  
+  /* Pop-up Login Page */
+
+  /* Full-width input fields */
+.modal-content input[type=text], input[type=password], textarea {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  /* background: #f1f1f1; */
+  background: var(--container-color);
+  border: 1px solid var(--first-color);
+
+  overflow: scroll;
+overflow-x: hidden;
+overflow-y: overlay;
+}
+
+/* Add a background color when the inputs get focus */
+
+.modal-content input[type=text]:focus, input[type=password]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+ /* Set a style for all buttons */
+
+ .clearfix button {
+  background-color: #04AA6D;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.rating_button{
+  width: 100%;
+}
+
+button:hover {
+  opacity:1;
+}
+
+.clearfix .cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+}
+
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+} 
+
+.login__container {
+  padding: 16px;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  /* background-color: #474e5d; */
+  background: rgba(51, 170, 51, .1);
+  padding-top: 50px;
+
+  overflow: scroll;
+overflow-x: hidden;
+overflow-y: overlay;
+}
+
+.modal-content {
+  /* background-color: #fefefe; */
+  margin: 15% auto 15% auto; 
+  /* border: 1px solid #888; */
+  border: 1px solid var(--first-color);
+  width: 35%;
+  background: var(--container-color); 
+
+  overflow: scroll;
+overflow-x: hidden;
+overflow-y: overlay;
+}
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+ 
+.close {
+  position: absolute;
+  right: 35px;
+  top: 15px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+  color: #f44336;
+  cursor: pointer;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.rating_button{
+  background-color: #04AA6D;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+  color: white;
+
+}
+
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtn, .signupbtn {
+     width: 100%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 35% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+}

@@ -63,14 +63,16 @@
 	opacity: 1;
 }
 .order-tracking p {
-	color: #A4A4A4;
+	/* color: #A4A4A4; */
+  color : var(--text-color-light);
 	font-size: 16px;
 	margin-top: 8px;
 	margin-bottom: 0;
 	line-height: 20px;
 }
 .order-tracking p span{font-size: 14px;}
-.order-tracking.completed p{color: #000;}
+/* .order-tracking.completed p{color: #000;} */
+.order-tracking.completed p{color: var(--title-color);}
 .order-tracking::before {
 	content: '';
 	display: block;
@@ -198,7 +200,8 @@
 
 .fE5sHM {
     text-transform: capitalize;
-    color: rgba(0,0,0,.8);
+    /* color: rgba(0,0,0,.8); */
+    color : var(--title-color);
     font-size: 20px;
     line-height: 24px;
 }
@@ -209,7 +212,8 @@
     font-size: 12px;
     line-height: 14px;
     word-wrap: break-word;
-    color: rgba(0,0,0,.54);
+    /* color: rgba(0,0,0,.54); */
+    color : var(--title-color);
 }
 
 ._2wWOHm {
@@ -233,7 +237,8 @@
 ._3lh_J3 {
     width: 620px;
     padding: 4px 0 0 24px;
-    border-left: 1px solid rgba(0,0,0,.09);
+    /* border-left: 1px solid rgba(0,0,0,.09); */
+    border-left: 1px solid var(--text-color-light);
 }
 
 ._2_z46i {
@@ -241,11 +246,13 @@
     margin: 0 0 7px;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: rgba(0,0,0,.8);
+    /* color: rgba(0,0,0,.8); */
+    color: var(--title-color);
 }
 
 ._1J2b7X {
-    color: rgba(0,0,0,.54);
+    /* color: rgba(0,0,0,.54); */
+    color: var(--text-color);
     font-size: 12px;
     white-space: pre-line;
 }
@@ -274,7 +281,8 @@
     -webkit-flex-wrap: nowrap;
     -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
-    color: rgba(0,0,0,.54);
+    /* color: rgba(0,0,0,.54); */
+    color: var(--text-color-light);
     font-size: 14px;
     line-height: 32px;
 }
@@ -292,7 +300,8 @@
 }
 
 ._3ORfzV, ._38-lLD {
-    color: rgba(0,0,0,.8);
+    /* color: rgba(0,0,0,.8); */
+    color: var(--title-color)
 }
 ._3ORfzV {
     width: 120px;
@@ -362,14 +371,14 @@
   .item__div .item__div-details .item__div-title {
       margin-right: 20px;
       font-family: var(--body-font);
-      color: var(--text-color);
+      color: var(--title-color);
     
   }
   
   .item__div-details .item__div-description {
     margin: 5px 20px 5px 0;
     line-height: 1.4em;
-    color: var(--text-color);
+    color: var(--text-color-light);
   }
   
   .item__div .item__div-quantity input {
