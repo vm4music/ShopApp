@@ -4,6 +4,7 @@ const router = express.Router();
 
 const Product = require('../models/Product')
 
+
 //ROUTES
 router.get('/', async (req, res)=>{
     // res.send('We are products')

@@ -5,10 +5,12 @@ let Cart = require('../assets/js/cart')
 const FinalOrder = require('../models/FinalOrder')
 const Order = require('../models/Order')
 const Product = require('../models/Product')
+const Review = require('../models/Review')
 
 const Paytm = require('paytmchecksum')
 const https = require('https');
 const { session } = require('passport');
+const User = require('../models/User');
 
 let orderStatus = {
     INITIATED : "initiated",
@@ -283,6 +285,48 @@ router.get('/orders', connectMongoose, checkAuthenticated, async (req, res) => {
 
    
 });
+
+
+router.post("/review", connectMongoose, async (req, res) => {
+
+    var user = await User.findById(req.user);
+    console.log(user.email + " ffffffffffffffffffffffffffff")
+    const review = new Review({
+        user: req.user,
+        username : user.email,
+        product: req.body.product,
+        review_detail: req.body.review.split("\n"),
+    })
+
+    try {
+        const savedReview = await review.save();
+        // res.json(savedReview);
+
+        var cart = '';
+        FinalOrder.find({ user: req.user }, (error, finalorders) => {
+            if (error)
+                return res.write("Error Fetching the orders");
+            finalorders.forEach(order => {
+                cart = new Cart(order.cart);
+                order.items = cart.generateArray();
+            })
+
+            try {
+                res.render('mypurchases', {
+                    title: 'Orders',
+                    user: req.user || "",
+                    orders: finalorders
+                });
+            } catch (err) {
+                return ({ message: err })
+            }
+
+        })
+    } catch (err) {
+        res.json({ message: err })
+    }
+
+})
 
 router.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
     await Product.findOne({ p_id: req.params.p_id }, async function (err, product) {

@@ -8,6 +8,7 @@ const passport = require('passport');
 const mongoose = require('mongoose');
 const Product = require('./models/Product')
 const Order = require('./models/Order');
+const Review = require('./models/Review')
 const methodOverride = require('method-override')
 let Cart = require('./assets/js/cart')
 const flash = require('express-flash')
@@ -433,16 +434,26 @@ app.get('/product/:p_id', async (req, res) => {
         if (err)
             console.log("There is an error updating the popularity of the product. ");
         console.log("Product " + product.name + " is updated successfully");
-        console.log(product)
-        res.render('product', {
-            title: 'Product View',
-            // data: products.filter(item => item.p_id === req.params.p_id),
-            data: product,
-            user: req.user || "",
-            cart: cart.generateArray(),
-            wishlist: wishlist
+        console.log(product);
 
-        });
+        Review.find({product : product._id}, function (err, reviews){
+
+            console.log(reviews[0].user.name + "  test  ")
+
+            res.render('product', {
+                title: 'Product View',
+                // data: products.filter(item => item.p_id === req.params.p_id),
+                data: product,
+                user: req.user || "",
+                cart: cart.generateArray(),
+                wishlist: wishlist,
+                reviews : (reviews)
+                // reviews : product._id
+    
+            });
+        })
+
+        
     })
 })
 

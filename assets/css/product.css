@@ -57,6 +57,13 @@
     color: var(--first-color);
     /* color: #252525; */
   }
+.review__username{
+  color: var(--title-color);
+  font-size: small;
+}
+
+
+
   .rating__overall{
     font-size: var(--normal-font-size);
     color: var(--first-color);
@@ -95,7 +102,7 @@
     margin: 10px 0;
   }
   
-  .container p{
+  .review__detail{
     font-size: var(--mb-2);
   }
 

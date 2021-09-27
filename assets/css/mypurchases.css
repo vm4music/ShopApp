@@ -337,10 +337,6 @@ overflow-y: overlay;
   border: 1px solid var(--first-color);
   width: 35%;
   background: var(--container-color); 
-
-  overflow: scroll;
-overflow-x: hidden;
-overflow-y: overlay;
 }
 
 hr {
