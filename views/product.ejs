@@ -218,7 +218,7 @@
       <section class="section bd-container">
         <div class="product__user_reviews">
           <h2 class="product__description">Reviews</h2>
-        
+        <% if(reviews) { %>
           <p>
             <% for(i in reviews) { if(i % 2==0) { %>
               <div class="container">
@@ -236,6 +236,7 @@
                   </div>
                   <% } %>
           </p>
+        <% } %>
         </div>
       </section>
 

@@ -10,11 +10,14 @@ window.onclick = function(event) {
 }
 
 
-function openDialog(){
+function openDialog(name, id){
   document.getElementById('id01').style.display='block';
+  document.getElementById('product__modal__name').innerHTML = name;
+  document.getElementById('product__modal__id').value = id;
   document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
+  modal.style.overflowY = 'hidden';
 }
 function closeDialog(){
   document.getElementById('id01').style.display='none';
-  document.getElementsByTagName('body')[0].style.overflowY = 'initial';
+  // document.getElementsByTagName('body')[0].style.overflowY = 'initial';
 }

@@ -421,7 +421,7 @@ app.get('/wishlist', checkAuthenticated, connectMongoose, async (req, res) => {
 });
 
 //==================== PRODUCT PAGE =============================//
-app.get('/product/:p_id', async (req, res) => {
+app.get('/product/:p_id', connectMongoose, async (req, res) => {
 
     var cart = new Cart(req.session.cart ? req.session.cart : {});
 
@@ -437,8 +437,6 @@ app.get('/product/:p_id', async (req, res) => {
         console.log(product);
 
         Review.find({product : product._id}, function (err, reviews){
-
-            console.log(reviews[0].user.name + "  test  ")
 
             res.render('product', {
                 title: 'Product View',
@@ -459,12 +457,11 @@ app.get('/product/:p_id', async (req, res) => {
 
 //==================== CART RESULTS =============================//
 
-app.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
+app.get('/add-to-cart/:p_id', checkAuthenticated, connectMongoose, async (req, res) => {
     await Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
         if (err) {
             console.log("Error in finding the product to add to Cart: " + err);
         }
-        else {
             try {
                 let cartObj = {};
                 if (req.session.cart) {
@@ -474,11 +471,7 @@ app.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
                         if (err) {
                             console.log(err + " Order Error");
                         }
-                        else {
-
-                            
                             cartObj = order ? order : {};
-                        }
                     })
                 }
 
@@ -496,18 +489,24 @@ app.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
                 if (req.session.wishlist)
                     wishlist = req.session.wishlist.includes(req.params.p_id)
 
-                res.render('product', {
-                    title: 'Product View',
-                    data: product,
-                    user: req.user || "",
-                    cart: cart.generateArray(),
-                    wishlist: wishlist
-                });
+                    await Review.find({product : product._id}, function (err, reviews){
 
-            } catch (error) {
+                        if(err)
+                            console.log("Error getting the reivew");
+
+                        res.render('product', {
+                            title: 'Product View',
+                            data: product,
+                            user: req.user || "",
+                            cart: cart.generateArray(),
+                            wishlist: wishlist,
+                            reviews : reviews
+                        });
+                    })
+
+                 } catch (error) {
                 console.log("Error in add the product to the cart: " + error)
             }
-        }
     });
 })
 
