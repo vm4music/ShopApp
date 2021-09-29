@@ -19,5 +19,5 @@ function openDialog(name, id){
 }
 function closeDialog(){
   document.getElementById('id01').style.display='none';
-  // document.getElementsByTagName('body')[0].style.overflowY = 'initial';
+  document.getElementsByTagName('body')[0].style.overflowY = 'initial';
 }

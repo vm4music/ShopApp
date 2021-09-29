@@ -225,9 +225,22 @@
                 <% } else { %>
                   <div class="container darker">
                     <% } %>
-                    <strong><p class="review__username">
-                          <%= reviews[i].username %>
-                      </p> </strong>
+                    <p class="review__username">
+                      <strong>
+                        <%= reviews[i].username %>
+                      </strong>
+                      <!-- <%= reviews[i].rating %> -->
+                      <div class="product-rating">
+                        <% var n = reviews[i].rating; for(var r=0; r < n ; r++) { %>
+                          <i class='bx bxs-star' ></i>
+                          <% } %>
+                          <!-- <% var n = reviews[i].rating; for(var r=0; r < 5-n ; r++) { %>
+                            <i class='bx bx-star' ></i>
+                            <% } %> -->
+                      </div>
+                      
+                      
+                    </p>
                       <% for(j in reviews[i].review_detail) { %>
                         <p class="review__detail">
                           <%= reviews[i].review_detail[j] %>

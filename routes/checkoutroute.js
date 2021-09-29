@@ -290,11 +290,16 @@ router.get('/orders', connectMongoose, checkAuthenticated, async (req, res) => {
 router.post("/review", connectMongoose, async (req, res) => {
 
     var user = await User.findById(req.user);
-    console.log(user.email + " ffffffffffffffffffffffffffff")
+    var ratingg = req.body.rating1 ? 1 : ((req.body.rating2) ? 2 : (req.body.rating3) ? 3 : (req.body.rating4) ? 4 : (req.body.rating5) ? 5 : "SOmething")
+    console.log(ratingg + " ffffffffffffffffffffffffffff")
+
+
+    console.log(ratingg);
     const review = new Review({
         user: req.user,
-        username : user.email,
+        username: user.email,
         product: req.body.product,
+        rating: ratingg,
         review_detail: req.body.review.split("\n"),
     })
 
