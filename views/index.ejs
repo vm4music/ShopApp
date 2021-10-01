@@ -129,17 +129,34 @@
         <h2 class="section-title">New Collection </h2>
         <div class="carousel bd-container"
           data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": true, "pageDots": false }'>
-          <div class="carousel-cell">
+          <!-- <div class="carousel-cell">
             <img src="/assets/img/Rickshaw-removebg-preview.png" alt="" class="menu__img">
-          </div>
+          </div> -->
 
-          <% data.forEach(function(product) { if(product.p_id>13){return;}%>
+          <!-- <% data.forEach(function(product) { if(product.p_id>13){return;}%>
           <div class="carousel-cell">
             <a href="/product/<%= product.p_id %>">
             <img src="/assets/img/<%= product.img %>" alt="" class="menu__img">
             </a>
           </div>
-          <% })%>
+          <% })%> -->
+
+          <% data.forEach(function(product) { if(product.p_id>13){return;}%>
+          
+          <div class="carousel-cell">
+            <a href="/product/<%= product.p_id %>">
+              <div class="menu__content">
+                <img src="assets/img/<%= product.img %>" alt="" class="menu__img">
+                <h3 class="menu__name">
+                  <%= product.name %>
+                </h3>
+                <!-- <span class="menu__detail"><%= product.detail %></span> -->
+                <span class="menu__preci">INR <%= product.price %></span>
+              </div>
+              </a>
+          </div>
+          
+          <% })%> 
         </div>
       </section>
       <!-- <div class="carousel bd-container"  data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": true, "pageDots": false }'>
