@@ -132,15 +132,14 @@
           <div class="carousel-cell">
             <img src="/assets/img/Rickshaw-removebg-preview.png" alt="" class="menu__img">
           </div>
+
+          <% data.forEach(function(product) { if(product.p_id>13){return;}%>
           <div class="carousel-cell">
-            <img src="/assets/img/popup-removebg-preview.png" alt="" class="menu__img">
+            <a href="/product/<%= product.p_id %>">
+            <img src="/assets/img/<%= product.img %>" alt="" class="menu__img">
+            </a>
           </div>
-          <div class="carousel-cell">
-            <img src="/assets/img/doll_house-removebg.png" alt="" class="menu__img">
-          </div>
-          <div class="carousel-cell">
-            <img src="/assets/img/rc_helicopter-removebg.png" alt="" class="menu__img">
-          </div>
+          <% })%>
         </div>
       </section>
       <!-- <div class="carousel bd-container"  data-flickity='{ "freeScroll": true, "contain": true, "prevNextButtons": true, "pageDots": false }'>
@@ -166,20 +165,18 @@
         <div class="menu__container bd-grid">
           <% data.forEach(function(product) { if(product.p_id>13){return;}%>
             <div class="menu__content">
-              <img src="assets/img/<%= product.img %>" alt="" class="menu__img">
-              <h3 class="menu__name">
-                <%= product.name %>
-              </h3>
-              <!-- <span class="menu__detail"><%= product.detail %></span> -->
-
-              <span class="menu__preci">INR <%= product.price %></span>
-              <a href="/add-to-cart/<%= product.p_id %>" class="button menu__button"><i class='bx bx-cart-alt'></i></a>
+              <a href="/product/<%= product.p_id %>">
+                <img src="assets/img/<%= product.img %>" alt="" class="menu__img">
+                <h3 class="menu__name">
+                  <%= product.name %>
+                </h3>
+                <!-- <span class="menu__detail"><%= product.detail %></span> -->
+                <span class="menu__preci">INR <%= product.price %></span>
+              </a>
             </div>
-            <!-- <%= product.p_id %>
-                    <%= product.name %> -->
             <% }); %>
-
         </div>
+
       </section>
 
       <!-- SERVICES -->
