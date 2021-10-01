@@ -764,6 +764,7 @@ This is added to show the details section for the product page.*/
     border-radius: .5rem;
     /* counter-increment: gallery-cell; */
     box-sizing: border-box;
+    height: 100%;
   }
   .carousel-cell img{
     width: 100%;
@@ -780,6 +781,7 @@ This is added to show the details section for the product page.*/
     /* color: white; */
     border: var(--first-color-alt);
     box-sizing: border-box;
+    height: 100%;
   }
   
   .flickity-slider{
