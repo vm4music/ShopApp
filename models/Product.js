@@ -28,6 +28,10 @@ const ProductSchema = mongoose.Schema({
         type : Number,
         default : 0
     },
+    totalstars : {
+        type : Number,
+        default : 0
+    },
     rating : {
         type : Number
     },

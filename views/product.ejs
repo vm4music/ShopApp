@@ -49,12 +49,26 @@
               <%= data.name %>
             </h2>
             <div class="product-rating">
+              <% for(var i=0; i < parseInt(data.rating); i++) { %>
+                <i class='bx bxs-star'></i>
+                <% } %>
+              <% if ((parseFloat(data.rating) % 1) != 0) { %>
+                <i class='bx bxs-star-half'></i>
+                <% for(var i=0; i < 4 - parseInt(data.rating); i++) { %>
+                  <i class='bx bx-star'></i>
+                  <% } %>
+                <% } %>
+                <% if ((parseFloat(data.rating) % 1) == 0) { %>
+                  <!-- <i class='bx bxs-star-half'></i> -->
+                  <% for(var i=0; i < 5 - parseInt(data.rating); i++) { %>
+                    <i class='bx bx-star'></i>
+                    <% } %>
+                  <% } %>
+              <!-- <i class='bx bxs-star'></i>
               <i class='bx bxs-star'></i>
-              <i class='bx bxs-star'></i>
-              <i class='bx bxs-star'></i>
-              <i class='bx bxs-star'></i>
-              <i class='bx bxs-star-half'></i>
-              <span class="rating__overall">4.7(21)</span>
+              <i class='bx bxs-star'></i> -->
+              
+              <span class="rating__overall"><%= data.rating %> (<%= data.totalreviews %>)</span>
             </div>
             <h2 class="section-subtitle-rate">INR <%= data.price %>
             </h2>
@@ -137,18 +151,18 @@
         </div>
 
       </section>
-
+<!-- 
       <section class="bd-container">
 
         <div class="product__user__rating">
           <h2 class="product__description">User Rating</h2>
-          <!-- <span class="heading">User Rating</span> -->
+          <span class="heading">User Rating</span>
           <span class="fa fa-star checked"></span>
           <span class="fa fa-star checked"></span>
           <span class="fa fa-star checked"></span>
           <span class="fa fa-star checked"></span>
           <span class="fa fa-star"></span>
-          <p>4.1 average based on 254 reviews.</p>
+          <p><%= data.rating %> average based on <%= data.totalreviews %> reviews.</p>
           <hr style="border:3px solid #f1f1f1">
         
           <div class="row">
@@ -213,7 +227,7 @@
         </div>
 
         
-      </section>
+      </section> -->
 
       <section class="section bd-container">
         <div class="product__user_reviews">

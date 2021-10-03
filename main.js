@@ -232,30 +232,21 @@ app.get('/product/:p_id', connectMongoose, async (req, res) => {
     var wishlist = []
     if (req.session.wishlist)
         wishlist = req.session.wishlist.includes(req.params.p_id)
-    console.log("Wishlist: " + wishlist)
-    //list.result = products.filter(item => item.p_id === req.params.p_id);
     await Product.findOneAndUpdate({ p_id: req.params.p_id }, { $inc: { 'popular': 1 } }, { new: true, useFindAndModify: false }, function (err, product) {
         if (err)
             console.log("There is an error updating the popularity of the product. ");
-        console.log("Product " + product.name + " is updated successfully");
-        console.log(product);
 
-        Review.find({product : product._id}, function (err, reviews){
-
+        Review.find({ product: product._id }, function (err, reviews) {
             res.render('product', {
                 title: 'Product View',
-                // data: products.filter(item => item.p_id === req.params.p_id),
                 data: product,
                 user: req.user || "",
                 cart: cart.generateArray(),
                 wishlist: wishlist,
-                reviews : (reviews)
-                // reviews : product._id
-    
+                reviews: reviews
             });
         })
 
-        
     })
 })
 

@@ -291,10 +291,7 @@ router.post("/review", connectMongoose, async (req, res) => {
 
     var user = await User.findById(req.user);
     var ratingg = req.body.rating1 ? 1 : ((req.body.rating2) ? 2 : (req.body.rating3) ? 3 : (req.body.rating4) ? 4 : (req.body.rating5) ? 5 : "SOmething")
-    console.log(ratingg + " ffffffffffffffffffffffffffff")
 
-
-    console.log(ratingg);
     const review = new Review({
         user: req.user,
         username: user.email,
@@ -306,7 +303,45 @@ router.post("/review", connectMongoose, async (req, res) => {
     try {
         const savedReview = await review.save();
         // res.json(savedReview);
+        // await Product.findOneAndUpdate({ _id: req.body.product }, { $inc: { 'totalreviews': 1, 'totalstars': ratingg } }, { new: true, useFindAndModify: false }, function (err, product) {
 
+        //     console.log(product.totalreviews + "   " + product.totalstars + "  *************** Rating ************* ");
+        // });
+        
+       await Product.findById({ _id: req.body.product }, async function(err, prod){
+
+        // console.log(prod)
+           prod.totalstars = prod.totalstars + ratingg;
+           prod.totalreviews++;
+            var avgrating = parseFloat((prod.totalstars / prod.totalreviews).toFixed(1))
+           console.log( avgrating+ " Average rating");
+           await Product.updateOne({_id: req.body.product}, {$inc: { 'totalreviews': 1, 'totalstars': ratingg }, 'rating' : avgrating })
+        //    console.log(JSON.stringify(prod))
+       });
+       
+    //    {$inc: { 'totalreviews': 1, 'totalstars': ratingg }}
+       const a = await Review.aggregate( [
+        {
+          $group: {
+            
+                _id: "$product",
+                avgRating: {$avg : "$rating"}
+              }
+          
+        }]);
+
+        
+        console.log(a.filter(element => element._id == req.body.product));
+
+    //  console.log(JSON.stringify(a));
+
+        /*
+
+        , function(error, prod){
+        console.log(prod.totalreviews + " this is total number of reviews...")
+       }
+
+        */
         var cart = '';
         FinalOrder.find({ user: req.user }, (error, finalorders) => {
             if (error)
