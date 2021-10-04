@@ -52,18 +52,21 @@
               <% for(var i=0; i < parseInt(data.rating); i++) { %>
                 <i class='bx bxs-star'></i>
                 <% } %>
-              <% if ((parseFloat(data.rating) % 1) != 0) { %>
-                <i class='bx bxs-star-half'></i>
-                <% for(var i=0; i < 4 - parseInt(data.rating); i++) { %>
-                  <i class='bx bx-star'></i>
-                  <% } %>
-                <% } %>
-                <% if ((parseFloat(data.rating) % 1) == 0) { %>
-                  <!-- <i class='bx bxs-star-half'></i> -->
-                  <% for(var i=0; i < 5 - parseInt(data.rating); i++) { %>
-                    <i class='bx bx-star'></i>
-                    <% } %>
-                  <% } %>
+                  <% if (((parseFloat(data.rating) % 1) !=0) && data.rating) { %>
+                    <i class='bx bxs-star-half'></i>
+                    <% for(var i=0; i < 4 - parseInt(data.rating); i++) { %>
+                      <i class='bx bx-star'></i>
+                      <% } %>
+                        <% } %>
+                          <% if ((parseFloat(data.rating) % 1)==0) { %>
+                            <!-- <i class='bx bxs-star-half'></i> -->
+                            <% for(var i=0; i < 5 - parseInt(data.rating); i++) { %>
+                              <i class='bx bx-star'></i>
+                              <% } %>
+                                <% } %>
+                                <% if(data.totalreviews == 0) { %>
+                                  <i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i>
+                                  <% } %>
               <!-- <i class='bx bxs-star'></i>
               <i class='bx bxs-star'></i>
               <i class='bx bxs-star'></i> -->

@@ -33,13 +33,20 @@ a{
 
 .order__div {
     display:inherit;
-    margin-top: var(--mb-3);
+    /* margin-top: var(--mb-3); */
     /* border: 1px solid var(--first-color); */
     border-top: 1px solid var(--first-color);
     /* border-bottom: 1px solid var(--first-color); */
     /* padding: 1%; */
     background-color: var(--container-color); 
     box-shadow: 0 2rem 6rem rgb(0 0 0 / 10%);
+  }
+
+  .order__overall__div{
+    margin-top: var(--mb-3);
+    /* border: 1px solid var(--first-color); */
+    /* border-bottom: 1px solid var(--body-color); */
+    box-shadow: 0 2rem 6rem rgb(0 0 0 / 30%);
   }
   
 /* Column headers */
@@ -332,7 +339,7 @@ overflow-y: overlay;
   margin: 10% auto 15% auto; 
   /* border: 1px solid #888; */
   border: 1px solid var(--first-color);
-  width: 35%;
+  width: 20%;
   background: var(--container-color); 
   border-radius: 5px;
   animation-duration: 3s;
@@ -367,10 +374,10 @@ hr {
 .rating_button{
   background-color: #04AA6D;
   padding: 14px 20px;
-  margin: 8px 0;
+  margin-left: 8px;
   border: none;
   cursor: pointer;
-  width: 24%;
+  width: 20%;
   opacity: 0.9;
   color: white;
 /* float: right; */

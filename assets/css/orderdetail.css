@@ -338,6 +338,7 @@
 
   .order__overall__div{
     border-bottom: 1px solid var(--body-color);
+    box-shadow: 0 2rem 6rem rgb(0 0 0 / 30%);
   }
   
 /* Column headers */
