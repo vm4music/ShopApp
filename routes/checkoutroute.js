@@ -368,6 +368,45 @@ router.post("/review", connectMongoose, async (req, res) => {
 
 })
 
+router.post("/productreview", connectMongoose, async (req, res) => {
+
+    var user = await User.findById(req.user);
+    var ratingg = req.body.rating;
+    var product = req.body.product;
+
+    const review = new Review({
+        user: req.user,
+        username: user.email,
+        product: product,
+        rating: ratingg,
+        review_detail: req.body.review.split("\n"),
+    })
+
+    try {
+        const savedReview = await review.save();
+
+        await Product.findById({ _id: product }, async function(err, prod){
+
+            if(err)
+                res.json({ message: "Error in updating the rating. Kindly try again later..." })
+
+               prod.totalstars = prod.totalstars + parseInt(ratingg);
+               prod.totalreviews++;
+                var avgrating = parseFloat((prod.totalstars / prod.totalreviews).toFixed(1))
+               console.log( avgrating+ " Average rating");
+               const pr = await Product.updateOne({_id: req.body.product}, {$inc: { 'totalreviews': 1, 'totalstars': ratingg }, 'rating' : avgrating })
+               res.json({ message: "Thank you for submitting your rating." });
+           });
+
+    }catch(err){
+        res.json({ message: "Error in updating the rating. Kindly try again Later..." })
+    }
+
+    console.log(req.body.product + "  "+ req.body.rating + "  "+ req.body.review)
+    // res.json({ message: "product updated successfully!" })
+
+})
+
 router.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
     await Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
         if (err) {

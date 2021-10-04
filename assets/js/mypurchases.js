@@ -20,4 +20,40 @@ function openDialog(name, id){
 function closeDialog(){
   document.getElementById('id01').style.display='none';
   document.getElementsByTagName('body')[0].style.overflowY = 'initial';
+  $("input[type=radio][name=rating]").prop('checked', false);
+         $('#review').val('')
 }
+
+
+$(document).ready(function(){
+    
+  $('.signupbtn').on('click',function(e){
+
+    // console.log($('input[name="rating"]:checked').val());
+    e.preventDefault();
+
+   $.ajax({
+       url : "/checkout/productreview",
+       data : {
+           product : $("#product__modal__id").val(),
+           rating : $('input[name="rating"]:checked').val(),
+           review : $('#review').val()
+       },
+       method : "POST",
+       contentType : "application/x-www-form-urlencoded",
+       success : function(res){
+         alert(res.message);
+         $("input[type=radio][name=rating]").prop('checked', false);
+         $('#review').val('')
+         document.getElementById('id01').style.display = 'none';
+         document.getElementsByTagName('body')[0].style.overflowY = 'initial';
+       },
+       error : function(error){
+        alert(error);
+       }
+   })
+   
+});
+
+
+})
