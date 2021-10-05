@@ -33,8 +33,7 @@
           <div class="about__data">
 
             <!-- <div class="alert success"></div> -->
-            <!-- ================SNACKBAR Div ==================-->
-            <div class="alert" id="snackbar"></div>
+            
 
             <form action="/wishlist-toggle" method="POST">
               <input type="hidden" id="wishlist" name="wishlist" value="<%= wishlist %>" />
@@ -323,6 +322,9 @@
     </main>
 
 
+    <!-- ================SNACKBAR Div ==================-->
+    <div class="alert" id="snackbar"></div>
+    
     <!--========== FOOTER ==========-->
     <%- include('footer') -%>
 

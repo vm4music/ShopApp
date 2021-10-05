@@ -272,7 +272,9 @@ a{
   border: none;
   /* background: #f1f1f1; */
   background: var(--container-color);
+  color: var(--text-color);
   border: 1px solid var(--first-color);
+  font-family: var(--body-font);
 }
 
 /* Add a background color when the inputs get focus */
@@ -339,7 +341,7 @@ overflow-y: overlay;
   margin: 10% auto 15% auto; 
   /* border: 1px solid #888; */
   border: 1px solid var(--first-color);
-  width: 20%;
+  width: 25%;
   background: var(--container-color); 
   border-radius: 5px;
   animation-duration: 3s;
@@ -535,6 +537,7 @@ position: relative;
   visibility: hidden;
   min-width: 250px;
   /* margin-left: -125px; */
+  transform: translateX(-50%);
   background-color: #333;
   color: #fff;
   text-align: center;
@@ -573,11 +576,3 @@ position: relative;
   to {bottom: 0; opacity: 0;}
 }
 
-@media screen and (max-width: 768px) {
-
-#snackbar {
-  
-  left: 3%;
-  
-}
-}

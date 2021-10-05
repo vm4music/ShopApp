@@ -167,7 +167,7 @@ app.get('/shop', connectMongoose, async (req, res) => {
 app.post('/wishlist', checkAuthenticated, connectMongoose, async (req, res) => {
 
     try {
-
+        var message = "";
         console.log(req.body.pid)
         var pid = req.body.pid;
 
@@ -179,15 +179,17 @@ app.post('/wishlist', checkAuthenticated, connectMongoose, async (req, res) => {
 
                 if (user.wishlist.includes(pid)) {
                     user.wishlist.pull(pid);
+                    message = "Removed from wishlist";
                 } else {
                     user.wishlist.push(pid);
+                    message = "Added to wishlist";
 
                 }
                 user.save();
 
                 req.session.wishlist = user.wishlist
                 console.log(req.session.wishlist)
-                res.json({ message: "Wishlist updated successfully!" })
+                res.json({ message: message })
 
             }
         })

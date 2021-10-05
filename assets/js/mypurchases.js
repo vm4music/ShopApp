@@ -9,10 +9,14 @@ window.onclick = function(event) {
   }
 }
 
-function openDialog(name, id){
+var order__ID, product__ID = '';
+function openDialog(name, id, orderid){
+  product__ID = id;
+  order__ID = orderid;
   document.getElementById('id01').style.display='block';
   document.getElementById('product__modal__name').innerHTML = name;
   document.getElementById('product__modal__id').value = id;
+  $('#product__order__id').val(orderid)
   document.getElementsByTagName('body')[0].style.overflowY = 'hidden';
   modal.style.overflowY = 'hidden';
 }
@@ -35,6 +39,7 @@ $(document).ready(function () {
       url: "/checkout/productreview",
       data: {
         product: $("#product__modal__id").val(),
+        orderId: $('#product__order__id').val(),
         rating: $('input[name="rating"]:checked').val(),
         review: $('#review').val()
       },
@@ -46,8 +51,9 @@ $(document).ready(function () {
         $('#review').val('')
         document.getElementById('id01').style.display = 'none';
         document.getElementsByTagName('body')[0].style.overflowY = 'initial';
-
+        $('#rating_button__').hide();
         $("#snackbar").html(res.message);
+        $('#rating_button__'+product__ID+order__ID).html('Reviewed');
         $("#snackbar").toggleClass('show ""');
 
         setTimeout(function () {

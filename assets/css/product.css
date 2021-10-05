@@ -206,7 +206,8 @@
   z-index: 1;
   left: 50%;
   bottom: 30px;
-  font-size: 17px;
+  font-size: var(--h3-font-size);
+  transform: translateX(-50%);
 }
 
 #snackbar.show {
@@ -233,13 +234,4 @@
 @keyframes fadeout {
   from {bottom: 30px; opacity: 1;}
   to {bottom: 0; opacity: 0;}
-}
-
-@media screen and (max-width: 768px) {
-
-#snackbar {
-  
-  left: 3%;
-  
-}
 }
