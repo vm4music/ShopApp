@@ -169,7 +169,14 @@ $(document).ready(function(){
             contentType : "application/x-www-form-urlencoded",
             success : function(res){
                 if(res.message){
-                    $(".alert").text(res.message)
+                    $(".alert").text(res.message);
+                    
+                    $("#snackbar").html(res.message);
+                    $("#snackbar").toggleClass('show ""');
+
+                    setTimeout(function () {
+                        $("#snackbar").toggleClass('"" show');
+        }, 3000);
                 }else{
                     window.location.href = "/users/login"
                 }
