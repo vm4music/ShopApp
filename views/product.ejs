@@ -33,7 +33,7 @@
           <div class="about__data">
 
             <!-- <div class="alert success"></div> -->
-            
+
 
             <form action="/wishlist-toggle" method="POST">
               <input type="hidden" id="wishlist" name="wishlist" value="<%= wishlist %>" />
@@ -65,17 +65,20 @@
                               <i class='bx bx-star'></i>
                               <% } %>
                                 <% } %>
-                                <!-- <% if(data.totalreviews == 0) { %>
+                                  <!-- <% if(data.totalreviews == 0) { %>
                                   <i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i>
                                   <% } %> -->
-              <!-- <i class='bx bxs-star'></i>
+                                  <!-- <i class='bx bxs-star'></i>
               <i class='bx bxs-star'></i>
               <i class='bx bxs-star'></i> -->
-              
-              <span class="rating__overall"><%= data.rating %> (<%= data.totalreviews %>)</span>
+
+                                  <a href="#reviewsection"><span class="rating__overall">
+                                      <%= data.rating %> (<%= data.totalreviews %>)
+                                    </span></a>
             </div>
-            <h2 class="section-subtitle-rate">INR <%= data.price %>
-            </h2>
+            <h2 class="section-subtitle-rate">INR <%= data.price %> &nbsp;<span
+                  style="text-decoration: line-through;color: #069C54"><i> INR <%= data.mrp %>&nbsp; </i></span></h2>
+
             <!-- <ul class="about__description">
                         <% for(var i=0;i<data.detail.length;i++) { %>
                         <li><p class="about__description"></p><%= data.detail[i] %></p></li>
@@ -83,7 +86,15 @@
                         </ul> -->
             <div class="action__buttons">
               <a href="/checkout/add-to-cart/<%= data.p_id %>" class="button__buy__now">Buy Now</a>
-              <a href="/add-to-cart/<%= data.p_id %>" class="button__add__2cart">Add To Cart </a>
+              <!-- <a href="/add-to-cart/<%= data.p_id %>" class="button__add__2cart">Add To Cart </a> -->
+
+              <form action="/add-to-cart" method="POST">
+                <input id="product-buy-now" type="hidden" value="<%= data.p_id %>" />
+                <button type="submit" class="button__add__2cart__button">Add To Cart</button>
+              </form>
+            </div>
+            <div class="action__buttons">
+
             </div>
             <!-- <div>
                         <a href="/add-to-cart/<%= data.p_id %>" class="button">Buy Now</a>
@@ -110,7 +121,7 @@
             </ol>
 
           </div>
-  <!--
+          <!--
           <div class="tab">
             <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Product Details</button>
             <button class="tablinks" onclick="openCity(event, 'Paris')">Description</button>
@@ -155,7 +166,7 @@
         </div>
 
       </section>
-<!-- 
+      <!-- 
       <section class="bd-container">
 
         <div class="product__user__rating">
@@ -233,45 +244,45 @@
         
       </section> -->
 
-      <section class="section bd-container">
+      <section class="section bd-container" id="reviewsection">
         <div class="product__user_reviews">
           <h2 class="product__description">Reviews</h2>
-        <% if(reviews) { %>
-          <% if(reviews.length == 0) { %>
-            <p>No reviews for this product</p>
-            <% } %>
-          <p>
-            <% for(i in reviews) { if(i % 2==0) { %>
-              <div class="container">
-                <% } else { %>
-                  <div class="container darker">
-                    <% } %>
-                    <p class="review__username">
-                      <strong>
-                        <%= reviews[i].username %>
-                      </strong>
-                      <!-- <%= reviews[i].rating %> -->
-                      <div class="product-rating">
-                        <% var n = reviews[i].rating; for(var r=0; r < n ; r++) { %>
-                          <i class='bx bxs-star' ></i>
+          <% if(reviews) { %>
+            <% if(reviews.length==0) { %>
+              <p>No reviews for this product</p>
+              <% } %>
+                <p>
+                  <% for(i in reviews) { if(i % 2==0) { %>
+                    <div class="container">
+                      <% } else { %>
+                        <div class="container darker">
                           <% } %>
-                          <!-- <% var n = reviews[i].rating; for(var r=0; r < 5-n ; r++) { %>
+                            <p class="review__username">
+                              <strong>
+                                <%= reviews[i].username %>
+                              </strong>
+                              <!-- <%= reviews[i].rating %> -->
+                            <div class="product-rating">
+                              <% var n=reviews[i].rating; for(var r=0; r < n ; r++) { %>
+                                <i class='bx bxs-star'></i>
+                                <% } %>
+                                  <!-- <% var n = reviews[i].rating; for(var r=0; r < 5-n ; r++) { %>
                             <i class='bx bx-star' ></i>
                             <% } %> -->
-                      </div>
-                      
-                      
-                    </p>
-                      <% for(j in reviews[i].review_detail) { %>
-                        <p class="review__detail">
-                          <%= reviews[i].review_detail[j] %>
-                        </p>
-                        <% } %>
-                  </div>
+                            </div>
+
+
+                </p>
+                <% for(j in reviews[i].review_detail) { %>
+                  <p class="review__detail">
+                    <%= reviews[i].review_detail[j] %>
+                  </p>
                   <% } %>
-          </p>
-        <% } %>
         </div>
+        <% } %>
+          </p>
+          <% } %>
+            </div>
       </section>
 
       <!-- <span class="section-subtitle about__initial">Sale</span> -->
@@ -324,7 +335,7 @@
 
     <!-- ================SNACKBAR Div ==================-->
     <div class="alert" id="snackbar"></div>
-    
+
     <!--========== FOOTER ==========-->
     <%- include('footer') -%>
 
@@ -336,6 +347,7 @@
 
       <!--========== MAIN JS ==========-->
       <script src="/assets/js/main.js"></script>
+      <script src="/assets/js/product.js"></script>
 
 </body>
 

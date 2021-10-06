@@ -239,6 +239,23 @@ This is added to show the details section for the product page.*/
   /* top: 10px; */
   /* right: 4px; */
 }
+#responsiveFlyoutBasket_itemsCount{
+  font-size: .7rem;
+  color: var(--body-color);
+  background-color: var(--first-color);
+  border-radius: 50%;
+  min-width: 14px;
+  height: 14px;  
+  font-weight: 500;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  position: absolute;
+  box-sizing: border-box;
+  margin-left: -19px;
+  /* top: 10px; */
+  /* right: 4px; */
+}
 
 }
 
@@ -1484,24 +1501,6 @@ This is added to show the details section for the product page.*/
   font-size: var(--h2-font-size);
   color: var(--first-color);
 }
-
-.button__buy__now{
-  background-color: #f18400!important;
-  display: inline-block;
-  color: #FFF;
-  padding: .75rem 2.5rem;
-  /* border-radius: .5rem; */
-  transition: .3s;
-}
-.button__add__2cart{
-  background-color: var(--first-color);
-  display: inline-block;
-  color: #FFF;
-  padding: .75rem 2.5rem;
-  /* border-radius: .5rem; */
-  transition: .3s;
-}
-
 
 /* .searchTerm:focus {
   width: 100%;

@@ -149,92 +149,52 @@ if(toggled){
 })    
 }
 
-console.log(document.getElementsByClassName('heart__button').length + " CCCCCCCCCCCCCCCCCCCCCCC")
-if(document.getElementsByClassName('heart__button').length > 0){
-$(document).ready(function(){
 
-    $('.heart__button').on('click',function(e){
-         e.preventDefault();
- 
-         $("#heart").toggleClass("bxs-heart")
-         $("#heart").toggleClass("bx-heart")
- 
-        $.ajax({
-            url : "/wishlist",
-            data : {
-                wishlist : $("#wishlist").val(),
-                pid : $("#pid").val()
-            },
-            method : "POST",
-            contentType : "application/x-www-form-urlencoded",
-            success : function(res){
-                if(res.message){
-                    $(".alert").text(res.message);
-                    
-                    $("#snackbar").html(res.message);
-                    $("#snackbar").toggleClass('show ""');
 
-                    setTimeout(function () {
-                        $("#snackbar").toggleClass('"" show');
-        }, 3000);
-                }else{
-                    window.location.href = "/users/login"
-                }
-                
-            },
-            error : function(error){
-                console.log(error)
-            }
-        })
- 
-    });
-})
-}
+if (document.getElementsByClassName('heart__button__list').length > 0) {
+    $(document).ready(function () {
 
-if(document.getElementsByClassName('heart__button__list').length > 0){
-    $(document).ready(function(){
-    
-        $("#menu-toggler").click(function() {
+        $("#menu-toggler").click(function () {
             toggleBodyClass("menu-active");
-          });
-        
-          function toggleBodyClass(className) {
+        });
+
+        function toggleBodyClass(className) {
             document.body.classList.toggle(className);
-          }
+        }
 
 
-        $('.heart__button__list').on('click',function(e){
-             e.preventDefault();
+        $('.heart__button__list').on('click', function (e) {
+            e.preventDefault();
 
-             var form = $(this).closest('form');
-             var formdata = form.serialize().toString();
-             var id = formdata.substr(formdata.indexOf("pid") + 4);
-console.log(id )
-             $("#heart_"+ id).toggleClass("bxs-heart")
-             $("#heart_"+ id).toggleClass("bx-heart")
-     
+            var form = $(this).closest('form');
+            var formdata = form.serialize().toString();
+            var id = formdata.substr(formdata.indexOf("pid") + 4);
+            console.log(id)
+            $("#heart_" + id).toggleClass("bxs-heart")
+            $("#heart_" + id).toggleClass("bx-heart")
+
             $.ajax({
-                url : "/wishlist",
-                data :form.serialize(),
-                method : "POST",
-                contentType : "application/x-www-form-urlencoded",
-                success : function(res){
-                    if(res.message){
+                url: "/wishlist",
+                data: form.serialize(),
+                method: "POST",
+                contentType: "application/x-www-form-urlencoded",
+                success: function (res) {
+                    if (res.message) {
                         $(".alert").text(res.message)
                         console.log(res.message)
-                    }else{
+                    } else {
                         window.location.href = "/users/login"
                     }
-                    
+
                 },
-                error : function(error){
+                error: function (error) {
                     console.log(error)
                 }
             })
-     
+
         });
     })
-    }
+}
 
 
 /*===== LOGIN SHOW and HIDDEN =====*/

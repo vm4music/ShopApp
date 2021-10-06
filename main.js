@@ -252,12 +252,14 @@ app.get('/product/:p_id', connectMongoose, async (req, res) => {
     })
 })
 
-//==================== CART RESULTS =============================//
-app.get('/add-to-cart/:p_id', checkAuthenticated, connectMongoose, async (req, res) => {
-    await Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
-        if (err) {
+//====================AJAX ADD TO CART =============================//
+app.post('/add-to-cart', checkAuthenticated, connectMongoose, async (req, res) => {
+
+    var productid = req.body.product__ID;
+    await Product.findOne({ p_id: productid }, async function (err, product) {
+        if (err)
             console.log("Error in finding the product to add to Cart: " + err);
-        }
+
             try {
                 let cartObj = {};
                 if (req.session.cart) {
@@ -290,21 +292,14 @@ app.get('/add-to-cart/:p_id', checkAuthenticated, connectMongoose, async (req, r
                         if(err)
                             console.log("Error getting the reivew");
 
-                        res.render('product', {
-                            title: 'Product View',
-                            data: product,
-                            user: req.user || "",
-                            cart: cart.generateArray(),
-                            wishlist: wishlist,
-                            reviews : reviews
-                        });
+                        return res.json({status: "Success", cart : cart, message: "Item is added to Cart"});
                     })
-
                  } catch (error) {
                 console.log("Error in add the product to the cart: " + error)
             }
     });
 })
+
 
 app.get('/showcart', (req, res) => {
 
@@ -359,6 +354,61 @@ async function checkWishList(req, res, next) {
     }
     next()
 }
+
+//==================== CART RESULTS =============================//
+app.get('/add-to-cart/:p_id', checkAuthenticated, connectMongoose, async (req, res) => {
+    
+    await Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
+        if (err) {
+            console.log("Error in finding the product to add to Cart: " + err);
+        }
+            try {
+                let cartObj = {};
+                if (req.session.cart) {
+                    cartObj = req.session.cart;
+                } else {
+                    await Order.findOne({ user: req.session.passport.user }, function (err, order) {
+                        if (err) {
+                            console.log(err + " Order Error");
+                        }
+                            cartObj = order ? order : {};
+                    })
+                }
+
+                var cart = new Cart(cartObj, req.session.passport.user);
+                // var cart = new Cart(req.session.cart ? req.session.cart : {});
+
+                cart.add(product, product.p_id)
+                req.session.cart = cart;
+
+                console.log("Updated Cart***************************");
+                console.log(cart);
+                console.log("*************************Updated Cart end***************************");
+
+                var wishlist = []
+                if (req.session.wishlist)
+                    wishlist = req.session.wishlist.includes(req.params.p_id)
+
+                    await Review.find({product : product._id}, function (err, reviews){
+
+                        if(err)
+                            console.log("Error getting the reivew");
+
+                        res.render('product', {
+                            title: 'Product View',
+                            data: product,
+                            user: req.user || "",
+                            cart: cart.generateArray(),
+                            wishlist: wishlist,
+                            reviews : reviews
+                        });
+                    })
+
+                 } catch (error) {
+                console.log("Error in add the product to the cart: " + error)
+            }
+    });
+})
 
 app.get('/times', (req, res) => res.send(showTimes()))
 

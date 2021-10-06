@@ -288,9 +288,6 @@ router.get('/orders', connectMongoose, checkAuthenticated, async (req, res) => {
    
 });
 
-
-
-
 router.post("/productreview", connectMongoose, async (req, res) => {
 
    
@@ -357,9 +354,10 @@ router.post("/productreview", connectMongoose, async (req, res) => {
 })
 
 router.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
+    console.log(req.params)
     await Product.findOne({ p_id: req.params.p_id }, async function (err, product) {
         if (err) {
-            console.log("Error in finding the product to add to Cart: " + err);
+            console.log("Error in finding the product to add to Cart: checkroute " + err);
         }
         else {
             try {
@@ -371,11 +369,7 @@ router.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
                         if (err) {
                             console.log(err + " Order Error");
                         }
-                        else {
-
-                            
                             cartObj = order ? order : {};
-                        }
                     })
                 }
 

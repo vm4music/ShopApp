@@ -17,6 +17,9 @@ const ProductSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    mrp : {
+        type: Number
+    },
     detail : {
         type: Array,
     },
