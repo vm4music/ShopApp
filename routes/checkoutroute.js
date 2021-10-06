@@ -15,10 +15,11 @@ const { findOneAndUpdate } = require('../models/Product');
 
 let orderStatus = {
     INITIATED : "initiated",
-    SUCCESS : "success",
+    SUCCESS : "Ordered",
     FAIL : "fail",
     CANCELLED : "cancelled",
-    SHIPPED : "shipped"
+    SHIPPED : "Shipped",
+    DELIVERED : "Delivered"
 }
 
 const router = express.Router();

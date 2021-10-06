@@ -110,7 +110,8 @@
     border-top: 1px solid #ccc;
     border-bottom: 1px solid #ccc;
     line-height: 48px;
-    font-size: 48px;
+    /* font-size: 48px; */
+    font-size: var(--h2-font-size);
     padding: 8px 0;
     margin-bottom: 24px;
   }

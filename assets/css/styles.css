@@ -867,7 +867,8 @@ This is added to show the details section for the product page.*/
 
 .banner__text {
   background-color: var(--first-color-alt);
-  color: var(--body-color);
+  /* color: var(--body-color); */
+  color: #fff;
   padding: 3px 8px;
   font-size: var(--medium-font-size);
 }
@@ -1375,7 +1376,7 @@ This is added to show the details section for the product page.*/
   .login__content{
     grid-template-columns: repeat(2, max-content);
     justify-content: center;
-    align-items: center;
+    /* align-items: center; */
     margin-left: 10rem;
   }
 
