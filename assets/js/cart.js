@@ -50,6 +50,11 @@ module.exports = function Cart(oldCart, user) {
     };
 
     this.remove = async function (id, user) {
+
+        //Handle the condition when request contains a product id to be removed which is not in cart
+        if(!this.items[id])
+            return;
+        
         this.totalQty -= this.items[id].qty;
         this.totalPrice -= this.items[id].price;
         this.tax = Number((.05 * this.totalPrice).toFixed(2));
