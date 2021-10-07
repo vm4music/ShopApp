@@ -253,7 +253,7 @@ app.get('/product/:p_id', connectMongoose, async (req, res) => {
 })
 
 //====================AJAX ADD TO CART =============================//
-app.post('/add-to-cart', checkAuthenticated, connectMongoose, async (req, res) => {
+app.post('/add-to-cart', checkAuthenticatedAjax, connectMongoose, async (req, res) => {
 
     var productid = req.body.product__ID;
     await Product.findOne({ p_id: productid }, async function (err, product) {
@@ -337,6 +337,14 @@ function checkAuthenticated(req, res, next) {
         return next()
     }
     res.redirect('/users/login')
+}
+
+function checkAuthenticatedAjax(req, res, next) {
+    req.session.returnTo = req.originalUrl;
+        if (req.isAuthenticated()) {
+            return next()
+        }
+        res.json({ message: '/users/login', status: 401 });
 }
 
 async function checkWishList(req, res, next) {

@@ -89,7 +89,7 @@
               <!-- <a href="/add-to-cart/<%= data.p_id %>" class="button__add__2cart">Add To Cart </a> -->
 
               <form action="/add-to-cart" method="POST">
-                <input id="product-buy-now" type="hidden" value="<%= data.p_id %>" />
+                <input id="product-add-to-cart" type="hidden" value="<%= data.p_id %>" />
                 <button type="submit" class="button__add__2cart__button">Add To Cart</button>
               </form>
             </div>
@@ -327,7 +327,12 @@
         <section class="bd-container">
           <div class="action__buttons__mobile">
             <a href="/checkout/add-to-cart/<%= data.p_id %>" class="button__buy__now">Buy Now</a>
-            <a href="/add-to-cart/<%= data.p_id %>" class="button__add__2cart">Add To Cart </a>
+            <!-- <a href="/add-to-cart/<%= data.p_id %>" class="button__add__2cart">Add To Cart </a> -->
+
+            <form action="/add-to-cart" method="POST">
+              <input id="product-add-to-cart-mobile" type="hidden" value="<%= data.p_id %>" />
+              <button type="submit" class="button__add__2cart__button">Add To Cart</button>
+            </form>
           </div>
         </section>
     </main>

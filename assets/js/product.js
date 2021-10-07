@@ -48,14 +48,19 @@ if (document.getElementsByClassName('action__buttons').length > 0) {
             $.ajax({
                 url: "/add-to-cart",
                 data: {
-                    product__ID: $("#product-buy-now").val(),
+                    product__ID: $("#product-add-to-cart").val() || $('product-add-to-cart-mobile').val(),
+                    
                     // pid: $("#pid").val()
                 },
                 method: "POST",
                 contentType: "application/x-www-form-urlencoded",
                 success: function (res) {
+                    console.log(res.status)
+                    if(res.status == 401)
+                        window.location.href = res.message;
                     if (res.status == 'Success') {
                         $('#responsiveFlyoutBasket_itemsCount').html(res.cart.totalQty)
+                        $('#responsiveFlyoutBasket_itemsCount__mobile').html(res.cart.totalQty)
 
                         $("#snackbar").html(res.message);
                         $("#snackbar").toggleClass('show ""');
@@ -67,7 +72,7 @@ if (document.getElementsByClassName('action__buttons').length > 0) {
                     }       
                 },
                 error: function (error) {
-                    console.log(error)
+                    console.log(error.message + " From Ajax")
                 }
             })
         });
