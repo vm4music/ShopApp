@@ -59,25 +59,32 @@
                       <i class='bx bx-star'></i>
                       <% } %>
                         <% } %>
-                          <% if ((parseFloat(data.rating) % 1)==0) { %>
-                            <!-- <i class='bx bxs-star-half'></i> -->
-                            <% for(var i=0; i < 5 - parseInt(data.rating); i++) { %>
-                              <i class='bx bx-star'></i>
-                              <% } %>
+                          <% if ((parseFloat(data.rating) % 1)==0 || !(data.rating)) { %>
+                            <% if(!(data.rating)) { %>
+                              <% for(var i=0; i < 5; i++) { %>
+                                <i class='bx bx-star'></i>
                                 <% } %>
-                                  <!-- <% if(data.totalreviews == 0) { %>
+                                  <% } %>
+                                    <% if(data.rating) { %>
+                                      <% for(var i=0; i < 5 - parseInt(data.rating); i++) { %>
+                                        <i class='bx bx-star'></i>
+                                        <% } %>
+                                          <% } %>
+                                            <% } %>
+                                              <!-- <% if(data.totalreviews == 0) { %>
                                   <i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i><i class='bx bx-star'></i>
                                   <% } %> -->
-                                  <!-- <i class='bx bxs-star'></i>
+                                              <!-- <i class='bx bxs-star'></i>
               <i class='bx bxs-star'></i>
               <i class='bx bxs-star'></i> -->
 
-                                  <a href="#reviewsection"><span class="rating__overall">
-                                      <%= data.rating %> (<%= data.totalreviews %>)
-                                    </span></a>
+                                              <a href="#reviewsection"><span class="rating__overall">
+                                                  <%= data.rating %> (<%= data.totalreviews %>)
+                                                </span></a>
             </div>
             <h2 class="section-subtitle-rate">INR <%= data.price %> &nbsp;<span
-                  style="text-decoration: line-through;color: #069C54"><i> INR <%= data.mrp %>&nbsp; </i></span></h2>
+                  style="text-decoration: line-through;color: #069C54;font-size: initial;"><i> INR <%= data.mrp %>&nbsp;
+                  </i></span></h2>
 
             <!-- <ul class="about__description">
                         <% for(var i=0;i<data.detail.length;i++) { %>

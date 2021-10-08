@@ -9,7 +9,7 @@
     <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
 
     <!--========== CSS ==========-->
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/listview.css">
 
     <title>Little Bugs</title>
 </head>
@@ -45,116 +45,159 @@
             <section class="menu section bd-container" id="menu">
                 <!-- <span class="section-subtitle">Special Sale</span> -->
                 <!-- <h2 class="section-title">New Collection </h2> -->
-                <!-- 
-                    <h2 class="section-title">
-                    <%= data.qry %>
-                </h2> -->
-               
-                    <div class="filter">
-                        <% if(data.text.category != ""){ %>
+
+                <div class="filter">
+                    <% if(data.text.key !="" ) {%>
+                        <h3 class="section-subtitle">Search results for: "<%= data.text.key %>"</h3>
+                        <%} if(data.results.length==0){%>
+                            <h2 class="section-subtitle">No Results found for your query</h2>
+                            <%}%>
+                </div>
+
+                <div class="query__message__dropbox__div">
+
+                    <% if(data.text.category !="" ){ %>
                         <div class="sort__filter__box">
-                                <div class="sort__filter__box__a">
-                                    <!-- <p> -->
-                                        <a href="/">Home</a> / <a href="/shop?sort=<%= data.sort %>&category=<%= data.text.category %>"> <%= data.text.category %> </a>
-                                    <!-- </p> -->
-                                </div>
+                            <div class="sort__filter__box__a">
+                                <!-- <p> -->
+                                <a href="/">Home</a> / <a
+                                    href="/shop?sort=<%= data.sort %>&category=<%= data.text.category %>">
+                                    <%= data.text.category %>
+                                </a>
+                                <!-- </p> -->
+                            </div>
                         </div>
                         <%}%>
-                        <div class="container_results">
 
-                       
-          
-                            <% if(data.previous || data.next) { %>
+                    <div class="filter__and__sort">
+                        <% if(data.previous || data.next) { %>
                             <div class="dropdown">
-                                <button class="dropbtn" id="sort-dropdown" >Sort</button>
+                                <button class="dropbtn" id="sort-dropdown">Sort</button>
                                 <div class="dropdown-content">
-                                    <% if(data.text.category !="" && data.text.key == "") { %>
-                                        <a href="/shop?sort=Price Low-to-High&category=<%= data.sort_text %>">Price Low-to-High</a>
-                                    <% } %>
-                                    <% if((data.text.key == "" || data.text.key !="") && data.text.category =="") { %>
-                                        <a href="/shop?sort=Price Low-to-High&text=<%= data.sort_text %>">Price Low-to-High</a>
-                                    <% } %>
-                                    <% if(data.text.category !="" && data.text.key == "") { %>
-                                        <a href="/shop?sort=Price High-to-Low&category=<%= data.sort_text %>">Price High-to-Low</a>
-                                    <% } %>
-                                    <% if((data.text.key == "" || data.text.key !="") && data.text.category =="") { %>
-                                        <a href="/shop?sort=Price High-to-Low&text=<%= data.sort_text %>">Price High-to-Low</a>
-                                    <% } %>
+                                    <% if(data.text.category !="" && data.text.key=="" ) { %>
+                                        <a href="/shop?sort=Price Low-to-High&category=<%= data.sort_text %>">Price
+                                            Low-to-High</a>
+                                        <% } %>
+                                            <% if((data.text.key=="" || data.text.key !="" ) && data.text.category=="" )
+                                                { %>
+                                                <a href="/shop?sort=Price Low-to-High&text=<%= data.sort_text %>">Price
+                                                    Low-to-High</a>
+                                                <% } %>
+                                                    <% if(data.text.category !="" && data.text.key=="" ) { %>
+                                                        <a
+                                                            href="/shop?sort=Price High-to-Low&category=<%= data.sort_text %>">Price
+                                                            High-to-Low</a>
+                                                        <% } %>
+                                                            <% if((data.text.key=="" || data.text.key !="" ) &&
+                                                                data.text.category=="" ) { %>
+                                                                <a
+                                                                    href="/shop?sort=Price High-to-Low&text=<%= data.sort_text %>">Price
+                                                                    High-to-Low</a>
+                                                                <% } %>
                                 </div>
                             </div>
                             <% } %>
-                            <% if(data.text.key !="" ) {%>
-                                <h3 class="section-subtitle">Search results for: "<%= data.text.key %>"</h3>
-                                <%} if(data.results.length==0){%>
-                                    <h2 class="section-subtitle">No Results found for your query</h2>
-                                    <%}%>
-                        </div>
-                         
-                        
-                        <!-- <% if(data.product_categories) { %> -->
-                        <!-- <%}%> -->
                     </div>
-                   
-                        <div class="menu__container bd-grid">
-                            <% for(i in data.results) { %>
-                                <div class="menu__content"> 
-                                    <form action="/wishlist-toggle" method="POST">
-                                        <input type="hidden" id="wishlist" name="wishlist" value="kuch" />
-                                        <input type="hidden" id="pid_<%= data.results[i].p_id %>" name="pid" value="<%= data.results[i].p_id %>" /> 
-            
-                                        <% var cl = (wishlist.includes(data.results[i].p_id)) ? "bxs-heart" : "bx-heart" %>
-                                                <button type="submit" class="heart__button__list"><i id="heart_<%= data.results[i].p_id %>" class='bx <%= cl %>'></i></button>
-                                    </form>
-                                    <a href="/product/<%= data.results[i].p_id %>">
-                                    <img src="/assets/img/<%= data.results[i].img %>" alt="" class="menu__img">
-                                    <h3 class="menu__name">
-                                        <%= data.results[i].name %>
-                                    </h3>
-                                    <!-- <span class="menu__detail"><%= data.results[i].detail %></span> -->
 
-                                    <span class="menu__preci">INR <%= data.results[i].price %></span>
-                                    <a href="/add-to-cart/<%= data.results[i].p_id %>" class="button menu__button"><i
-                                            class='bx bx-cart-alt'></i></a>
-                                    </a>
-                                </div>
-                                <!-- <%= data.results[i].p_id %>
-                    <%= data.results[i].name %> -->
-                                <% }; %>
-                            </div>
-                                    <!--========== PAGINATION ==========-->
-                        <div class="pagination">
-                            <% if(data.previous) { %>
-                                <% if(data.text.category !="" && data.text.key == "") { %>
-                                    <a href="/shop?page=<%= data.previous.page %>&sort=<%= data.sort %>&category=<%= data.text.category %>" class="pagination__previous" >&laquo; Previous</a>
-                                <% } %>
-                                <% if((data.text.key == "" || data.text.key !="") && data.text.category =="") { %>
-                                    <a href="/shop?page=<%= data.previous.page %>&sort=<%= data.sort %>&text=<%= data.text.key %>" class="pagination__previous" >&laquo; Previous</a>
-                                <% } %>
-                                <% } %>
-                            <% if(data.next) { %>
-                                <% if(data.text.category !="" && data.text.key == "") { %>
-                                    <a href="/shop?page=<%= data.next.page %>&sort=<%= data.sort %>&category=<%= data.text.category %>" class="pagination__next" >Next &raquo;</a>
-                                <% } %>
-                                <% if((data.text.key == "" || data.text.key !="") && data.text.category =="") { %>
-                                    <a href="/shop?page=<%= data.next.page %>&sort=<%= data.sort %>&text=<%= data.text.key %>" class="pagination__next" >Next &raquo;</a>
-                                <% } %>
-                                <% } %>
-                            <!-- <a href="/shop?page=1"></a> -->
-                           
-                            <% if(data.pages) { %>
-                                <% for(var i=1;i<=data.pages; i++) {%>
-                                    <% if(data.page_selected==i){%>
-                                        <a href="/searchcategory/<%= data.qry %>?page=<%= i %>" class="active">
-                                            <%= i %>
-                                        </a>
-                                        <%} else{%>
-                                            <a href="/searchcategory/<%= data.qry %>?page=<%= i %>">
-                                                <%= i %>
-                                            </a>
-                                            <%}}%>
-                                                <%}%>
-                                                   
+                    
+                </div>
+
+
+
+                <div class="menu__container bd-grid">
+                    <% for(i in data.results) { %>
+                        <div class="menu__content">
+                            <form action="/wishlist-toggle" method="POST">
+                                <input type="hidden" id="wishlist" name="wishlist" value="kuch" />
+                                <input type="hidden" id="pid_<%= data.results[i].p_id %>" name="pid"
+                                    value="<%= data.results[i].p_id %>" />
+
+                                <% var cl=(wishlist.includes(data.results[i].p_id)) ? "bxs-heart" : "bx-heart" %>
+                                    <button type="submit" class="heart__button__list"><i
+                                            id="heart_<%= data.results[i].p_id %>" class='bx <%= cl %>'></i></button>
+                            </form>
+                            <a href="/product/<%= data.results[i].p_id %>">
+                                <img src="/assets/img/<%= data.results[i].img %>" alt="" class="menu__img">
+                                <h3 class="menu__name">
+                                    <%= data.results[i].name %>
+                                </h3>
+                                <!-- <span class="menu__detail"><%= data.results[i].detail %></span> -->
+
+                                <span class="menu__preci">INR <%= data.results[i].price %> </span>
+
+
+                                
+
+                                    
+                            </a>
+                            <% data.results[i].rating=(data.results[i].rating)?data.results[i].rating:0 %>
+                                    <div class="rating__div">
+
+                                        <% for(var r=0; r< parseInt(data.results[i].rating); r++) { %>
+                                            <span style="color: #ffc107;">
+                                                <i class='bx bxs-star'></i>
+                                            </span>
+
+                                            <% } if( (data.results[i].rating % 1) !=0 ) { %>
+                                                <span style="color: #ffc107;">
+                                                    <i class='bx bxs-star-half'></i>
+                                                </span>
+
+                                                <% data.results[i].rating++; %>
+                                                    <% } %>
+                                                        <% for(var rr=0; rr < (5 - data.results[i].rating); rr++ ) { %>
+                                                            <span style="color: #ffc107;">
+                                                                <i class='bx bx-star'></i>
+                                                            </span>
+                                                            <% } %>
+                                                                <span class="menu__preci">(<%=
+                                                                        data.results[i].totalreviews %>)</span>
+                                    </div>
+                            <a href="/add-to-cart/<%= data.results[i].p_id %>" class="button menu__button"><i class='bx bx-cart-alt'></i></a>
                         </div>
+                        <% }; %>
+                </div>
+                <!--========== PAGINATION ==========-->
+                <div class="pagination">
+                    <% if(data.previous) { %>
+                        <% if(data.text.category !="" && data.text.key=="" ) { %>
+                            <a href="/shop?page=<%= data.previous.page %>&sort=<%= data.sort %>&category=<%= data.text.category %>"
+                                class="pagination__previous">&laquo; Prev</a>
+                            <% } %>
+                                <% if((data.text.key=="" || data.text.key !="" ) && data.text.category=="" ) { %>
+                                    <a href="/shop?page=<%= data.previous.page %>&sort=<%= data.sort %>&text=<%= data.text.key %>"
+                                        class="pagination__previous">&laquo; Prev</a>
+                                    <% } %>
+                                        <% } %>
+                                            <% if(data.next) { %>
+                                                <% if(data.text.category !="" && data.text.key=="" ) { %>
+                                                    <a href="/shop?page=<%= data.next.page %>&sort=<%= data.sort %>&category=<%= data.text.category %>"
+                                                        class="pagination__next">Next &raquo;</a>
+                                                    <% } %>
+                                                        <% if((data.text.key=="" || data.text.key !="" ) &&
+                                                            data.text.category=="" ) { %>
+                                                            <a href="/shop?page=<%= data.next.page %>&sort=<%= data.sort %>&text=<%= data.text.key %>"
+                                                                class="pagination__next">Next &raquo;</a>
+                                                            <% } %>
+                                                                <% } %>
+                                                                    <!-- <a href="/shop?page=1"></a> -->
+
+                                                                    <% if(data.pages) { %>
+                                                                        <% for(var i=1;i<=data.pages; i++) {%>
+                                                                            <% if(data.page_selected==i){%>
+                                                                                <a href="/searchcategory/<%= data.qry %>?page=<%= i %>"
+                                                                                    class="active">
+                                                                                    <%= i %>
+                                                                                </a>
+                                                                                <%} else{%>
+                                                                                    <a
+                                                                                        href="/searchcategory/<%= data.qry %>?page=<%= i %>">
+                                                                                        <%= i %>
+                                                                                    </a>
+                                                                                    <%}}%>
+                                                                                        <%}%>
+
+                </div>
             </section>
 
             <!--===============SERVICES SECTION================-->
@@ -184,10 +227,11 @@
             <script src="https://unpkg.com/scrollreveal"></script>
 
             <!--========== JQUERY CDN ==========-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
             <!--========== MAIN JS ==========-->
             <script src="/assets/js/main.js"></script>
+            <script src="/assets/js/listview.js"></script>
 </body>
 
 </html>
