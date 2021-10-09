@@ -46,6 +46,7 @@ app.use(express.json())
 const productsRoute = require('./routes/product');
 const userRoute = require('./routes/userroute');
 const checkoutRoute = require('./routes/checkoutroute');
+const adminRoute = require('./routes/adminroute');
 
 const { getProductsForIndex, getProductsWithPage, getWishlist } = require('./db/productdbservice');
 const User = require('./models/User');
@@ -81,6 +82,7 @@ app.use(async function (req, res, next) {
 app.use('/products', productsRoute);
 app.use('/users', userRoute);
 app.use('/checkout', checkoutRoute);
+app.use('/admin', adminRoute);
 // app.use('/views', express.static(__dirname + '/views'));
 // app.set('views', __dirname + '/views'); // set express to look in this folder to render our view
 

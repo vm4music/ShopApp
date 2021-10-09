@@ -28,12 +28,11 @@
 
       <!--========== ABOUT ==========-->
       <section class="about section bd-container" id="about">
+
+        <!--========== PRODUCT ==========-->
         <div class="about__container  bd-grid">
           <img src="/assets/img/<%= data.img %>" alt="" class="about__img">
           <div class="about__data">
-
-            <!-- <div class="alert success"></div> -->
-
 
             <form action="/wishlist-toggle" method="POST">
               <input type="hidden" id="wishlist" name="wishlist" value="<%= wishlist %>" />
@@ -42,10 +41,6 @@
               <% var cl=(wishlist==true) ? "bxs-heart" : "bx-heart" %>
                 <button type="submit" class="heart__button"><i id="heart" class='bx <%= cl %>'></i></button>
             </form>
-            <!-- <% if(wishlist) { %> -->
-            <!-- <% } %> -->
-            <!-- <a href="/wishlist/<%= data.p_id %>" class="heart" ><i class='bx bx-heart'></i></a> -->
-            <!-- <span class="section-subtitle about__initial">Sale</span> -->
             <h2 class="section-title about__initial">
               <%= data.name %>
             </h2>
@@ -114,7 +109,7 @@
         </div>
 
         <div class="detail_section">
-          <div class="">
+          <!-- <div class=""> -->
 
             <h2 class="product__description">Details</h2>
             <ol class="about__description">
@@ -127,49 +122,7 @@
                 <% }; %>
             </ol>
 
-          </div>
-          <!--
-          <div class="tab">
-            <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">Product Details</button>
-            <button class="tablinks" onclick="openCity(event, 'Paris')">Description</button>
-            
-          </div>
-
-          <div id="London" class="tabcontent">
-            <h3>Details</h3>
-            <p>London is the capital city of England.</p>
-            <table>
-              <% for(var i=0;i<data.detail.length;i++) { %>
-                <tr>
-
-                  <td>
-
-                    <ul>
-
-                      <li>
-                        <p class="about__description"></p>
-                        <%= data.detail[i] %>
-                          </p>
-                      </li>
-
-                    </ul>
-
-                  </td>
-
-                </tr>
-                <% }; %>
-            </table>
-          </div>
-
-          <div id="Paris" class="tabcontent">
-            <p>Paris is the capital of France.</p>
-          </div>
-
-         <div id="Tokyo" class="tabcontent">
-        <h3>Tokyo</h3>
-        <p>Tokyo is the capital of Japan.</p>
-      </div> -->
-
+          <!-- </div> -->
         </div>
 
       </section>
@@ -251,7 +204,7 @@
         
       </section> -->
 
-      <section class="section bd-container" id="reviewsection">
+      <section class="bd-container" id="reviewsection">
         <div class="product__user_reviews">
           <h2 class="product__description">Reviews</h2>
           <% if(reviews) { %>
@@ -291,26 +244,6 @@
           <% } %>
             </div>
       </section>
-
-      <!-- <span class="section-subtitle about__initial">Sale</span> -->
-      <!---->
-      <!-- ========== PRODUCT ==========
-            <section class="home" id="home">
-                <div class="home__container pd-container bd-grid">
-                    <img src="/assets/img/<%= data.img %>" alt="" class="product__img">
-                    
-                    <div class="home__data">
-                        <h1 class="product__title"><%= data.name %></h1>
-                        <h1 class="product__price">$<%= data.price %></h1>
-                        <h3 class="product__subtitle"><%= data.detail %></h3>
-                        
-                        
-                        <a href="#menu" class="cart_button">Add To Cart</a>
-                    </div>
-    
-                    
-                </div> 
-            -->
 
       <!-- Header for the page-->
       <%- include('services') -%>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!--========== BOX ICONS ==========-->
+  <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
+
+  <!--========== CSS ==========-->
+  <link rel="stylesheet" href="/assets/css/product.css">
+
+  <title>Responsive website food</title>
+</head>
+
+<body>
+
+  <!--========== SCROLL TOP ==========-->
+  <a href="#" class="scrolltop" id="scroll-top">
+    <i class='bx bx-chevron-up scrolltop__icon'></i>
+  </a>
+
+  <!--========== HEADER ==========-->
+  <%- include('header') -%>
+
+    <main class="l-main">
+
+      <!--========== ABOUT ==========-->
+      <section class="about section bd-container" id="about">
+
+        <!-- <%= data %> -->
+
+        
+
+        <table>
+          <thead>
+        </thead>
+        <tbody>
+          <% data.forEach(product => { %>
+            <tr>
+              <td>
+                <a href="/admin/products/<%= product.p_id %>" style="text-decoration: none;color: #C7D1CC;"><%= product.name %></a>
+              </td>
+            </tr>
+          <% }) %>
+          
+        </tbody>
+        </table>
+
+        <!--========== PRODUCT ==========-->
+        
+      </section>
+     
+
+      
+
+      <!-- Header for the page-->
+      <%- include('services') -%>
+
+        <!--========== CONTACT US ==========-->
+        <section class="contact section bd-container" id="contact">
+          <div class="contact__container bd-grid">
+            <div class="contact__data">
+              <span class="section-subtitle contact__initial">Let's talk</span>
+              <h2 class="section-title contact__initial">Contact us</h2>
+              <p class="contact__description">If you want to reserve a table in our restaurant, contact us and we will
+                attend you quickly, with our 24/7 chat service.</p>
+            </div>
+
+            <div class="contact__button">
+              <a href="#" class="button">Contact us now</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="bd-container">
+          <div class="action__buttons__mobile">
+            <a href="/checkout/add-to-cart/<%= data.p_id %>" class="button__buy__now">Buy Now</a>
+            <!-- <a href="/add-to-cart/<%= data.p_id %>" class="button__add__2cart">Add To Cart </a> -->
+
+            <form action="/add-to-cart" method="POST">
+              <input id="product-add-to-cart-mobile" type="hidden" value="<%= data.p_id %>" />
+              <button type="submit" class="button__add__2cart__button">Add To Cart</button>
+            </form>
+          </div>
+        </section>
+    </main>
+
+
+    <!-- ================SNACKBAR Div ==================-->
+    <div class="alert" id="snackbar"></div>
+
+    <!--========== FOOTER ==========-->
+    <%- include('footer') -%>
+
+      <!--========== SCROLL REVEAL ==========-->
+      <script src="https://unpkg.com/scrollreveal"></script>
+
+      <!--========== JQUERY CDN ==========-->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+      <!--========== MAIN JS ==========-->
+      <script src="/assets/js/main.js"></script>
+      <script src="/assets/js/product.js"></script>
+
+</body>
+
+</html>
