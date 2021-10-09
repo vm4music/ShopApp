@@ -23,7 +23,7 @@
 .dropbtn {
     background-color: var(--first-color);
     font-family: var(--body-font);
-    /* color: var(--body-color); */
+    color: var(--body-color);
     padding: 13px 53px;
     font-size: 16px;
     border: none;
