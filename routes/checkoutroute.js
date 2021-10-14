@@ -45,10 +45,26 @@ router.get('/', checkAuthenticated, connectMongoose, async (req, res) => {
 
 })
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
 
     //Get the Price of the products based on the product ids received from Client to calculate the acutal cost of the order
     // as the price can be manupulated from Client side.
+    
+    console.log(req.body.plan + " is the checkbox")
+
+    var delivery_address = {};
+    var koiuser = await User.findById(req.user);
+    if(koiuser){
+        var address = koiuser.address;
+        
+        delivery_address.name = address[req.body.plan].full_name;
+        delivery_address.phone = address[req.body.plan].phone;
+        delivery_address.address = address[req.body.plan].address;
+        delivery_address.city = address[req.body.plan].city;
+        delivery_address.state = address[req.body.plan].state;
+        delivery_address.zip = address[req.body.plan].zip;
+    }
+
 
     console.log(req.user + " TOTAL PRICE");
     var orderID = 'TEST_' + new Date().getTime();
@@ -113,12 +129,12 @@ router.post('/', (req, res) => {
                 var finalOrder = new FinalOrder({
                     user: req.user,
                     cart: new Cart(req.session.cart || {}),
-                    name: req.body.firstname,
-                    phone: req.body.phone,
-                    address: req.body.address,
-                    city: req.body.city,
-                    state: req.body.state,
-                    zip: req.body.zip,
+                    name: delivery_address.name,
+                    phone: delivery_address.phone,
+                    address: delivery_address.address,
+                    city: delivery_address.city,
+                    state: delivery_address.state,
+                    zip: delivery_address.zip,
                     paymentId: re.body.txnToken,
                     orderId: orderID,
                     status: orderStatus.INITIATED
