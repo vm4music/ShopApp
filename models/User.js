@@ -21,6 +21,9 @@ const UserSchema = mongoose.Schema({
     googleId : {
         type : String
     },
+    address : {
+        type : Array
+    },
     created : {
         type: Date,
         default: Date.now

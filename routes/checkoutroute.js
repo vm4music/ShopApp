@@ -14,25 +14,30 @@ const User = require('../models/User');
 const { findOneAndUpdate } = require('../models/Product');
 
 let orderStatus = {
-    INITIATED : "initiated",
-    SUCCESS : "Ordered",
-    FAIL : "fail",
-    CANCELLED : "cancelled",
-    SHIPPED : "Shipped",
-    DELIVERED : "Delivered"
+    INITIATED: "initiated",
+    SUCCESS: "Ordered",
+    FAIL: "fail",
+    CANCELLED: "cancelled",
+    SHIPPED: "Shipped",
+    DELIVERED: "Delivered"
 }
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', checkAuthenticated, connectMongoose, async (req, res) => {
 
     var cart = new Cart(req.session.cart ? req.session.cart : {});
+
+    var user = await User.findById(req.user)
+    console.log((user.address) + " is the user id of the checkout user")
+
     try {
         res.render('checkout', {
             title: 'Little Bugs',
             // about: about_us,
             cart: cart.generateArray(),
-            user: req.user || ""
+            user: req.user || "",
+            address: user.address
         });
     } catch (err) {
         return ({ message: err })
@@ -85,7 +90,7 @@ router.post('/', (req, res) => {
             /* for Staging */
             hostname: process.env.STAGE_URL_SHORT,
             port: 443,
-            path: '/theia/api/v1/initiateTransaction?mid='+ process.env.MID +'&orderId=' + orderID,
+            path: '/theia/api/v1/initiateTransaction?mid=' + process.env.MID + '&orderId=' + orderID,
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -106,21 +111,22 @@ router.post('/', (req, res) => {
                 console.log('Response 2: ' + re.body.txnToken);
 
                 var finalOrder = new FinalOrder({
-                    user : req.user,
-                    cart :  new Cart(req.session.cart || {}),
-                    name : req.body.firstname,
-                    email : req.body.email,
-                    address : req.body.address,
+                    user: req.user,
+                    cart: new Cart(req.session.cart || {}),
+                    name: req.body.firstname,
+                    phone: req.body.phone,
+                    address: req.body.address,
                     city: req.body.city,
-                    state : req.body.state,
-                    zip : req.body.zip,
+                    state: req.body.state,
+                    zip: req.body.zip,
                     paymentId: re.body.txnToken,
                     orderId: orderID,
-                    status : orderStatus.INITIATED
+                    status: orderStatus.INITIATED
 
                 });
-                finalOrder.save(function(error, result){
-                    if(error)
+
+                finalOrder.save(function (error, result) {
+                    if (error)
                         console.log("Error in saving the order " + error);
                     console.log("Order created successfully");
                     //Update the inventory Logic is pending...
@@ -130,6 +136,22 @@ router.post('/', (req, res) => {
 
                     // res.redirect('/');
                 })
+
+                // User.findById(req.session.passport.user, function (err, user) {
+
+                //     var userAddress = {};
+                //     userAddress.full_name =  req.body.firstname;
+                //     // userAddress.email = req.body.email;
+                //     userAddress.address = req.body.address,
+                //     userAddress.city = req.body.city;
+                //     userAddress.state = req.body.state;
+                //     userAddress.zip = req.body.zip;
+
+                //     user.address = userAddress;
+                //     user.save();
+
+                // })
+
                 var params = {};
                 params['mid'] = process.env.MID;
                 params['orderId'] = orderID;
@@ -172,7 +194,7 @@ router.post("/callback", connectMongoose, (req, res) => {
     * Generate checksum by parameters we have in body
     */
     Paytm.generateSignature(JSON.stringify(paytmParams.body), process.env.MERCHANT_KEY).then(function (checksum) {
-        
+
         /* head parameters */
         paytmParams.head = {
             /* put generated checksum value here */
@@ -211,11 +233,11 @@ router.post("/callback", connectMongoose, (req, res) => {
                 var _result = JSON.parse(response);
                 if (_result.body.resultInfo.resultStatus == 'TXN_SUCCESS') {
                     //Update the FINAL ORDERS record for this TRANSACTION
-                    await FinalOrder.findOneAndUpdate({orderId : _result.body.orderId}, {status : orderStatus.SUCCESS}, {useFindAndModify: false})
+                    await FinalOrder.findOneAndUpdate({ orderId: _result.body.orderId }, { status: orderStatus.SUCCESS }, { useFindAndModify: false })
 
                     //Delete the session cart and delete the cart from DB
-                    await Order.deleteMany({user: req.user}, {useFindAndModify: false}, function(err){
-                        if(err)
+                    await Order.deleteMany({ user: req.user }, { useFindAndModify: false }, function (err) {
+                        if (err)
                             console.log("Error Deleting the cart")
                     });
                     console.log(req.session.cart);
@@ -229,17 +251,17 @@ router.post("/callback", connectMongoose, (req, res) => {
                     res.render('paymentstatus', {
                         // title: 'Payment',
                         user: req.user,
-                        orderDetails : order_details
+                        orderDetails: order_details
                     });
                 } else {
                     //Update the FINAL ORDERS record for this TRANSACTION [when the transaction has failed]
                     //Update the inventory as well as the order has failed...
                     res.send('payment failed')
                 }
-                   
-                    // res.send('payment sucess')
+
+                // res.send('payment sucess')
             });
-            
+
         });
         // post the data
         post_req.write(post_data);
@@ -252,7 +274,7 @@ router.get('/ordersummary', async (req, res) => {
     try {
         res.render('paymentstatus', {
             title: 'Payment',
-            user: req.user || ""            
+            user: req.user || ""
         });
     } catch (err) {
         return ({ message: err })
@@ -262,14 +284,14 @@ router.get('/ordersummary', async (req, res) => {
 router.get('/orders', connectMongoose, checkAuthenticated, async (req, res) => {
 
     var cart = '';
-    FinalOrder.find( {user : req.user} , (error, finalorders) => {
-        if(error)
+    FinalOrder.find({ user: req.user }, (error, finalorders) => {
+        if (error)
             return res.write("Error Fetching the orders");
-        finalorders.forEach(order =>{
+        finalorders.forEach(order => {
             cart = new Cart(order.cart);
             order.items = cart.generateArray();
         })
-        
+
         try {
 
             console.log(finalorders);
@@ -285,19 +307,19 @@ router.get('/orders', connectMongoose, checkAuthenticated, async (req, res) => {
 
     })
 
-   
+
 });
 
 router.post("/productreview", connectMongoose, async (req, res) => {
 
-   
+
 
     //var cart = new Cart(order.cart);
     // console.log(cart.generateArray())
-   //
+    //
     //p.item.rating = true;
     // console.log(cart.generateArray())
-// var cart2 = new Cart()
+    // var cart2 = new Cart()
     // await order.save()
 
     var user = await User.findById(req.user);
@@ -315,40 +337,40 @@ router.post("/productreview", connectMongoose, async (req, res) => {
     try {
         const savedReview = await review.save();
 
-        await Product.findById({ _id: product }, async function(err, prod){
+        await Product.findById({ _id: product }, async function (err, prod) {
 
             console.log(req.body.orderId + " this is orderID")
             var orderID = req.body.orderId;
-        
+
             var order = await FinalOrder.findById(orderID);
             var cc = order.cart;
 
-            if(cc.items[prod.p_id].item.rating){
-               return res.json({ message: "This item is already reviewed" })
+            if (cc.items[prod.p_id].item.rating) {
+                return res.json({ message: "This item is already reviewed" })
             }
-            
+
             cc.items[prod.p_id].item.rating = true;
-            
-            var updateOrder = await FinalOrder.findOneAndUpdate({_id : orderID}, {cart : cc})
+
+            var updateOrder = await FinalOrder.findOneAndUpdate({ _id: orderID }, { cart: cc })
             order.cart.items[prod.p_id].item.rating = true;
             console.log(updateOrder);
-            
-            if(err)
+
+            if (err)
                 res.json({ message: "Error in updating the rating. Kindly try again later..." })
 
-               prod.totalstars = prod.totalstars + parseInt(ratingg);
-               prod.totalreviews++;
-                var avgrating = parseFloat((prod.totalstars / prod.totalreviews).toFixed(1))
-               console.log( avgrating+ " Average rating");
-               const pr = await Product.updateOne({_id: req.body.product}, {$inc: { 'totalreviews': 1, 'totalstars': ratingg }, 'rating' : avgrating })
-               res.json({ message: "Thank you for your review." });
-           });
+            prod.totalstars = prod.totalstars + parseInt(ratingg);
+            prod.totalreviews++;
+            var avgrating = parseFloat((prod.totalstars / prod.totalreviews).toFixed(1))
+            console.log(avgrating + " Average rating");
+            const pr = await Product.updateOne({ _id: req.body.product }, { $inc: { 'totalreviews': 1, 'totalstars': ratingg }, 'rating': avgrating })
+            res.json({ message: "Thank you for your review." });
+        });
 
-    }catch(err){
+    } catch (err) {
         res.json({ message: "Error in updating the rating. Kindly try again Later..." })
     }
 
-    console.log(req.body.product + "  "+ req.body.rating + "  "+ req.body.review)
+    console.log(req.body.product + "  " + req.body.rating + "  " + req.body.review)
     // res.json({ message: "product updated successfully!" })
 
 })
@@ -369,7 +391,7 @@ router.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
                         if (err) {
                             console.log(err + " Order Error");
                         }
-                            cartObj = order ? order : {};
+                        cartObj = order ? order : {};
                     })
                 }
 
@@ -387,8 +409,8 @@ router.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
                 if (req.session.wishlist)
                     wishlist = req.session.wishlist.includes(req.params.p_id)
 
-                    var cart = new Cart(req.session.cart ? req.session.cart : {});
-        
+                var cart = new Cart(req.session.cart ? req.session.cart : {});
+
                 res.render('checkout', {
                     title: 'Little Bugs',
                     // about: about_us,
@@ -396,19 +418,33 @@ router.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
                     user: req.user || ""
                 });
 
-                // res.render('product', {
-                //     title: 'Product View',
-                //     data: product,
-                //     user: req.user || "",
-                //     cart: cart.generateArray(),
-                //     wishlist: wishlist
-                // });
-
             } catch (error) {
                 console.log("Error in add the product to the cart: " + error)
             }
         }
     });
+})
+
+router.post('/add-address', connectMongoose, checkAuthenticated, async (req, res) => {
+
+    try {
+        var user = await User.findById(req.user)
+        if (user) {
+            console.log(user);
+            var userAddress = {};
+            userAddress.full_name = req.body.firstname;
+            userAddress.phone = req.body.phone;
+            userAddress.address = req.body.address,
+            userAddress.city = req.body.city;
+            userAddress.state = req.body.state;
+            userAddress.zip = req.body.zip;
+            user.address.push(userAddress);
+            user.save();
+        }
+    } catch (err) {
+        console.log(err);
+    }
+    res.json({message : 'this is done'})
 })
 
 function connectMongoose(req, res, next) {
@@ -422,9 +458,7 @@ function checkAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next()
     }
-
     res.redirect('/users/login')
-
 }
 
 router.post("/review", connectMongoose, async (req, res) => {
@@ -442,46 +476,33 @@ router.post("/review", connectMongoose, async (req, res) => {
 
     try {
         const savedReview = await review.save();
-        // res.json(savedReview);
         // await Product.findOneAndUpdate({ _id: req.body.product }, { $inc: { 'totalreviews': 1, 'totalstars': ratingg } }, { new: true, useFindAndModify: false }, function (err, product) {
 
         //     console.log(product.totalreviews + "   " + product.totalstars + "  *************** Rating ************* ");
         // });
-        
-       await Product.findById({ _id: req.body.product }, async function(err, prod){
 
-        // console.log(prod)
-           prod.totalstars = prod.totalstars + ratingg;
-           prod.totalreviews++;
+        await Product.findById({ _id: req.body.product }, async function (err, prod) {
+
+            prod.totalstars = prod.totalstars + ratingg;
+            prod.totalreviews++;
             var avgrating = parseFloat((prod.totalstars / prod.totalreviews).toFixed(1))
-           console.log( avgrating+ " Average rating");
-           await Product.updateOne({_id: req.body.product}, {$inc: { 'totalreviews': 1, 'totalstars': ratingg }, 'rating' : avgrating })
-        //    console.log(JSON.stringify(prod))
-       });
-       
-    //    {$inc: { 'totalreviews': 1, 'totalstars': ratingg }}
-       const a = await Review.aggregate( [
-        {
-          $group: {
-            
-                _id: "$product",
-                avgRating: {$avg : "$rating"}
-              }
-          
-        }]);
+            console.log(avgrating + " Average rating");
+            await Product.updateOne({ _id: req.body.product }, { $inc: { 'totalreviews': 1, 'totalstars': ratingg }, 'rating': avgrating })
+        });
 
-        
+        //    {$inc: { 'totalreviews': 1, 'totalstars': ratingg }}
+        const a = await Review.aggregate([
+            {
+                $group: {
+
+                    _id: "$product",
+                    avgRating: { $avg: "$rating" }
+                }
+
+            }]);
+
         console.log(a.filter(element => element._id == req.body.product));
 
-    //  console.log(JSON.stringify(a));
-
-        /*
-
-        , function(error, prod){
-        console.log(prod.totalreviews + " this is total number of reviews...")
-       }
-
-        */
         var cart = '';
         FinalOrder.find({ user: req.user }, (error, finalorders) => {
             if (error)

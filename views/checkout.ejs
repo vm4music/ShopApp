@@ -30,22 +30,82 @@
             <!--========== CART ==========-->
             <section class="section bd-container">
                 <div class="sort__filter__box__a">
-                    <!-- <p> -->
                     <a href="/showcart" class="section-title">Shopping Cart</a> <span class="section-title"> <i
                             class='bx bx-chevron-right'></i> </span> <a href="/shop?" class="section-title"> Checkout
                     </a>
-                    <!-- </p> -->
                 </div>
-                <!-- <h2>Shopping Cart</h2> > <h2>Checkout</h2> -->
-                <!-- <p>Resize the browser window to see the effect. When the screen is less than 800px wide, make the two
-                    columns stack on top of each other instead of next to each other.</p> -->
+               
                 <div class="row__checkout">
                     <div class="col-60">
                         <div class="container__checkout">
-                            <form action="/checkout" method="POST">
+                            <div class="col-60">
+                                <div class="col-50">
+                                    <button class="btn" onclick="openDialog();"> <i class='bx bx-plus-circle' ></i> Add Address</button>
+                                </div>
+                            </div>
+
+                            <form action="/checkout" method="POST" id="checkoutForm">
 
                                 <div class="row__checkout">
+
                                     <div class="col-50">
+                                        <h3 class="">
+                                            <svg height="16" viewBox="0 0 12 16" width="12"
+                                                class="shopee-svg-icon icon-location-marker">
+                                                <path
+                                                    d="M6 3.2c1.506 0 2.727 1.195 2.727 2.667 0 1.473-1.22 2.666-2.727 2.666S3.273 7.34 3.273 5.867C3.273 4.395 4.493 3.2 6 3.2zM0 6c0-3.315 2.686-6 6-6s6 2.685 6 6c0 2.498-1.964 5.742-6 9.933C1.613 11.743 0 8.498 0 6z"
+                                                    fill-rule="evenodd"></path>
+                                            </svg>
+                                            Delivery Address
+                                        </h3>
+                                        <% if(address.length> 0) { %>
+                                            <% address.forEach( element => { %>
+                                            <div class="plans">
+                                                <label class="plan basic-plan" for="basic_<%= address.indexOf(element) %>">
+
+                                                    <input checked type="radio" name="plan" id="basic_<%= address.indexOf(element) %>" />
+                                                    <div class="plan-content">
+                                                      <!-- <img loading="lazy" src="https://raw.githubusercontent.com/ismailvtl/ismailvtl.github.io/master/images/life-saver-img.svg" alt="" /> -->
+                                                      <div class="plan-details">
+                                                        <span><%= element.full_name %></span>
+                                                        <p><%= element.address %> ,&ensp; <%= element.zip %></p>
+                                                      </div>
+                                                    </div>
+
+                                                  </label>
+                                            </div>
+                                            <% }) %>
+
+
+                                            <!-- <section class="address">
+                                                <% address.forEach( element=> { %>
+                                                    <div class="row__checkout">
+                                                        <div class="col-60">
+                                                            <div class="col-50"> <label for="state">
+                                                                    <%= element.full_name %> &ensp; <%= element.address
+                                                                            %> ,&ensp; <%= element.zip %>
+                                                                </label> </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <% }) %>
+
+                                            </section> -->
+
+
+                                            <% } %>
+
+                                                <% if(address.length==0) { %>
+                                                    
+                                                    
+                                                    <div class="row__checkout">
+                                                        
+                                                    </div>
+                                                    <% } %>
+                                    </div>
+
+                                    <!-- 
+                                        <div class="col-50">
                                         <h3 class="">Billing Address</h3>
                                         <label for="fname"><i class='bx bxs-user'></i> Full Name</label>
                                         <input type="text" id="fname" name="firstname" placeholder="John M. Doe" required>
@@ -66,7 +126,7 @@
                                                 <input type="text" id="zip" name="zip" placeholder="10001" required>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <!-- <div class="col-50">
                                         <h3>Payment</h3>
@@ -97,49 +157,93 @@
                                     </div> -->
 
                                 </div>
-                                <label>
+                                <!-- <label>
                                     <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as
                                     billing
-                                </label>
+                                </label> -->
                                 <!-- <input type="submit" value="Continue to checkout" class="btn"> -->
-                            <!-- </form> -->
+                                <!-- </form> -->
                         </div>
                     </div>
                     <div class="col-40">
                         <!-- <form action="/checkout" method="POST"> -->
-                            <div class="container__checkout">
-                                <% if(cart) { var total=0; %>
-                                    <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i>
-                                            <!-- <b>4</b> -->
-                                        </span></h4>
-                                    <% cart.map(ci=> { total = (total==0)?ci.price : (total + ci.price)%>
+                        <div class="container__checkout">
+                            <% if(cart) { var total=0; %>
+                                <h4>Cart <span class="price"><i class="fa fa-shopping-cart"></i>
+                                        <!-- <b>4</b> -->
+                                    </span></h4>
+                                <% cart.map(ci=> { total = (total==0)?ci.price : (total + ci.price)%>
 
-                                        <p><a href="/product/<%= ci.item.p_id %>">
-                                                <%= ci.item.name %>
-                                            </a> X <%= ci.qty %> <span class="price">
-                                                    <%= ci.price %>
-                                                </span></p>
-                                        <% }) %>
-                                            <hr>
-                                            <p>Total <span class="price" style="color:black"><b>
-                                                        <%= total %>
-                                                    </b></span></p>
-                                            <p>Tax <span class="price" style="color:black"><b>
-                                                        <%= (total*.05).toFixed(2) %>
-                                                    </b></span></p>
-                                            <p>Shipping <span class="price" style="color:black"><b>15</b></span></p>
-                                            <p>Grand Total <span class="price" style="color:black"><b>
-                                                        <%= (total + (total*.05) + 15).toFixed(2) %>
-                                                    </b></span></p>
-                                            <% } %>
-                            </div>
-                            <input type="hidden" name="totalPrice" value="<%= (total + (total*.05) + 15).toFixed(2) %>"/>
-                            <input type="submit" value="Continue to checkout" class="btn">
+                                    <p><a href="/product/<%= ci.item.p_id %>">
+                                            <%= ci.item.name %>
+                                        </a> X <%= ci.qty %> <span class="price">
+                                                <%= ci.price %>
+                                            </span></p>
+                                    <% }) %>
+                                        <hr>
+                                        <p>Total <span class="price"><b>
+                                                    <%= total %>
+                                                </b></span></p>
+                                        <p>Tax <span class="price"><b>
+                                                    <%= (total*.05).toFixed(2) %>
+                                                </b></span></p>
+                                        <p>Shipping <span class="price"><b>15</b></span></p>
+                                        <p>Grand Total <span class="price"><b>
+                                                    <%= (total + (total*.05) + 15).toFixed(2) %>
+                                                </b></span></p>
+                                        <% } %>
+                        </div>
+                        <input type="hidden" name="totalPrice" value="<%= (total + (total*.05) + 15).toFixed(2) %>" />
+                        <!-- <input type="submit" value="Continue to checkout" class="btn"> -->
+                        <button type="submit" form="checkoutForm" value="Continue to checkout" class="btn">Continue to checkout</button>
                     </div>
                     </form>
                 </div>
 
+                <!-- ================SNACKBAR Div ==================-->
+                <div id="snackbar"></div>
 
+                <div id="new-address" class="modal">
+                    <span onclick="document.getElementById('new-address').style.display='none'" class="close"  title="Close Modal">&times;</span>
+                    <form class="modal-content" action="/checkout/add-address" method="POST">
+                        <div class="login__container">
+                            <h2>Add Address</h2>
+                            <hr>
+                            <div id="product__modal__name"></div>
+                            <div class="row__checkout">
+                                <div class="col-50">
+                                    <label for="fname"><i class='bx bxs-user'></i> Full Name</label>
+                                    <input type="text" id="fname" name="firstname" placeholder="John M. Doe" required>
+                                </div>
+                                <div class="col-50">
+                                    <label for="email"><i class='bx bxs-phone-call'></i>Phone</label>
+                                    <input type="text" id="phone" name="phone" placeholder="9818283896" required>
+                                </div>
+                                <div class="col-75">
+                                    <label for="adr"><i class='bx bxs-id-card'></i> Address</label>
+                                    <input type="text" id="adr" name="address" placeholder="542 W. 15th Street" required>
+                                    <label for="city"><i class='bx bx-home'></i> City</label>
+                                    <input type="text" id="city" name="city" placeholder="New York" required>
+                                </div>
+                                <div class="col-50">
+                                    <label for="state">State</label>
+                                    <input type="text" id="state" name="state" placeholder="NY"
+                                        required>
+                                </div>
+                                <div class="col-50">
+                                    <label for="zip">Zip</label>
+                                    <input type="text" id="zip" name="zip" placeholder="10001"
+                                        required>
+                                </div>
+                            </div>
+                    
+                            <div class="clearfix">
+                                <button type="button" onclick="closeDialog()" class="cancelbtn">Cancel</button>
+                                <button type="submit" class="signupbtn">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
 
             </section>
             <!--===============SERVICES SECTION================-->
@@ -168,8 +272,12 @@
             <!--========== SCROLL REVEAL ==========-->
             <script src="https://unpkg.com/scrollreveal"></script>
 
+            <!--========== JQUERY CDN ==========-->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
             <!--========== MAIN JS ==========-->
             <script src="/assets/js/main.js"></script>
+            <script src="/assets/js/checkout.js"></script>
 </body>
 
 </html>
