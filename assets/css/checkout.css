@@ -45,7 +45,7 @@
     border: 1px solid lightgrey;
     border-radius: 3px;
   }
-  
+/*   
   input[type=text] {
     width: 100%;
     margin-bottom: 20px;
@@ -55,7 +55,7 @@
     background: var(--body-color);
     color: var(--text-color);
   }
-  
+   */
   label {
     margin-bottom: 10px;
     display: block;
@@ -117,6 +117,7 @@
   margin: 5px 0 22px 0;
   display: inline-block;
   border: none;
+  border-radius: 3px;
   /* background: #f1f1f1; */
   background: var(--container-color);
   color: var(--text-color);

@@ -90,7 +90,12 @@
     width: 100%;
 }
 
-
+.list__view__sold{
+  margin-left: 5px;
+  font-size: var(--font-medium);
+  font-weight: var(--font-semi-bold);
+  color: var(--first-color);
+}
 
   
 .navbar a:hover, .dropdown:hover .dropbtn {
