@@ -57,7 +57,8 @@
                                     <input type="password" placeholder="Password" class="login__input" name="password" required>
                                 </div>
         
-                                <a href="#" class="login__forgot">Forgot password?</a>
+                                <a href="/users/forgot-password" class="login__forgot">Forgot password?</a>
+                                <span class="login__signin" id="forgot-password">Forgot Password</span>
                                 <button class="login__button" type="submit">Sign In</button>
         
                                 <div>
@@ -94,6 +95,22 @@
                                     <span class="login__signup" id="sign-in">Sign In</span>
                                 </div>
         
+                                <div class="login__social">
+                                    <a href="#" class="login__social-icon"><i class='bx bxl-facebook' ></i></a>
+                                    <a href="#" class="login__social-icon"><i class='bx bxl-twitter' ></i></a>
+                                    <a href="#" class="login__social-icon"><i class='bx bxl-google' ></i></a>
+                                </div>
+                            </form>
+
+                            <form action="/users/forgot-password" class="login__create none" id="forget-password" method="POST">
+                                <h1 class="login__title">Forget Password?</h1>
+                        
+                                <div class="login__box">
+                                    <i class='bx bx-at login__icon'></i>
+                                    <input type="text" placeholder="Email" class="login__input" name="email">
+                                </div>
+                                <button class="login__button" type="submit">Submit</button>
+                
                                 <div class="login__social">
                                     <a href="#" class="login__social-icon"><i class='bx bxl-facebook' ></i></a>
                                     <a href="#" class="login__social-icon"><i class='bx bxl-twitter' ></i></a>

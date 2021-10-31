@@ -29,88 +29,89 @@
             <!--========== CART ==========-->
             <section class="section bd-container cart">
                 <% if(session.cart){ %>
-                    <% if(session.cart.totalQty > 0){ %>
-                    <h2>Shopping Cart</h2>
+                    <% if(session.cart.totalQty> 0){ %>
+                        <h2>Shopping Cart</h2>
 
-                    <div class="shopping-cart">
-                        <div class="column-labels">
-                            <label class="cart__product-image"></label>
-                            <label class="cart__product-details">Product</label>
-                            <label class="cart__product-price">Price</label>
-                            <label class="cart__product-quantity">Quantity</label>
-                            <label class="cart__product-removal">Remove</label>
-                            <label class="cart__product-line-price">Total</label>
-                        </div>
-
-                        <% cart.map(ci=> { %>
-
-                            <div class="cart__product">
-                                <div class="cart__product-image">
-                                    <a href="/product/<%= ci.item.p_id %>"><img
-                                            src="/assets/img/<%= (ci.item.img) %>"></a>
-                                </div>
-                                <div class="cart__product-details">
-                                    <div class="cart__product-title">
-                                        <%= (ci.item.name) %>
-                                    </div>
-                                    <p class="cart__product-description">
-                                        <%= (ci.item.name) %>
-                                    </p>
-                                </div>
-                                <div class="cart__product-price">
-                                    <%= (ci.item.price) %>
-                                </div>
-                                <div class="cart__product-quantity">
-                                    <input type="number" value="<%= ci.qty %>" min="1">
-                                </div>
-                                <div class="cart__product-removal">
-                                    <a href="/remove-item/<%= ci.item.p_id %>" class="remove-cart__product">
-                                        Remove
-                                    </a>
-                                </div>
-                                <div class="cart__product-line-price">
-                                    <%= (ci.price) %>
-                                </div>
+                        <div class="shopping-cart">
+                            <div class="column-labels">
+                                <label class="cart__product-image"></label>
+                                <label class="cart__product-details">Product</label>
+                                <label class="cart__product-price">Price</label>
+                                <label class="cart__product-quantity">Quantity</label>
+                                <label class="cart__product-removal">Remove</label>
+                                <label class="cart__product-line-price">Total</label>
                             </div>
-                            <% }) %>
 
-                                <div class="totals">
-                                    <div class="totals-item">
-                                        <label>Subtotal</label>
-                                        <div class="totals-value" id="cart-subtotal">
-                                            <%= session.cart.totalPrice %>
-                                        </div>
+                            <% cart.map(ci=> { %>
+
+                                <div class="cart__product">
+                                    <div class="cart__product-image">
+                                        <a href="/product/<%= ci.item.p_id %>"><img
+                                                src="/assets/img/<%= (ci.item.img) %>"></a>
                                     </div>
-                                    <div class="totals-item">
-                                        <label>Tax (5%)</label>
-                                        <div class="totals-value" id="cart-tax">
-                                            <%= session.cart.tax %>
+                                    <div class="cart__product-details">
+                                        <div class="cart__product-title">
+                                            <%= (ci.item.name) %>
                                         </div>
+                                        <p class="cart__product-description">
+                                            <%= (ci.item.name) %>
+                                        </p>
                                     </div>
-                                    <div class="totals-item">
-                                        <label>Shipping</label>
-                                        <div class="totals-value" id="cart-shipping">
-                                            <%= session.cart.shipping %>
-                                        </div>
+                                    <div class="cart__product-price">
+                                        <%= (ci.item.price) %>
                                     </div>
-                                    <div class="totals-item totals-item-total">
-                                        <label>Grand Total</label>
-                                        <div class="totals-value" id="cart-total">
-                                            <%= session.cart.grandTotal %>
-                                        </div>
+                                    <div class="cart__product-quantity">
+                                        <input type="number" name="qty" id="qty" value="<%= ci.qty %>" min="1">
+                                        <input type="hidden" id="p_id" value="<%= ci.item.p_id %>" >
+                                    </div>
+                                    <div class="cart__product-removal">
+                                        <a href="/remove-item/<%= ci.item.p_id %>" class="remove-cart__product">
+                                            Remove
+                                        </a>
+                                    </div>
+                                    <div class="cart__product-line-price">
+                                        <%= (ci.price) %>
                                     </div>
                                 </div>
+                                <% }) %>
 
-                                <a href="/checkout" class="checkout">Checkout</a>
-                                <!-- <button class="checkout">Checkout</button>                                                               -->
-                    </div>
-                    <% } else { %>
-                        <h1 class="section-title">Cart is empty...</h1>
-                        <% } %>
-                    <!-- End of If Block  -->
-                    <% } else { %>
-                        <h1 class="section-title">Cart is empty...</h1>
-                        <% } %>
+                                    <div class="totals">
+                                        <div class="totals-item">
+                                            <label>Subtotal</label>
+                                            <div class="totals-value" id="cart-subtotal">
+                                                <%= session.cart.totalPrice %>
+                                            </div>
+                                        </div>
+                                        <div class="totals-item">
+                                            <label>Tax (5%)</label>
+                                            <div class="totals-value" id="cart-tax">
+                                                <%= session.cart.tax %>
+                                            </div>
+                                        </div>
+                                        <div class="totals-item">
+                                            <label>Shipping</label>
+                                            <div class="totals-value" id="cart-shipping">
+                                                <%= session.cart.shipping %>
+                                            </div>
+                                        </div>
+                                        <div class="totals-item totals-item-total">
+                                            <label>Grand Total</label>
+                                            <div class="totals-value" id="cart-total">
+                                                <%= session.cart.grandTotal %>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <a href="/checkout" class="checkout">Checkout</a>
+                                    <!-- <button class="checkout">Checkout</button>                                                               -->
+                        </div>
+                        <% } else { %>
+                            <h1 class="section-title">Cart is empty...</h1>
+                            <% } %>
+                                <!-- End of If Block  -->
+                                <% } else { %>
+                                    <h1 class="section-title">Cart is empty...</h1>
+                                    <% } %>
             </section>
             <!--===============SERVICES SECTION================-->
             <%- include('services') -%>
@@ -131,15 +132,18 @@
                     </div>
                 </section>
         </main>
-
         <!--========== FOOTER ==========-->
         <%- include('footer') -%>
 
             <!--========== SCROLL REVEAL ==========-->
             <script src="https://unpkg.com/scrollreveal"></script>
 
+            <!--========== JQUERY CDN ==========-->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
             <!--========== MAIN JS ==========-->
             <script src="/assets/js/main.js"></script>
+            <script src="/assets/js/cartAjax.js"></script>
 </body>
 
 </html>

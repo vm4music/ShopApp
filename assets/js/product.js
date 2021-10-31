@@ -55,7 +55,7 @@ if (document.getElementsByClassName('action__buttons').length > 0) {
                 method: "POST",
                 contentType: "application/x-www-form-urlencoded",
                 success: function (res) {
-                    console.log(res.status)
+                    // console.log(res.status)
                     if(res.status == 401)
                         window.location.href = res.message;
                     if (res.status == 'Success') {

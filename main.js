@@ -53,7 +53,7 @@ const User = require('./models/User');
 const FinalOrder = require('./models/FinalOrder');
 
 
-app.use(async function (req, res, next) {
+app.use(connectMongoose, async function (req, res, next) {
 
     res.locals.session = req.session;
     res.locals.login = req.isAuthenticated()  // 
@@ -258,6 +258,9 @@ app.get('/product/:p_id', connectMongoose, async (req, res) => {
 app.post('/add-to-cart', checkAuthenticatedAjax, connectMongoose, async (req, res) => {
 
     var productid = req.body.product__ID;
+    var qty = req.body.qty || 1;
+    var prev = req.body.prev_qty || 0;
+
     await Product.findOne({ p_id: productid }, async function (err, product) {
         if (err)
             console.log("Error in finding the product to add to Cart: " + err);
@@ -278,7 +281,20 @@ app.post('/add-to-cart', checkAuthenticatedAjax, connectMongoose, async (req, re
                 var cart = new Cart(cartObj, req.session.passport.user);
                 // var cart = new Cart(req.session.cart ? req.session.cart : {});
 
-                cart.add(product, product.p_id)
+                console.log("Previous Quantity: "+ prev + " and Current Quantity: "+ qty)
+                var currentQty = qty - prev;
+
+                if(currentQty > 0){
+                    for(var i=0; i < currentQty; i++){
+                        cart.add(product, product.p_id)
+                    }
+                }
+                if(currentQty < 0){
+                    for(var i=0; i < Math.abs(currentQty); i++){
+                        cart.substract(product, product.p_id);
+                    }
+                }
+                
                 req.session.cart = cart;
 
                 console.log("Updated Cart***************************");

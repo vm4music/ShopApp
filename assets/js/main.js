@@ -155,8 +155,10 @@ if(toggled){
 if(document.getElementById('sign-up') != null){
 const signUp = document.getElementById('sign-up'),
     signIn = document.getElementById('sign-in'),
+    forgetPass = document.getElementById('forget-password'),
     loginIn = document.getElementById('login-in'),
-    loginUp = document.getElementById('login-up')
+    loginUp = document.getElementById('login-up'),
+    forgotPassword = document.getElementById('forgot-password')
 
 
 signUp.addEventListener('click', ()=>{
@@ -178,6 +180,20 @@ signIn.addEventListener('click', ()=>{
     loginIn.classList.toggle('block')
     loginUp.classList.toggle('none')
 })
+
+forgotPassword.addEventListener('click', ()=>{
+
+    // Remove classes first if they exist
+    loginIn.classList.remove('block')
+    loginUp.classList.remove('none')
+
+    // Add classes
+    loginIn.style.display = 'none';
+    loginUp.style.display = 'none';
+    loginUp.classList.toggle('block')
+    forgetPass.classList.toggle('none')
+})
+
 }
 
 function openCity(evt, cityName) {

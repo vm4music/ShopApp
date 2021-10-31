@@ -34,13 +34,14 @@
                             class='bx bx-chevron-right'></i> </span> <a href="/shop?" class="section-title"> Checkout
                     </a>
                 </div>
-               
+
                 <div class="row__checkout">
                     <div class="col-60">
                         <div class="container__checkout">
                             <div class="col-60">
                                 <div class="col-50">
-                                    <button class="btn" onclick="openDialog();"> <i class='bx bx-plus-circle' ></i> Add Address</button>
+                                    <button class="btn" onclick="openDialog();"> <i class='bx bx-plus-circle'></i> Add
+                                        Address</button>
                                 </div>
                             </div>
 
@@ -58,50 +59,36 @@
                                             </svg>
                                             Delivery Address
                                         </h3>
+
                                         <% if(address.length> 0) { %>
-                                            <% address.forEach( element => { %>
-                                            <div class="plans">
-                                                <label class="plan basic-plan" for="basic_<%= address.indexOf(element) %>">
+                                            <% address.forEach( element=> { %>
+                                                <div class="plans">
+                                                    <label class="plan basic-plan"
+                                                        for="basic_<%= address.indexOf(element) %>">
 
-                                                    <input checked type="radio" name="plan" id="basic_<%= address.indexOf(element) %>" value="<%= address.indexOf(element) %>" />
-                                                    <div class="plan-content">
-                                                      <!-- <img loading="lazy" src="https://raw.githubusercontent.com/ismailvtl/ismailvtl.github.io/master/images/life-saver-img.svg" alt="" /> -->
-                                                      <div class="plan-details">
-                                                        <span><%= element.full_name %></span>
-                                                        <p><%= element.address %> ,&ensp; <%= element.zip %></p>
-                                                      </div>
-                                                    </div>
-
-                                                  </label>
-                                            </div>
-                                            <% }) %>
-
-
-                                            <!-- <section class="address">
-                                                <% address.forEach( element=> { %>
-                                                    <div class="row__checkout">
-                                                        <div class="col-60">
-                                                            <div class="col-50"> <label for="state">
-                                                                    <%= element.full_name %> &ensp; <%= element.address
-                                                                            %> ,&ensp; <%= element.zip %>
-                                                                </label> </div>
+                                                        <input checked type="radio" name="plan"
+                                                            id="basic_<%= address.indexOf(element) %>"
+                                                            value="<%= address.indexOf(element) %>" />
+                                                        <div class="plan-content">
+                                                            <!-- <img loading="lazy" src="https://raw.githubusercontent.com/ismailvtl/ismailvtl.github.io/master/images/life-saver-img.svg" alt="" /> -->
+                                                            <div class="plan-details">
+                                                                <span>
+                                                                    <%= element.full_name %>
+                                                                </span>
+                                                                <p>
+                                                                    <%= element.address %> ,&ensp; <%= element.zip %>
+                                                                </p>
+                                                            </div>
                                                         </div>
 
-                                                    </div>
-                                                    <% }) %>
-
-                                            </section> -->
-
-
-                                            <% } %>
-
-                                                <% if(address.length==0) { %>
-                                                    
-                                                    
-                                                    <div class="row__checkout">
-                                                        
-                                                    </div>
+                                                    </label>
+                                                </div>
+                                                <% }) %>
                                                     <% } %>
+                                                        <% if(address.length==0) { %>
+                                                            <div class="row__checkout">
+                                                            </div>
+                                                            <% } %>
                                     </div>
 
                                     <!-- 
@@ -195,7 +182,8 @@
                         </div>
                         <input type="hidden" name="totalPrice" value="<%= (total + (total*.05) + 15).toFixed(2) %>" />
                         <!-- <input type="submit" value="Continue to checkout" class="btn"> -->
-                        <button type="submit" form="checkoutForm" value="Continue to checkout" class="btn">Continue to checkout</button>
+                        <button type="submit" form="checkoutForm" value="Continue to checkout" class="btn">Continue to
+                            checkout</button>
                     </div>
                     </form>
                 </div>
@@ -204,7 +192,8 @@
                 <div id="snackbar"></div>
 
                 <div id="new-address" class="modal">
-                    <span onclick="document.getElementById('new-address').style.display='none'" class="close"  title="Close Modal">&times;</span>
+                    <span onclick="document.getElementById('new-address').style.display='none'" class="close"
+                        title="Close Modal">&times;</span>
                     <form class="modal-content" action="/checkout/add-address" method="POST">
                         <div class="login__container">
                             <h2>Add Address</h2>
@@ -221,22 +210,21 @@
                                 </div>
                                 <div class="col-75">
                                     <label for="adr"><i class='bx bxs-id-card'></i> Address</label>
-                                    <input type="text" id="adr" name="address" placeholder="542 W. 15th Street" required>
+                                    <input type="text" id="adr" name="address" placeholder="542 W. 15th Street"
+                                        required>
                                     <label for="city"><i class='bx bx-home'></i> City</label>
                                     <input type="text" id="city" name="city" placeholder="New York" required>
                                 </div>
                                 <div class="col-50">
                                     <label for="state">State</label>
-                                    <input type="text" id="state" name="state" placeholder="NY"
-                                        required>
+                                    <input type="text" id="state" name="state" placeholder="NY" required>
                                 </div>
                                 <div class="col-50">
                                     <label for="zip">Zip</label>
-                                    <input type="text" id="zip" name="zip" placeholder="10001"
-                                        required>
+                                    <input type="text" id="zip" name="zip" placeholder="10001" required>
                                 </div>
                             </div>
-                    
+
                             <div class="clearfix">
                                 <button type="button" onclick="closeDialog()" class="cancelbtn">Cancel</button>
                                 <button type="submit" class="signupbtn">Submit</button>

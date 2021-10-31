@@ -421,6 +421,8 @@ router.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
                 console.log(cart);
                 console.log("*************************Updated Cart end***************************");
 
+                const user = await User.findById(req.user)
+
                 var wishlist = []
                 if (req.session.wishlist)
                     wishlist = req.session.wishlist.includes(req.params.p_id)
@@ -429,9 +431,9 @@ router.get('/add-to-cart/:p_id', checkAuthenticated, async (req, res) => {
 
                 res.render('checkout', {
                     title: 'Little Bugs',
-                    // about: about_us,
                     cart: cart.generateArray(),
-                    user: req.user || ""
+                    user: req.user || "",
+                    address: user.address
                 });
 
             } catch (error) {
