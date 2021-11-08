@@ -31,10 +31,19 @@
 
         <!-- <%= data %> -->
 
-        <form style="justify-content: center;align-items: center;">
+        <form style="justify-content: center;align-items: center;" method="post" action="/admin/updateProduct">
           <table>
             <thead></thead>
             <tbody>
+              <tr>
+                <td>
+                  <label for="ProductID">Product ID</label>
+                </td>
+                <td>
+                  <input type="text" name="ProductID_Display" value="<%= data.p_id %>" disabled />
+                  <input type="hidden" name="ProductID" value="<%= data.p_id %>" />
+                </td>
+              </tr>
               <tr>
                 <td>
                   <label for="Productname">Productname</label>
@@ -64,17 +73,16 @@
                   <label for="ProductDetails">ProductDetails</label>
                 </td>
                 <td>
-                  <!-- <input type="text" name="ProductDetails"
-                  value="<% data.detail.forEach(detail =>{ %><%= detail %><% }) %>"/> -->
-                  <textarea>
-                    
-                  <% data.detail.forEach(detail =>{ %>
-                    <%= detail %><% }) %>
-                  </textarea>
+                          <% var d=''; data.detail.forEach(detail =>{ %>
+                            <% d += detail + "\n" %>
+                            <% }) %>
+                  <textarea name="ProductDetails" id="details" ><%= d.trim() %></textarea>
                 </td>
               </tr>
             </tbody>
           </table>
+          <!-- <input type="submit" value="Update"/> -->
+          <button type="submit">Update</button>
         </form>
 
 

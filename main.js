@@ -281,7 +281,6 @@ app.post('/add-to-cart', checkAuthenticatedAjax, connectMongoose, async (req, re
                 var cart = new Cart(cartObj, req.session.passport.user);
                 // var cart = new Cart(req.session.cart ? req.session.cart : {});
 
-                console.log("Previous Quantity: "+ prev + " and Current Quantity: "+ qty)
                 var currentQty = qty - prev;
 
                 if(currentQty > 0){
@@ -290,16 +289,20 @@ app.post('/add-to-cart', checkAuthenticatedAjax, connectMongoose, async (req, re
                     }
                 }
                 if(currentQty < 0){
-                    for(var i=0; i < Math.abs(currentQty); i++){
-                        cart.substract(product, product.p_id);
+                    if(qty <= 0)
+                        cart.remove(product.p_id, req.session.passport.user)
+                    else{
+                        for(var i=0; i < Math.abs(currentQty); i++){
+                            cart.substract(product, product.p_id);
+                        }
                     }
                 }
                 
                 req.session.cart = cart;
 
-                console.log("Updated Cart***************************");
-                console.log(cart);
-                console.log("*************************Updated Cart end***************************");
+                // console.log("Updated Cart***************************");
+                // console.log(cart);
+                // console.log("*************************Updated Cart end***************************");
 
                 var wishlist = []
                 if (req.session.wishlist)

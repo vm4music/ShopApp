@@ -112,7 +112,7 @@ router.post('/forgot-password',connectMongoose, async (req, res) => {
 
         const link = process.env.RESET_PASSWORD + user.id + '/' + token
 
-        sendEmail('gmail', link);
+        sendEmail('gmail', link, email);
 
         console.log(link);
 
@@ -234,21 +234,21 @@ function checkNotAuthenticated(req, res, next) {
 
 
 //============== EMAIL ===================//
-function sendEmail(mailservice, link) {
+function sendEmail(mailservice, link, email) {
 
     var transporter = nodemailer.createTransport({
         service: mailservice,
         // host: 'smtp.gmail.com',
         // port: 587,
       auth: {
-            user: 'malhotra.vikas3.0@gmail.com',
-            pass: 'fuckyou@123!'
+            user: process.env.EMAIL_ADDRESS,
+            pass: process.env.EMAIL_PASSWORD
         }
     });
 
     var mailOptions = {
-        from: 'malhotra.vikas3.0@gmail.com',
-        to: 'vm4music@gmail.com',
+        from: process.env.EMAIL_ADDRESS,
+        to: email,
         subject: 'Reset Password Link',
         html: '<a href="'+ link +'">Reset Link</a>'
     };

@@ -61,8 +61,8 @@
                                         <%= (ci.item.price) %>
                                     </div>
                                     <div class="cart__product-quantity">
-                                        <input type="number" name="qty" id="qty" value="<%= ci.qty %>" min="1">
-                                        <input type="hidden" id="p_id" value="<%= ci.item.p_id %>" >
+                                        <input type="number" name="<%= ci.item.p_id %>" id="qty" value="<%= ci.qty %>" min="1">
+                                        <!-- <input type="hidden" id="p_id" value="<%= ci.item.p_id %>" > -->
                                     </div>
                                     <div class="cart__product-removal">
                                         <a href="/remove-item/<%= ci.item.p_id %>" class="remove-cart__product">
