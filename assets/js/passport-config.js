@@ -42,11 +42,11 @@ function initialize(passport){
         clientID : process.env.clientId,
         clientSecret : process.env.clientSecret
     }, async (accessToken, refreshToken, profile, done) => {
-        console.log(JSON.stringify(profile.emails[0].value)  + "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx........1.......xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ")
+        // console.log(JSON.stringify(profile.emails[0].value)  + "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx........1.......xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ")
 
         let user = await User.findOne({ email: profile.emails[0].value });
 
-        console.log(user + " XXXXXXXXXXXXXXXXXXXX-----------------------XXXXXXXXXXXXXXXXXXXXX")
+        // console.log(user + " XXXXXXXXXXXXXXXXXXXX-----------------------XXXXXXXXXXXXXXXXXXXXX")
             if(user){
         //         console.log(JSON.stringify(user)  + "  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx ")
                 return done(null, user);
@@ -60,7 +60,7 @@ function initialize(passport){
                 })
                 
                 const savedUser = await user.save();
-                console.log(savedUser + "  ******************************************************************************" )
+                // console.log(savedUser + "  ******************************************************************************" )
                 return done(null, savedUser);
             }
     }))

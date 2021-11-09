@@ -28,11 +28,13 @@ module.exports = function Cart(oldCart, user) {
         this.totalQty++;
         this.totalPrice += Math.max(cartItem.item.price);
         this.tax = Number((.05 * this.totalPrice).toFixed(2));
-        console.log(this.totalPrice + " "+this.tax + " " + this.shipping + "  vvvvvvvvvvvvvvvvvvv")
+        console.log(this.totalPrice + " "+this.tax + " " + this.shipping + "  vvvvvvvvvvvvvvvvvvv +cjs")
         this.grandTotal = (this.totalPrice + this.tax + this.shipping);
 
-        await Order.findOneAndDelete({ user: user })
+       
         if (this.user) {
+            await Order.deleteMany({ user: this.user })
+            
             const order = new Order({
                 user: user,
                 items: this.items,
@@ -64,7 +66,7 @@ module.exports = function Cart(oldCart, user) {
         this.totalQty--;
         this.totalPrice -= Math.max(cartItem.item.price);
         this.tax = Number((.05 * this.totalPrice).toFixed(2));
-        console.log(this.totalPrice + " "+this.tax + " " + this.shipping + "  vvvvvvvvvvvvvvvvvvv")
+        console.log(this.totalPrice + " "+this.tax + " " + this.shipping + "  vvvvvvvvvvvvvvvvvvv -cjs")
         this.grandTotal = (this.totalPrice + this.tax + this.shipping);
 
         await Order.findOneAndDelete({ user: user })

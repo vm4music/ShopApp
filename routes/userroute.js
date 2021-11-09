@@ -224,7 +224,7 @@ function checkAuthenticated(req, res, next) {
 }
 
 function checkNotAuthenticated(req, res, next) {
-    console.log("this ==============================================="+req.isAuthenticated())
+    console.log("checkNotAuthenticated UR ==============================================="+req.isAuthenticated())
     if (req.isAuthenticated()) {
         res.redirect('/')
         return

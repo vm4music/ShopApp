@@ -58,22 +58,29 @@ app.use(connectMongoose, async function (req, res, next) {
     res.locals.session = req.session;
     res.locals.login = req.isAuthenticated()  // 
 
-    if (req.session.passport) {
+    if (req.session.passport && req.user) {
         let cartObj = {};
         if (req.session.cart) {
+            console.log("Has session cart...")
             cartObj = req.session.cart;
+            req.session.cart = new Cart(cartObj, req.user);
+
         } else {
+            console.log("Doesn't have session cart...")
             await Order.findOne({ user: req.user }, async function (err, order) {
                 if (err) {
                     console.log(err + " Order Error");
                 }
                 else {
-                    console.log(JSON.stringify(order) + " add to cart")
+                    console.log(JSON.stringify(order) + " add to cart for " + req.user)
                     cartObj = (order == null) ? {} : order;
                 }
+                req.session.cart = new Cart(cartObj, req.user);
             })
         }
-        req.session.cart = new Cart(cartObj);
+        // console.log(JSON.stringify(req.session.cart) + " cart for " + req.user)
+        
+        console.log(JSON.stringify(req.session.cart) + " 2cart for " + req.user)
     }
     next();
 });
@@ -396,6 +403,7 @@ app.get('/add-to-cart/:p_id', checkAuthenticated, connectMongoose, async (req, r
                 if (req.session.cart) {
                     cartObj = req.session.cart;
                 } else {
+                    console.log("Inside the Add to CART : "+ req.session.passport.user)
                     await Order.findOne({ user: req.session.passport.user }, function (err, order) {
                         if (err) {
                             console.log(err + " Order Error");
