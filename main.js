@@ -61,26 +61,23 @@ app.use(connectMongoose, async function (req, res, next) {
     if (req.session.passport && req.user) {
         let cartObj = {};
         if (req.session.cart) {
-            console.log("Has session cart...")
             cartObj = req.session.cart;
             req.session.cart = new Cart(cartObj, req.user);
 
         } else {
-            console.log("Doesn't have session cart...")
+            
             await Order.findOne({ user: req.user }, async function (err, order) {
                 if (err) {
                     console.log(err + " Order Error");
                 }
                 else {
-                    console.log(JSON.stringify(order) + " add to cart for " + req.user)
+                    // console.log(JSON.stringify(order) + " add to cart for " + req.user)
                     cartObj = (order == null) ? {} : order;
                 }
                 req.session.cart = new Cart(cartObj, req.user);
             })
         }
-        // console.log(JSON.stringify(req.session.cart) + " cart for " + req.user)
         
-        console.log(JSON.stringify(req.session.cart) + " 2cart for " + req.user)
     }
     next();
 });
