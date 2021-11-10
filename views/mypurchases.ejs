@@ -64,7 +64,7 @@
                       </div>
                     </div>
                   </a>
-                  <% if(item.item.rating != true) { %>
+                  <% if(!item.item.rating) { %>
                   <div class="review__div">
                     <div class="" id="rating_button__<%= item.item._id %><%= (ci._id) %>" >
                       <button class="rating_button"
@@ -72,7 +72,7 @@
                     </div>
                   </div>
                 <% } %>
-                <% if(item.item.rating == true) { %>
+                <% if(item.item.rating) { %>
                   <div class="review__div">
                     <div class="" id="cart-subtotal">
                       <p>Reviewed</p>

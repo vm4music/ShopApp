@@ -525,8 +525,9 @@ router.post("/review", connectMongoose, async (req, res) => {
         FinalOrder.find({ user: req.user }, (error, finalorders) => {
             if (error)
                 return res.write("Error Fetching the orders");
+
             finalorders.forEach(order => {
-                cart = new Cart(order.cart);
+                cart = new Cart(order.cart, req.user);
                 order.items = cart.generateArray();
             })
 
